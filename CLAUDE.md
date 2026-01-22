@@ -4,7 +4,7 @@
 WordPress plugin for professional image editing with contrast adjustment and unsharp masking. Requires ImageMagick PHP extension.
 
 ## Current Version
-2.6 (January 21, 2025)
+2.7 (January 22, 2025)
 
 ## File Structure
 ```
@@ -62,9 +62,35 @@ Base64 image data uses custom `sanitize_base64_image_data()` method in AJAX hand
 ### Rate Limiting
 Uses transients with key `advaimg_rate_limit_{hash}` for preview/save operations.
 
-## WordPress.org Submission
-- Plugin URI: https://github.com/rafael-minuesa/advanced-pixel-editor/
-- After approval, upload `.wordpress-org/` assets via SVN to plugin assets folder
+## WordPress.org
+- **Plugin Page**: https://wordpress.org/plugins/advanced-pixel-editor/
+- **SVN Repository**: https://plugins.svn.wordpress.org/advanced-pixel-editor
+- **SVN Username**: rafael.minuesa (case-sensitive)
+
+### SVN Structure
+```
+/trunk/     → Current development code
+/tags/X.Y/  → Tagged releases (e.g., /tags/2.7/)
+/assets/    → Plugin assets (banners, icons, screenshots)
+```
+
+### SVN Workflow
+Local SVN checkout is at: `../svn/` (relative to plugin directory)
+
+To update the plugin:
+1. Update files in `trunk/`
+2. Create new tag: `cp -r trunk tags/X.Y && svn add tags/X.Y`
+3. Commit: `svn commit -m "Release version X.Y"`
+
+To update assets only:
+1. Update files in `assets/`
+2. Commit: `svn commit -m "Update assets"`
+
+### Asset Requirements
+- `banner-772x250.png` - Standard banner (required)
+- `banner-1544x500.png` - Retina banner (optional)
+- `icon-256x256.png` - Plugin icon
+- `screenshot-1.png` - Screenshot for plugin page
 
 ## Git Repository
 https://github.com/rafael-minuesa/advanced-pixel-editor.git
