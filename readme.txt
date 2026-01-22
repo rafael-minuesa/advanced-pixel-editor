@@ -13,7 +13,7 @@ Advanced image editing with real-time preview, contrast adjustment, and sharpeni
 
 == Description ==
 
-Advanced Image Editor is a powerful WordPress plugin that brings professional-grade image editing capabilities directly to your WordPress admin panel. **Requires the ImageMagick PHP extension** for superior image processing. Edit images from your media library with real-time preview, advanced filters, and seamless integration.
+Advanced Pixel Editor is a powerful WordPress plugin that brings professional-grade image editing capabilities directly to your WordPress admin panel. **Requires the ImageMagick PHP extension** for superior image processing. Edit images from your media library with real-time preview, advanced filters, and seamless integration.
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
@@ -136,12 +136,12 @@ Major update with enhanced security, accessibility, and performance improvements
 == Support ==
 
 For support, feature requests, or bug reports, please visit:
-* [GitHub Repository](https://github.com/rafael-minuesa/advanced-image-editor)
+* [GitHub Repository](https://github.com/rafael-minuesa/advanced-pixel-editor)
 * [WordPress Support Forums](https://wordpress.org/support/plugin/advanced-pixel-editor/)
 
 == Contributing ==
 
-Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-image-editor/blob/master/CONTRIBUTING.md) on GitHub.
+Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-pixel-editor/blob/master/CONTRIBUTING.md) on GitHub.
 
 == Credits ==
 
@@ -155,15 +155,15 @@ Icons and assets used in accordance with their respective licenses.
 
 This plugin is licensed under the GPL v2 or later.
 
-    Advanced Image Editor is free software: you can redistribute it and/or modify
+    Advanced Pixel Editor is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 2 of the License, or
     (at your option) any later version.
 
-    Advanced Image Editor is distributed in the hope that it will be useful,
+    Advanced Pixel Editor is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Advanced Image Editor. If not, see <https://www.gnu.org/licenses/gpl-2.0.html>.
+    along with Advanced Pixel Editor. If not, see <https://www.gnu.org/licenses/gpl-2.0.html>.

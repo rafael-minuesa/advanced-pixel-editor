@@ -1,4 +1,4 @@
-# Advanced Image Editor - Development Notes
+# Advanced Pixel Editor - Development Notes
 
 ## Project Overview
 WordPress plugin for professional image editing with contrast adjustment and unsharp masking. Requires ImageMagick PHP extension.
@@ -8,11 +8,11 @@ WordPress plugin for professional image editing with contrast adjustment and uns
 
 ## File Structure
 ```
-advanced-image-editor/
-├── advanced-image-editor.php      # Main plugin file
+advanced-pixel-editor/
+├── advanced-pixel-editor.php      # Main plugin file
 ├── editor-page.php                # Editor UI template
 ├── includes/
-│   ├── class-advanced-image-editor.php    # Main plugin class
+│   ├── class-advanced-pixel-editor.php    # Main plugin class
 │   ├── class-advaimg-ajax-handler.php     # AJAX handlers
 │   └── advaimg-functions.php              # Utility functions
 ├── assets/
@@ -29,7 +29,7 @@ advanced-image-editor/
 ## Naming Conventions
 - **Prefix**: `advaimg` (7 characters) - required by WordPress.org (4+ chars)
 - **Constants**: `ADVAIMG_VERSION`, `ADVAIMG_PLUGIN_DIR`, `ADVAIMG_PLUGIN_URL`, `ADVAIMG_PLUGIN_BASENAME`
-- **Classes**: `ADVAIMG_Ajax_Handler`, `Advanced_Image_Editor`
+- **Classes**: `ADVAIMG_Ajax_Handler`, `Advanced_Pixel_Editor`
 - **AJAX actions**: `advaimg_preview`, `advaimg_save`, `advaimg_get_original`
 - **Nonce**: `advaimg_nonce`
 - **Transients**: `advaimg_rate_limit_*`
@@ -43,7 +43,7 @@ Run `./build-wp-org-zip.sh` to create submission ZIP. Excludes:
 - `README.md`, `CHANGELOG.md`, `CLAUDE.md`
 - Build scripts, workspace files, node_modules
 
-ZIP output: `../advanced-image-editor.zip`
+ZIP output: `../advanced-pixel-editor.zip`
 
 ## Key Implementation Details
 
@@ -63,8 +63,8 @@ Base64 image data uses custom `sanitize_base64_image_data()` method in AJAX hand
 Uses transients with key `advaimg_rate_limit_{hash}` for preview/save operations.
 
 ## WordPress.org Submission
-- Plugin URI: https://github.com/rafael-minuesa/advanced-image-editor/
+- Plugin URI: https://github.com/rafael-minuesa/advanced-pixel-editor/
 - After approval, upload `.wordpress-org/` assets via SVN to plugin assets folder
 
 ## Git Repository
-https://github.com/rafael-minuesa/advanced-image-editor.git
+https://github.com/rafael-minuesa/advanced-pixel-editor.git

@@ -1,5 +1,5 @@
 /**
- * Advanced Image Editor - Editor JavaScript
+ * Advanced Pixel Editor - Editor JavaScript
  * Handles image selection, filter previews, and saving
  */
 

@@ -1,6 +1,6 @@
 # Release Process
 
-This document outlines the process for releasing new versions of the Advanced Image Editor plugin.
+This document outlines the process for releasing new versions of the Advanced Pixel Editor plugin.
 
 ## Version Numbering
 
@@ -26,7 +26,7 @@ Use the provided script to automatically bump versions:
 ```
 
 The script will:
-- Update version numbers in `advanced-image-editor.php` and `readme.txt`
+- Update version numbers in `advanced-pixel-editor.php` and `readme.txt`
 - Add a new section to `CHANGELOG.md`
 - Update the changelog in `readme.txt`
 
@@ -35,7 +35,7 @@ The script will:
 If you prefer manual updates:
 
 1. **Update Version Numbers**
-   - `advanced-image-editor.php` (header comment and AIE_VERSION constant)
+   - `advanced-pixel-editor.php` (header comment and ADVAIMG_VERSION constant)
    - `readme.txt` (Stable tag)
 
 2. **Update Changelog**

@@ -54,6 +54,6 @@ coverage/
 #screenshots/
 #exports/
 
-# Advanced Image Editor specific
+# Advanced Pixel Editor specific
 # Uncomment if you want to ignore development files
-# advanced-image-editor.code-workspace
+# advanced-pixel-editor.code-workspace

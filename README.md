@@ -1,6 +1,6 @@
 # Advanced Pixel Editor
 
-[![Version](https://img.shields.io/badge/Version-2.7-blue.svg)](https://github.com/rafael-minuesa/advanced-image-editor/releases)
+[![Version](https://img.shields.io/badge/Version-2.7-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
 [![WordPress Plugin Version](https://img.shields.io/badge/WordPress-5.6+-blue.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4+-purple.svg)](https://php.net/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -12,7 +12,7 @@ A professional WordPress plugin that brings advanced image editing capabilities 
 
 > **📦 Current Version: 2.7** | **📅 Released: January 21, 2025** | **⚡ WordPress 5.6+ Required**
 
-![Advanced Image Editor Banner](./.wordpress-org/banner-1544x500.png)
+![Advanced Pixel Editor Banner](./.wordpress-org/banner-1544x500.png)
 
 ## ✨ Features
 
@@ -132,7 +132,7 @@ Yes, the plugin requires the **ImageMagick PHP extension (Imagick)** to be insta
 ## 🛠️ Development
 
 ### Contributing
-Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-image-editor/blob/master/CONTRIBUTING.md) on GitHub.
+Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-pixel-editor/blob/master/CONTRIBUTING.md) on GitHub.
 
 ### Requirements for Development
 - WordPress 5.6+
@@ -196,18 +196,18 @@ npm run build
 
 This plugin is licensed under the GPL v2 or later.
 
-    Advanced Image Editor is free software: you can redistribute it and/or modify
+    Advanced Pixel Editor is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 2 of the License, or
     (at your option) any later version.
 
-    Advanced Image Editor is distributed in the hope that it will be useful,
+    Advanced Pixel Editor is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License along
-    with Advanced Image Editor. If not, see <https://www.gnu.org/licenses/gpl-2.0.html>.
+    with Advanced Pixel Editor. If not, see <https://www.gnu.org/licenses/gpl-2.0.html>.
 
 ## 🙏 Credits
 
@@ -227,8 +227,8 @@ This plugin is licensed under the GPL v2 or later.
 
 ### Free Support
 - [WordPress.org Support Forums](https://wordpress.org/support/plugin/advanced-pixel-editor/)
-- [GitHub Issues](https://github.com/rafael-minuesa/advanced-image-editor/issues)
+- [GitHub Issues](https://github.com/rafael-minuesa/advanced-pixel-editor/issues)
 
 ---
 
-*Advanced Image Editor brings professional image editing capabilities to the WordPress ecosystem, powered by the Open-Source ImageMagick library.* 🌟
+*Advanced Pixel Editor brings professional image editing capabilities to the WordPress ecosystem, powered by the Open-Source ImageMagick library.* 🌟

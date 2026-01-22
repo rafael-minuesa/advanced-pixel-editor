@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Version Bump Script for Advanced Image Editor
+# Version Bump Script for Advanced Pixel Editor
 # Usage: ./version-bump.sh [major|minor|patch] [description]
 
 set -e
@@ -16,7 +16,7 @@ VERSION_TYPE=$1
 DESCRIPTION=${2:-"Version bump"}
 
 # Get current version from plugin file
-CURRENT_VERSION=$(grep "Version:" advanced-image-editor.php | head -1 | sed 's/.*Version: //' | tr -d ' ')
+CURRENT_VERSION=$(grep "Version:" advanced-pixel-editor.php | head -1 | sed 's/.*Version: //' | tr -d ' ')
 echo "Current version: $CURRENT_VERSION"
 
 # Parse version numbers
@@ -49,8 +49,8 @@ NEW_VERSION="$MAJOR.$MINOR.$PATCH"
 echo "New version: $NEW_VERSION"
 
 # Update version in plugin file
-sed -i "s/Version: $CURRENT_VERSION/Version: $NEW_VERSION/" advanced-image-editor.php
-sed -i "s/AIE_VERSION', '$CURRENT_VERSION'/AIE_VERSION', '$NEW_VERSION'/" advanced-image-editor.php
+sed -i "s/Version: $CURRENT_VERSION/Version: $NEW_VERSION/" advanced-pixel-editor.php
+sed -i "s/AIE_VERSION', '$CURRENT_VERSION'/AIE_VERSION', '$NEW_VERSION'/" advanced-pixel-editor.php
 
 # Update version in readme.txt
 sed -i "s/Stable tag: $CURRENT_VERSION/Stable tag: $NEW_VERSION/" readme.txt
@@ -64,7 +64,7 @@ sed -i "s/== Changelog ==/== Changelog ==\n\n= $NEW_VERSION =\n* $DESCRIPTION/" 
 
 echo "Version bumped to $NEW_VERSION"
 echo "Updated files:"
-echo "  - advanced-image-editor.php"
+echo "  - advanced-pixel-editor.php"
 echo "  - readme.txt"
 echo "  - CHANGELOG.md"
 echo ""

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build WordPress.org Submission ZIP for Advanced Image Editor
+# Build WordPress.org Submission ZIP for Advanced Pixel Editor
 # This script creates a clean zip file excluding development files
 
 set -e  # Exit on error

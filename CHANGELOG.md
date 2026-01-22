@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **Advanced Image Editor** will be documented in this file.
+All notable changes to **Advanced Pixel Editor** will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2] - 2025-01-16
 
 ### Added
-- Complete plugin rename from "Advanced Image Filters" to "Advanced Image Editor"
+- Complete plugin rename from "Advanced Image Filters" to "Advanced Pixel Editor"
 - Enhanced security with rate limiting, input validation, and capability checks
 - Improved accessibility with ARIA support and keyboard navigation
 - Performance optimizations with memory management and dimension limits
@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1] - 2024-XX-XX
 
 ### Added
-- Complete plugin rename from "Advanced Image Filters" to "Advanced Image Editor"
+- Complete plugin rename from "Advanced Image Filters" to "Advanced Pixel Editor"
 - Enhanced security with rate limiting, input validation, and capability checks
 - Improved accessibility with ARIA support and keyboard navigation
 - Performance optimizations with memory management and dimension limits
@@ -84,7 +84,7 @@ This project uses [Semantic Versioning](https://semver.org/):
 To create a new release:
 
 1. Update version numbers in:
-   - `advanced-image-editor.php` (header and constant)
+   - `advanced-pixel-editor.php` (header and constant)
    - `readme.txt` (Stable tag)
    - `CHANGELOG.md` (add new version section)
 
