@@ -4,7 +4,7 @@
 WordPress plugin for professional image editing with contrast adjustment and unsharp masking. Requires ImageMagick PHP extension.
 
 ## Current Version
-2.7 (January 22, 2025)
+2.8 (January 23, 2025)
 
 ## File Structure
 ```

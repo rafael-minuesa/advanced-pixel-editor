@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.8] - 2025-01-23
+
+### Added
+- Draggable comparison slider handle directly on the image preview
+- Click anywhere on preview wrapper to move comparison slider
+- Touch support for comparison slider on mobile devices
+- Negative value support for all filter controls
+
+### Changed
+- Contrast range extended from 0-1 to -1 to 1
+- Sharpness Amount range extended from 0-5 to -5 to 5
+- Sharpness Radius range extended from 0-10 to -10 to 10
+- Sharpness Threshold range extended from 0-1 to -1 to 1
+
 ## [2.4] - 2025-01-16
 
 ### Added

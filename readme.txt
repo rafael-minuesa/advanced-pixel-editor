@@ -5,7 +5,7 @@ Tags: image, editor, filter, contrast, sharpen
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.7
+Stable tag: 2.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,12 @@ Yes, the plugin requires the **ImageMagick PHP extension (Imagick)** to be insta
 4. **Media Library Integration** - Seamless workflow with WordPress media library
 
 == Changelog ==
+
+= 2.8 =
+* Added draggable comparison slider handle on the image preview
+* Clicking anywhere on preview wrapper now moves the comparison slider
+* Added touch support for comparison slider on mobile devices
+* Filter controls now support negative values (contrast, sharpness amount, radius, threshold)
 
 = 2.7 =
 * Changed plugin slug from "advanced-image-editor" to "advanced-pixel-editor" per WordPress.org review
