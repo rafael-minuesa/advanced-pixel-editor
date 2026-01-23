@@ -130,6 +130,73 @@ jQuery(function($){
         $preview.css('clip-path', `inset(0 ${100 - sliderValue}% 0 0)`);
     }
 
+    // Draggable handle on the image
+    let isDraggingHandle = false;
+
+    function getSliderValueFromPosition(clientX) {
+        const $wrapper = $('.aie-preview-wrapper');
+        const wrapperOffset = $wrapper.offset();
+        const wrapperWidth = $wrapper.width();
+        const relativeX = clientX - wrapperOffset.left;
+        const percentage = Math.max(0, Math.min(100, (relativeX / wrapperWidth) * 100));
+        return percentage;
+    }
+
+    function handleDragMove(clientX) {
+        if (!isDraggingHandle) return;
+        const newValue = getSliderValueFromPosition(clientX);
+        $compareSlider.val(newValue);
+        updateSliderPosition();
+    }
+
+    // Mouse events for draggable handle
+    $sliderHandle.on('mousedown', function(e) {
+        e.preventDefault();
+        isDraggingHandle = true;
+        $(document).on('mousemove.sliderDrag', function(e) {
+            handleDragMove(e.clientX);
+        });
+        $(document).on('mouseup.sliderDrag', function() {
+            isDraggingHandle = false;
+            $(document).off('mousemove.sliderDrag mouseup.sliderDrag');
+        });
+    });
+
+    // Touch events for draggable handle
+    $sliderHandle.on('touchstart', function(e) {
+        e.preventDefault();
+        isDraggingHandle = true;
+    });
+
+    $(document).on('touchmove', function(e) {
+        if (!isDraggingHandle) return;
+        const touch = e.originalEvent.touches[0];
+        handleDragMove(touch.clientX);
+    });
+
+    $(document).on('touchend', function() {
+        isDraggingHandle = false;
+    });
+
+    // Also allow clicking/dragging anywhere on the preview wrapper
+    $('.aie-preview-wrapper').on('mousedown', function(e) {
+        if ($(e.target).is($sliderHandle) || $(e.target).closest($sliderHandle).length) return;
+        if (!$previewToggle.is(':checked')) return;
+
+        const newValue = getSliderValueFromPosition(e.clientX);
+        $compareSlider.val(newValue);
+        updateSliderPosition();
+
+        isDraggingHandle = true;
+        $(document).on('mousemove.sliderDrag', function(e) {
+            handleDragMove(e.clientX);
+        });
+        $(document).on('mouseup.sliderDrag', function() {
+            isDraggingHandle = false;
+            $(document).off('mousemove.sliderDrag mouseup.sliderDrag');
+        });
+    });
+
     // Handle image loading for proper slider positioning
     $preview.add($originalPreview).on('load', function() {
         if ($previewToggle.is(':checked')) {
@@ -299,6 +366,10 @@ jQuery(function($){
         // Remove event listeners
         $(document).off('keydown', '#aie-contrast, #aie-amount, #aie-radius, #aie-threshold');
         $(document).off('input', '#aie-contrast-input, #aie-amount-input, #aie-radius-input, #aie-threshold-input');
+        $(document).off('mousemove.sliderDrag mouseup.sliderDrag');
+        $(document).off('touchmove touchend');
+        $sliderHandle.off('mousedown touchstart');
+        $('.aie-preview-wrapper').off('mousedown');
         $('#aie-reset').off('click');
         $('#aie-save').off('click');
         $('#aie-select-image').off('click');
