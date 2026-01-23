@@ -153,7 +153,7 @@ Contributions are welcome! Please see our [contributing guidelines](https://gith
 
 Developed by Rafael Minuesa
 * [GitHub](https://github.com/rafael-minuesa)
-* [Website](https://rafaelminuesa.com)
+* [Website](https://prowoos.com)
 
 Icons and assets used in accordance with their respective licenses.
 
