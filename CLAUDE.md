@@ -45,12 +45,40 @@ Run `./build-wp-org-zip.sh` to create submission ZIP. Excludes:
 
 ZIP output: `../advanced-pixel-editor.zip`
 
+## Release Checklist
+**IMPORTANT**: When making changes, always bump versions and update changelogs before committing.
+
+1. **Bump version numbers** in:
+   - `advanced-pixel-editor.php` (header `Version:` and `ADVAIMG_VERSION` constant)
+   - `readme.txt` (`Stable tag:`)
+   - `README.md` (version badge and "Current Version" line)
+   - `CLAUDE.md` (Current Version section)
+
+2. **Update changelogs** in:
+   - `readme.txt` (Changelog section)
+   - `CHANGELOG.md` (add new version entry with date)
+   - `README.md` (Changelog section)
+
+3. **Build and deploy**:
+   - Run `./build-wp-org-zip.sh` to create ZIP
+   - Commit and push to Git
+   - Update SVN: sync trunk, create new tag, commit
+
 ## Key Implementation Details
 
 ### Comparison Slider
 - Original image: `#aie-original-preview` (z-index: 1, behind)
 - Edited image: `#aie-preview` (z-index: 2, on top)
 - Clip-path applied to EDITED image to reveal original behind
+- Handle is draggable via mouse/touch on the image itself
+- Clicking anywhere on preview wrapper moves the slider
+
+### Filter Controls
+All filters support negative values:
+- **Contrast**: -1 to 1 (default: 0.5)
+- **Sharpness Amount**: -5 to 5 (default: 0.5)
+- **Sharpness Radius**: -10 to 10 (default: 1)
+- **Sharpness Threshold**: -1 to 1 (default: 0)
 
 ### Image Data Sanitization
 Base64 image data uses custom `sanitize_base64_image_data()` method in AJAX handler:
@@ -70,7 +98,7 @@ Uses transients with key `advaimg_rate_limit_{hash}` for preview/save operations
 ### SVN Structure
 ```
 /trunk/     → Current development code
-/tags/X.Y/  → Tagged releases (e.g., /tags/2.7/)
+/tags/X.Y/  → Tagged releases (e.g., /tags/2.8/)
 /assets/    → Plugin assets (banners, icons, screenshots)
 ```
 
