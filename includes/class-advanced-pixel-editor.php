@@ -69,6 +69,9 @@ class Advanced_Pixel_Editor {
 
         // Add plugin action links
         add_filter('plugin_action_links_' . ADVAIMG_PLUGIN_BASENAME, [$this, 'add_plugin_action_links']);
+
+        // Add "Advanced Edit" link to Media Library list view row actions
+        add_filter('media_row_actions', [$this, 'add_media_row_action'], 10, 2);
     }
 
 
@@ -82,6 +85,31 @@ class Advanced_Pixel_Editor {
         $settings_link = '<a href="' . esc_url(admin_url('upload.php?page=advanced-pixel-editor')) . '">' . esc_html__('Open Editor', 'advanced-pixel-editor') . '</a>';
         array_unshift($links, $settings_link);
         return $links;
+    }
+
+    /**
+     * Add "Advanced Edit" link to Media Library list view row actions
+     *
+     * @param array    $actions Existing row actions
+     * @param \WP_Post $post    The attachment post object
+     * @return array Modified actions array
+     */
+    public function add_media_row_action($actions, $post) {
+        if (wp_attachment_is_image($post->ID)) {
+            $url = admin_url('upload.php?page=advanced-pixel-editor&attachment_id=' . $post->ID);
+            $link = '<a href="' . esc_url($url) . '">' . esc_html__('Advanced Edit', 'advanced-pixel-editor') . '</a>';
+
+            // Insert after "edit" to appear right next to Edit
+            $reordered = [];
+            foreach ($actions as $key => $value) {
+                $reordered[$key] = $value;
+                if ($key === 'edit') {
+                    $reordered['advaimg_edit'] = $link;
+                }
+            }
+            return $reordered;
+        }
+        return $actions;
     }
 
     /**
@@ -103,6 +131,28 @@ class Advanced_Pixel_Editor {
      * @param string $hook Current admin page hook
      */
     public function enqueue_assets($hook) {
+        // Media Library page - add "Advanced Editor" button to grid view modal
+        if ($hook === 'upload.php') {
+            $ml_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/media-library.js';
+            $ml_js_version = file_exists($ml_js_path) ? filemtime($ml_js_path) : self::VERSION;
+
+            wp_enqueue_script(
+                'advaimg-media-library-js',
+                ADVAIMG_PLUGIN_URL . 'assets/js/media-library.js',
+                ['jquery', 'media-views'],
+                $ml_js_version,
+                true
+            );
+
+            wp_localize_script('advaimg-media-library-js', 'ADVAIMG_MEDIA', [
+                'editor_url' => admin_url('upload.php?page=advanced-pixel-editor'),
+                'i18n'       => [
+                    'advanced_editor' => __('Advanced Editor', 'advanced-pixel-editor'),
+                ],
+            ]);
+        }
+
+        // Editor page assets
         if ($hook !== 'media_page_advanced-pixel-editor') {
             return;
         }

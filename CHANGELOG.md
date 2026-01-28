@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9] - 2026-01-28
+
+### Added
+- "Advanced Editor" button in Media Library grid view modal, next to the "Edit Image" button
+- "Advanced Edit" row action in Media Library list view, positioned after "Edit"
+- Direct image pre-loading via `attachment_id` URL parameter for seamless Media Library integration
+- New `assets/js/media-library.js` for Media Library Backbone view integration
+
 ## [2.8] - 2025-01-23
 
 ### Added

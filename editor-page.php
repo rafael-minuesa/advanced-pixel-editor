@@ -12,6 +12,18 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Check for pre-loaded attachment from Media Library
+$advaimg_preload_id = '';
+$advaimg_preload_title = '';
+
+if (isset($_GET['attachment_id'])) {
+    $attachment_id = absint($_GET['attachment_id']);
+    if ($attachment_id > 0 && wp_attachment_is_image($attachment_id)) {
+        $advaimg_preload_id = $attachment_id;
+        $advaimg_preload_title = basename(get_attached_file($attachment_id));
+    }
+}
 ?>
 <div class="wrap">
     <h1><?php esc_html_e('Advanced Pixel Editor', 'advanced-pixel-editor'); ?></h1>
@@ -29,8 +41,8 @@ if (!defined('ABSPATH')) {
                 </div>
 
                 <div id="aie-selected-image" style="display: none;" class="aie-selected-image-name" role="status" aria-live="polite">
-                    <span id="aie-image-title"></span>
-                    <input type="hidden" id="aie-image-id" value="" aria-label="<?php esc_attr_e('Selected image ID', 'advanced-pixel-editor'); ?>">
+                    <span id="aie-image-title"><?php echo esc_html($advaimg_preload_title); ?></span>
+                    <input type="hidden" id="aie-image-id" value="<?php echo esc_attr($advaimg_preload_id); ?>" aria-label="<?php esc_attr_e('Selected image ID', 'advanced-pixel-editor'); ?>">
                 </div>
             </div>
         </div>
