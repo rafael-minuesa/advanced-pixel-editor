@@ -132,7 +132,7 @@ Yes, the plugin requires the **ImageMagick PHP extension (Imagick)** to be insta
 ## 🛠️ Development
 
 ### Contributing
-Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-pixel-editor/blob/master/CONTRIBUTING.md) on GitHub.
+Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-pixel-editor/blob/main/CONTRIBUTING.md) on GitHub.
 
 ### Requirements for Development
 - WordPress 5.6+

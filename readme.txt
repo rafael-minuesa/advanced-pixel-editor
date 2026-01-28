@@ -152,7 +152,7 @@ For support, feature requests, or bug reports, please visit:
 
 == Contributing ==
 
-Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-pixel-editor/blob/master/CONTRIBUTING.md) on GitHub.
+Contributions are welcome! Please see our [contributing guidelines](https://github.com/rafael-minuesa/advanced-pixel-editor/blob/main/CONTRIBUTING.md) on GitHub.
 
 == Credits ==
 
