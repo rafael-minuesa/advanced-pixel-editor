@@ -4,7 +4,7 @@
 WordPress plugin for professional image editing with contrast adjustment and unsharp masking. Requires ImageMagick PHP extension.
 
 ## Current Version
-2.8 (January 23, 2025)
+2.9 (January 28, 2026)
 
 ## File Structure
 ```
@@ -17,7 +17,9 @@ advanced-pixel-editor/
 │   └── advaimg-functions.php              # Utility functions
 ├── assets/
 │   ├── css/admin.css              # Editor styles
-│   └── js/editor.js               # Editor JavaScript
+│   └── js/
+│       ├── editor.js              # Editor JavaScript
+│       └── media-library.js       # Media Library integration
 ├── languages/                     # Translation files
 ├── .wordpress-org/                # WP.org assets (banners, screenshots)
 ├── dev-tools/                     # Development utilities
@@ -33,8 +35,8 @@ advanced-pixel-editor/
 - **AJAX actions**: `advaimg_preview`, `advaimg_save`, `advaimg_get_original`
 - **Nonce**: `advaimg_nonce`
 - **Transients**: `advaimg_rate_limit_*`
-- **JS object**: `ADVAIMG_AJAX`
-- **Script handles**: `advaimg-admin-css`, `advaimg-editor-js`
+- **JS objects**: `ADVAIMG_AJAX`, `ADVAIMG_MEDIA`
+- **Script handles**: `advaimg-admin-css`, `advaimg-editor-js`, `advaimg-media-library-js`
 - **HTML IDs**: Use `aie-*` prefix (not restricted by WP.org rules)
 
 ## Build Process
