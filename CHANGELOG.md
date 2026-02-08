@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1] - 2026-02-08
+
+### Added
+- "Advanced Editor" button on the attachment edit page (`post.php?post=ID&action=edit`) via `attachment_submitbox_misc_actions` hook
+- Button appears in the publish meta box sidebar for image attachments only
+
 ## [3.0] - 2026-02-08
 
 ### Added
