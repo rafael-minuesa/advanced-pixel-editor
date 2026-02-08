@@ -72,6 +72,9 @@ class Advanced_Pixel_Editor {
 
         // Add "Advanced Edit" link to Media Library list view row actions
         add_filter('media_row_actions', [$this, 'add_media_row_action'], 10, 2);
+
+        // Add "Advanced Editor" button to attachment edit page
+        add_action('attachment_submitbox_misc_actions', [$this, 'add_attachment_edit_button']);
     }
 
 
@@ -110,6 +113,26 @@ class Advanced_Pixel_Editor {
             return $reordered;
         }
         return $actions;
+    }
+
+    /**
+     * Add "Advanced Editor" button to attachment edit page submit box
+     *
+     * @param \WP_Post $post The attachment post object
+     */
+    public function add_attachment_edit_button($post) {
+        if (!wp_attachment_is_image($post->ID)) {
+            return;
+        }
+
+        $url = admin_url('upload.php?page=advanced-pixel-editor&attachment_id=' . $post->ID);
+        ?>
+        <div class="misc-pub-section">
+            <a href="<?php echo esc_url($url); ?>" class="button">
+                <?php esc_html_e('Advanced Editor', 'advanced-pixel-editor'); ?>
+            </a>
+        </div>
+        <?php
     }
 
     /**
