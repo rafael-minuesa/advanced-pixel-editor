@@ -5,7 +5,7 @@ Tags: image, editor, filter, contrast, sharpen
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.9
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,7 +67,7 @@ Yes! Select any image from your WordPress media library to edit.
 
 = Does this plugin create backups of original images? =
 
-The plugin saves edited versions as new files in your media library, preserving your originals.
+Yes! When using "Save as new image" mode, the original is untouched. When using "Replace original" mode, a backup is created automatically and you can restore it at any time.
 
 = Is the plugin accessible for users with disabilities? =
 
@@ -89,6 +89,13 @@ Yes, the plugin requires the **ImageMagick PHP extension (Imagick)** to be insta
 4. **Media Library Integration** - Seamless workflow with WordPress media library
 
 == Changelog ==
+
+= 3.0 =
+* Added save mode selection: save as new image or replace original
+* Added custom filename input for new image saves
+* Added automatic backup when replacing original image (WordPress `_wp_attachment_backup_sizes` pattern)
+* Added "Restore Original" option to revert replaced images
+* Updated help text to reflect new save options
 
 = 2.9 =
 * Added "Advanced Editor" button to Media Library grid view modal (next to "Edit Image")
