@@ -72,9 +72,6 @@ class Advanced_Pixel_Editor {
 
         // Add "Advanced Edit" link to Media Library list view row actions
         add_filter('media_row_actions', [$this, 'add_media_row_action'], 10, 2);
-
-        // Add "Advanced Editor" button to attachment edit page
-        add_action('attachment_submitbox_misc_actions', [$this, 'add_attachment_edit_button']);
     }
 
 
@@ -116,26 +113,6 @@ class Advanced_Pixel_Editor {
     }
 
     /**
-     * Add "Advanced Editor" button to attachment edit page submit box
-     *
-     * @param \WP_Post $post The attachment post object
-     */
-    public function add_attachment_edit_button($post) {
-        if (!wp_attachment_is_image($post->ID)) {
-            return;
-        }
-
-        $url = admin_url('upload.php?page=advanced-pixel-editor&attachment_id=' . $post->ID);
-        ?>
-        <div class="misc-pub-section">
-            <a href="<?php echo esc_url($url); ?>" class="button">
-                <?php esc_html_e('Advanced Editor', 'advanced-pixel-editor'); ?>
-            </a>
-        </div>
-        <?php
-    }
-
-    /**
      * Add admin menu page under Media
      */
     public function add_menu() {
@@ -154,6 +131,20 @@ class Advanced_Pixel_Editor {
      * @param string $hook Current admin page hook
      */
     public function enqueue_assets($hook) {
+        // Attachment edit page - add "Advanced Editor" button next to "Edit Image"
+        if ($hook === 'post.php') {
+            $post = get_post();
+            if ($post && wp_attachment_is_image($post->ID)) {
+                $url = admin_url('upload.php?page=advanced-pixel-editor&attachment_id=' . $post->ID);
+                $label = esc_js(__('Advanced Editor', 'advanced-pixel-editor'));
+                wp_add_inline_script('jquery', sprintf(
+                    'jQuery(function($){var b=$("[id^=imgedit-open-btn-]");if(b.length){b.after(" <a href=\"%s\" class=\"button advaimg-advanced-edit\" style=\"margin-left:8px;\">%s</a>");}});',
+                    esc_url($url),
+                    $label
+                ));
+            }
+        }
+
         // Media Library page - add "Advanced Editor" button to grid view modal
         if ($hook === 'upload.php') {
             $ml_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/media-library.js';
