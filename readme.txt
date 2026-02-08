@@ -5,7 +5,7 @@ Tags: image, editor, filter, contrast, sharpen
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.1
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -89,6 +89,10 @@ Yes, the plugin requires the **ImageMagick PHP extension (Imagick)** to be insta
 4. **Media Library Integration** - Seamless workflow with WordPress media library
 
 == Changelog ==
+
+= 3.1.1 =
+* Fixed "Advanced Editor" button placement on attachment edit page — now appears next to "Edit Image"
+* Added translation template (.pot) file
 
 = 3.1 =
 * Added "Advanced Editor" button to attachment edit page sidebar

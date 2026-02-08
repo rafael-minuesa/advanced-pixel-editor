@@ -1,6 +1,6 @@
 # Advanced Pixel Editor
 
-[![Version](https://img.shields.io/badge/Version-3.1-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
+[![Version](https://img.shields.io/badge/Version-3.1.1-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
 [![WordPress Plugin Version](https://img.shields.io/badge/WordPress-5.6+-blue.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4+-purple.svg)](https://php.net/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,7 +10,7 @@ A professional WordPress plugin that brings advanced image editing capabilities 
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
-> **📦 Current Version: 3.1** | **📅 Released: February 8, 2026** | **⚡ WordPress 5.6+ Required**
+> **📦 Current Version: 3.1.1** | **📅 Released: February 8, 2026** | **⚡ WordPress 5.6+ Required**
 
 ![Advanced Pixel Editor Banner](./.wordpress-org/banner-1544x500.png)
 
@@ -153,6 +153,10 @@ npm run build
 ```
 
 ## 📊 Changelog
+
+### [3.1.1] - 2026-02-08
+- Fixed "Advanced Editor" button placement on attachment edit page — now appears next to "Edit Image"
+- Added translation template (.pot) file
 
 ### [3.1] - 2026-02-08
 - Added "Advanced Editor" button to attachment edit page sidebar
