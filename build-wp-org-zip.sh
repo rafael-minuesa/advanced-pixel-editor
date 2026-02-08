@@ -62,6 +62,8 @@ zip -r "$ZIP_PATH" "$PLUGIN_NAME/" \
     -x "$PLUGIN_NAME/CLAUDE.md" \
     -x "$PLUGIN_NAME/README.md" \
     -x "$PLUGIN_NAME/CHANGELOG.md" \
+    -x "$PLUGIN_NAME/CONTRIBUTING.md" \
+    -x "$PLUGIN_NAME/PHPCS-REPORT.txt" \
     -x "$PLUGIN_NAME/.wordpress-org/*" \
     -x "$PLUGIN_NAME/dev-tools/*" \
     -x "$PLUGIN_NAME/build-wp-org-zip.sh" \
