@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.1] - 2026-02-08
+
+### Fixed
+- "Advanced Editor" button placement on attachment edit page — now appears next to "Edit Image" button instead of sidebar, consistent with media library modal
+
+### Added
+- Translation template (.pot) file in `languages/`
+
 ## [3.1] - 2026-02-08
 
 ### Added
