@@ -1,0 +1,572 @@
+# Copyright (C) 2026 Rafael Minuesa
+# This file is distributed under the same license as the Advanced Pixel Editor plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Pixel Editor 3.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/advanced-pixel-editor\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-02-08T13:57:17+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: advanced-pixel-editor\n"
+
+#. Plugin Name of the plugin
+#: editor-page.php:29
+#: includes/class-advanced-pixel-editor.php:143
+#: includes/class-advanced-pixel-editor.php:144
+msgid "Advanced Pixel Editor"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/rafael-minuesa/advanced-pixel-editor/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Professional image editing tool with advanced filters, contrast adjustment, and unsharp masking. Real-time preview, accessibility features, and seamless WordPress integration."
+msgstr ""
+
+#. Author of the plugin
+msgid "Rafael Minuesa"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/rafael-minuesa"
+msgstr ""
+
+#: editor-page.php:37
+msgid "Select Image"
+msgstr ""
+
+#: editor-page.php:40
+msgid "Opens WordPress media library to select an image for editing"
+msgstr ""
+
+#: editor-page.php:45
+msgid "Selected image ID"
+msgstr ""
+
+#: editor-page.php:52
+msgid "2. Edit Image"
+msgstr ""
+
+#: editor-page.php:60
+msgid "Preview"
+msgstr ""
+
+#: editor-page.php:63
+msgid "Compare original and edited image"
+msgstr ""
+
+#: editor-page.php:65
+msgid "Original"
+msgstr ""
+
+#: editor-page.php:66
+msgid "Edited"
+msgstr ""
+
+#: editor-page.php:71
+msgid "Original image"
+msgstr ""
+
+#: editor-page.php:72
+msgid "Edited image preview"
+msgstr ""
+
+#: editor-page.php:76
+msgid "Preview will appear here after selecting an image"
+msgstr ""
+
+#: editor-page.php:82
+msgid "Adjust Filters"
+msgstr ""
+
+#: editor-page.php:87
+msgid "Contrast"
+msgstr ""
+
+#: editor-page.php:90
+msgid "Contrast value"
+msgstr ""
+
+#: editor-page.php:95
+msgid "Adjust image contrast (-1 to 1)"
+msgstr ""
+
+#: editor-page.php:102
+msgid "Sharpness Amount"
+msgstr ""
+
+#: editor-page.php:105
+msgid "Sharpness amount value"
+msgstr ""
+
+#: editor-page.php:110
+msgid "Sharpening intensity (-5 to 5)"
+msgstr ""
+
+#: editor-page.php:117
+msgid "Sharpness Radius"
+msgstr ""
+
+#: editor-page.php:120
+msgid "Sharpness radius value"
+msgstr ""
+
+#: editor-page.php:125
+msgid "Sharpening radius (-10 to 10px)"
+msgstr ""
+
+#: editor-page.php:132
+msgid "Sharpness Threshold"
+msgstr ""
+
+#: editor-page.php:135
+msgid "Sharpness threshold value"
+msgstr ""
+
+#: editor-page.php:140
+msgid "Sharpening threshold (-1 to 1)"
+msgstr ""
+
+#: editor-page.php:146
+msgid "Save Options"
+msgstr ""
+
+#: editor-page.php:150
+msgid "This image was previously edited with Advanced Pixel Editor."
+msgstr ""
+
+#: editor-page.php:152
+msgid "Restore Original"
+msgstr ""
+
+#: editor-page.php:158
+msgid "Save Mode"
+msgstr ""
+
+#: editor-page.php:160
+msgid "Save as new image"
+msgstr ""
+
+#: editor-page.php:161
+msgid "Replace original image"
+msgstr ""
+
+#: editor-page.php:167
+msgid "Filename"
+msgstr ""
+
+#: editor-page.php:169
+msgid "edited-image"
+msgstr ""
+
+#: editor-page.php:176
+msgid "A backup of the original will be saved automatically. You can restore it later."
+msgstr ""
+
+#: editor-page.php:181
+msgid "Image editing actions"
+msgstr ""
+
+#: editor-page.php:183
+#: includes/class-advanced-pixel-editor.php:230
+msgid "Save Edited Image"
+msgstr ""
+
+#: editor-page.php:186
+msgid "Save button is disabled until an image is selected and edited"
+msgstr ""
+
+#: editor-page.php:190
+msgid "Reset to Defaults"
+msgstr ""
+
+#: editor-page.php:193
+msgid "Reset button is disabled until an image is selected"
+msgstr ""
+
+#: editor-page.php:202
+msgid "How to use the Advanced Pixel Editor"
+msgstr ""
+
+#: editor-page.php:204
+msgid "Click \"Select Image\" to choose or upload an image."
+msgstr ""
+
+#: editor-page.php:205
+msgid "Adjust the sliders or enter a value to apply filters in real-time. Move the comparison slider on the image to preview changes."
+msgstr ""
+
+#: editor-page.php:206
+msgid "Click \"Save Edited Image\" to save. You can save as a new image with a custom name, or replace the original (a backup is created automatically)."
+msgstr ""
+
+#: editor-page.php:209
+msgid "Filter Explanations"
+msgstr ""
+
+#: editor-page.php:211
+msgid "Contrast:"
+msgstr ""
+
+#: editor-page.php:211
+msgid "Adjusts the difference between light and dark areas"
+msgstr ""
+
+#: editor-page.php:212
+msgid "Sharpness Amount:"
+msgstr ""
+
+#: editor-page.php:212
+msgid "Controls the intensity of sharpening"
+msgstr ""
+
+#: editor-page.php:213
+msgid "Sharpness Radius:"
+msgstr ""
+
+#: editor-page.php:213
+msgid "Determines how far the sharpening effect spreads"
+msgstr ""
+
+#: editor-page.php:214
+msgid "Sharpness Threshold:"
+msgstr ""
+
+#: editor-page.php:214
+msgid "Sets the minimum contrast level for sharpening to apply"
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:35
+#: includes/class-advaimg-ajax-handler.php:175
+#: includes/class-advaimg-ajax-handler.php:396
+#: includes/class-advaimg-ajax-handler.php:440
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:40
+#: includes/class-advaimg-ajax-handler.php:445
+#: includes/class-advanced-pixel-editor.php:226
+msgid "Too many requests. Please wait a moment before trying again."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:46
+#: includes/class-advaimg-ajax-handler.php:186
+#: includes/class-advaimg-ajax-handler.php:402
+#: includes/class-advaimg-ajax-handler.php:451
+msgid "Security check failed."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:51
+#: includes/class-advaimg-ajax-handler.php:191
+#: includes/class-advaimg-ajax-handler.php:407
+#: includes/class-advaimg-ajax-handler.php:456
+msgid "No image selected."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:68
+#: includes/class-advaimg-ajax-handler.php:219
+#: includes/class-advaimg-ajax-handler.php:414
+#: includes/class-advaimg-ajax-handler.php:463
+msgid "Invalid image attachment."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:74
+msgid "Image file not found on server."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:80
+msgid "Image file is too large to process."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:86
+msgid "Unable to read image dimensions."
+msgstr ""
+
+#. translators: 1: Current image width, 2: Current image height, 3: Maximum allowed width, 4: Maximum allowed height
+#: includes/class-advaimg-ajax-handler.php:96
+msgid "Image dimensions (%1$dx%2$d) exceed maximum allowed size (%3$dx%4$d)."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:107
+msgid "Image is too large to process with current memory limits."
+msgstr ""
+
+#. translators: %s: Error message from image processing
+#: includes/class-advaimg-ajax-handler.php:157
+msgid "Image processing failed: %s"
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:180
+msgid "Too many save requests. Please wait a moment before trying again."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:195
+msgid "No image data provided."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:258
+msgid "Failed to access upload directory."
+msgstr ""
+
+#. translators: %s: Upload error message
+#: includes/class-advaimg-ajax-handler.php:269
+msgid "Failed to save image file: %s"
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:280
+msgid "Edited with Advanced Pixel Editor"
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:309
+#: includes/class-advanced-pixel-editor.php:219
+msgid "Image saved successfully!"
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:325
+#: includes/class-advaimg-ajax-handler.php:474
+msgid "Original image file not found."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:347
+msgid "Failed to create backup of original image."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:374
+msgid "Failed to write edited image file."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:385
+msgid "Original image replaced successfully!"
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:421
+msgid "Unable to get image URL."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:469
+msgid "No backup found for this image."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:483
+msgid "Backup file not found on disk."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:501
+msgid "Failed to restore backup file."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:518
+#: includes/class-advanced-pixel-editor.php:234
+msgid "Original image restored successfully."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:696
+msgid "Invalid image data format."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:704
+msgid "Unsupported image type."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:709
+msgid "Image data is too large."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:715
+msgid "Failed to decode image data."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:721
+msgid "Decoded data is not a valid image."
+msgstr ""
+
+#: includes/class-advaimg-ajax-handler.php:734
+msgid "Image type does not match data."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:88
+msgid "Open Editor"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:103
+msgid "Advanced Edit"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:132
+#: includes/class-advanced-pixel-editor.php:173
+msgid "Advanced Editor"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:214
+msgid "Select an Image to Edit"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:215
+msgid "Use This Image"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:216
+msgid "Saving..."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:217
+msgid "Processing..."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:218
+msgid "Please select an image first"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:220
+msgid "Failed to generate preview"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:221
+msgid "Network error - please try again"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:222
+msgid "Failed to save image"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:223
+msgid "Save this edited image to your media library?"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:224
+msgid "Would you like to view the edited image?"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:225
+msgid "Unknown error occurred"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:227
+msgid "Reset all filters to default values?"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:228
+msgid "Ready to save edited image"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:229
+msgid "Ready to reset filters"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:231
+msgid "Replace Original"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:232
+msgid "Replace the original image? A backup will be saved automatically."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:233
+msgid "Restore the original image? The current edited version will be replaced."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:235
+msgid "Failed to restore original image."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:236
+msgid "Replacing..."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:237
+msgid "Restoring..."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:248
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:256
+msgid "Missing Required Extension: Imagick"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:259
+msgid "The Advanced Pixel Editor requires the Imagick PHP extension to function properly."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:264
+msgid "What is Imagick?"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:267
+msgid "Imagick is a powerful PHP extension that provides advanced image processing capabilities. It's based on the ImageMagick library, which has been a cornerstone of professional image manipulation since the early 1990s."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:270
+msgid "Enables high-quality image editing and manipulation"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:271
+msgid "Supports all major image formats (JPEG, PNG, GIF, WebP, TIFF, etc.)"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:272
+msgid "Provides professional-grade filters and effects"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:273
+msgid "Used by thousands of websites and professional applications worldwide"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:279
+msgid "Why is it Required?"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:282
+msgid "Without Imagick, the plugin cannot perform essential image operations like contrast adjustment, sharpening, format conversion, or any advanced image processing. This is a server-side requirement that must be enabled by your hosting provider."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:288
+msgid "How to Enable Imagick"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:291
+msgid "Contact your web hosting provider"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:292
+msgid "Request that they enable the Imagick PHP extension"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:293
+msgid "Most hosting providers can enable this quickly (usually within hours)"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:294
+msgid "If using shared hosting, you may need to upgrade to a VPS or dedicated server"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:297
+msgid "Note: Imagick is extremely common and should be available on most modern hosting platforms."
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:303
+msgid "Support Open Source Software"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:306
+msgid "ImageMagick is free, open-source software that powers millions of websites and applications worldwide. Consider supporting their important work:"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:310
+msgid "Sponsor ImageMagick Development"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:316
+msgid "Need Help?"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:317
+msgid "If you continue to have issues after enabling Imagick, please check our documentation or contact support."
+msgstr ""
