@@ -204,6 +204,14 @@ class Advanced_Pixel_Editor {
                 'reset_confirm'      => __('Reset all filters to default values?', 'advanced-pixel-editor'),
                 'save_status_enabled' => __('Ready to save edited image', 'advanced-pixel-editor'),
                 'reset_status_enabled' => __('Ready to reset filters', 'advanced-pixel-editor'),
+                'save_button'        => __('Save Edited Image', 'advanced-pixel-editor'),
+                'replace_button'     => __('Replace Original', 'advanced-pixel-editor'),
+                'confirm_replace'    => __('Replace the original image? A backup will be saved automatically.', 'advanced-pixel-editor'),
+                'restore_confirm'    => __('Restore the original image? The current edited version will be replaced.', 'advanced-pixel-editor'),
+                'restore_success'    => __('Original image restored successfully.', 'advanced-pixel-editor'),
+                'restore_failed'     => __('Failed to restore original image.', 'advanced-pixel-editor'),
+                'replacing'          => __('Replacing...', 'advanced-pixel-editor'),
+                'restoring'          => __('Restoring...', 'advanced-pixel-editor'),
             ]
         ]);
     }

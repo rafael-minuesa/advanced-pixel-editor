@@ -141,6 +141,42 @@ if (isset($_GET['attachment_id'])) {
                         </div>
                     </div>
 
+                    <!-- Save Options -->
+                    <div class="aie-save-options" role="group" aria-labelledby="save-options-heading">
+                        <h3 id="save-options-heading"><?php esc_html_e('Save Options', 'advanced-pixel-editor'); ?></h3>
+
+                        <!-- Restore notice (hidden by default, shown via JS when image has backup) -->
+                        <div id="aie-restore-notice" class="aie-restore-notice" style="display: none;">
+                            <span><?php esc_html_e('This image was previously edited with Advanced Pixel Editor.', 'advanced-pixel-editor'); ?></span>
+                            <button id="aie-restore" class="aie-button aie-button-small aie-button-secondary">
+                                <?php esc_html_e('Restore Original', 'advanced-pixel-editor'); ?>
+                            </button>
+                        </div>
+
+                        <!-- Save mode -->
+                        <div class="aie-control-group">
+                            <label for="aie-save-mode"><?php esc_html_e('Save Mode', 'advanced-pixel-editor'); ?></label>
+                            <select id="aie-save-mode">
+                                <option value="new"><?php esc_html_e('Save as new image', 'advanced-pixel-editor'); ?></option>
+                                <option value="replace"><?php esc_html_e('Replace original image', 'advanced-pixel-editor'); ?></option>
+                            </select>
+                        </div>
+
+                        <!-- Filename (only visible in "new" mode) -->
+                        <div id="aie-filename-group" class="aie-control-group">
+                            <label for="aie-filename"><?php esc_html_e('Filename', 'advanced-pixel-editor'); ?></label>
+                            <div class="aie-filename-input">
+                                <input type="text" id="aie-filename" value="" placeholder="<?php esc_attr_e('edited-image', 'advanced-pixel-editor'); ?>">
+                                <span id="aie-file-extension">.jpg</span>
+                            </div>
+                        </div>
+
+                        <!-- Replace info (only visible in "replace" mode) -->
+                        <div id="aie-replace-info" class="aie-replace-info" style="display: none;">
+                            <small><?php esc_html_e('A backup of the original will be saved automatically. You can restore it later.', 'advanced-pixel-editor'); ?></small>
+                        </div>
+                    </div>
+
                     <!-- Action Buttons -->
                     <div class="aie-button-group" role="group" aria-label="<?php esc_attr_e('Image editing actions', 'advanced-pixel-editor'); ?>">
                         <button id="aie-save" class="aie-button aie-button-success" disabled aria-describedby="save-status">
@@ -167,7 +203,7 @@ if (isset($_GET['attachment_id'])) {
              <ol>
                  <li><?php esc_html_e('Click "Select Image" to choose or upload an image.', 'advanced-pixel-editor'); ?></li>
                  <li><?php esc_html_e('Adjust the sliders or enter a value to apply filters in real-time. Move the comparison slider on the image to preview changes.', 'advanced-pixel-editor'); ?></li>
-                 <li><?php esc_html_e('Click "Save Edited Image" to save a copy to your media library (original image will remain untouched).', 'advanced-pixel-editor'); ?></li>
+                 <li><?php esc_html_e('Click "Save Edited Image" to save. You can save as a new image with a custom name, or replace the original (a backup is created automatically).', 'advanced-pixel-editor'); ?></li>
              </ol>
 
              <h3><?php esc_html_e('Filter Explanations', 'advanced-pixel-editor'); ?></h3>

@@ -23,6 +23,7 @@ class ADVAIMG_Ajax_Handler {
         add_action('wp_ajax_advaimg_preview', [$this, 'ajax_preview']);
         add_action('wp_ajax_advaimg_save', [$this, 'ajax_save']);
         add_action('wp_ajax_advaimg_get_original', [$this, 'ajax_get_original']);
+        add_action('wp_ajax_advaimg_restore', [$this, 'ajax_restore']);
     }
 
     /**
@@ -218,10 +219,38 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error(__('Invalid image attachment.', 'advanced-pixel-editor'));
         }
 
+        $save_mode = isset($_POST['save_mode']) ? sanitize_key($_POST['save_mode']) : 'new';
+        $custom_filename = isset($_POST['filename']) ? sanitize_file_name(wp_unslash($_POST['filename'])) : '';
+
+        if ($save_mode === 'replace') {
+            $this->save_replace($attachment_id, $decoded, $mime_type);
+        } else {
+            $this->save_as_new($attachment_id, $decoded, $mime_type, $custom_filename);
+        }
+    }
+
+    /**
+     * Save edited image as a new attachment
+     *
+     * @param int    $attachment_id Original attachment ID
+     * @param string $decoded       Decoded image data
+     * @param string $mime_type     MIME type of the image
+     * @param string $custom_filename Custom filename (without extension)
+     */
+    private function save_as_new($attachment_id, $decoded, $mime_type, $custom_filename) {
         // Get original image for filename reference
         $original_path = get_attached_file($attachment_id);
         $original_info = pathinfo($original_path);
         $original_name = $original_info['filename'];
+
+        $extension = advanced_image_editor_get_extension_from_mime_type($mime_type);
+
+        // Use custom filename if provided, otherwise auto-generate
+        if (!empty($custom_filename)) {
+            $base_filename = $custom_filename;
+        } else {
+            $base_filename = $original_name . '-edited-' . time();
+        }
 
         // Create new file with unique name
         $upload_dir = wp_upload_dir();
@@ -229,9 +258,8 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error(__('Failed to access upload directory.', 'advanced-pixel-editor'));
         }
 
-        $extension = advanced_image_editor_get_extension_from_mime_type($mime_type);
-        $filename = sanitize_file_name($original_name . '-edited-' . time() . '.' . $extension);
-        $file_path = trailingslashit($upload_dir['path']) . $filename;
+        $filename = sanitize_file_name($base_filename . '.' . $extension);
+        $filename = wp_unique_filename($upload_dir['path'], $filename);
 
         // Use wp_upload_bits for better WordPress integration
         $upload = wp_upload_bits($filename, null, $decoded);
@@ -246,18 +274,17 @@ class ADVAIMG_Ajax_Handler {
         // Prepare attachment data
         $attachment = [
             'post_mime_type' => $mime_type,
-            'post_title'     => sanitize_text_field($original_name . ' (Edited)'),
+            'post_title'     => sanitize_text_field($base_filename),
             'post_content'   => '',
             'post_status'    => 'inherit',
             'post_excerpt'   => __('Edited with Advanced Pixel Editor', 'advanced-pixel-editor'),
-            'post_parent'    => 0, // No parent post
+            'post_parent'    => 0,
         ];
 
         // Insert attachment
         $new_id = wp_insert_attachment($attachment, $file_path);
 
         if (is_wp_error($new_id)) {
-            // Clean up uploaded file on error
             wp_delete_file($file_path);
 
             $this->log_save_error(
@@ -281,6 +308,82 @@ class ADVAIMG_Ajax_Handler {
             'new_attachment_id' => $new_id,
             'message' => __('Image saved successfully!', 'advanced-pixel-editor'),
             'edit_link' => $edit_link ?: admin_url('post.php?post=' . $new_id . '&action=edit')
+        ]);
+    }
+
+    /**
+     * Replace the original image with the edited version
+     *
+     * @param int    $attachment_id Original attachment ID
+     * @param string $decoded       Decoded image data
+     * @param string $mime_type     MIME type of the image
+     */
+    private function save_replace($attachment_id, $decoded, $mime_type) {
+        $original_path = get_attached_file($attachment_id);
+
+        if (!file_exists($original_path)) {
+            wp_send_json_error(__('Original image file not found.', 'advanced-pixel-editor'));
+        }
+
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+
+        // Get current metadata for backup
+        $meta = wp_get_attachment_metadata($attachment_id);
+
+        // Create backup if one doesn't already exist
+        $backup_sizes = get_post_meta($attachment_id, '_wp_attachment_backup_sizes', true);
+        if (!is_array($backup_sizes)) {
+            $backup_sizes = [];
+        }
+
+        if (!isset($backup_sizes['full-orig'])) {
+            $dir = pathinfo($original_path, PATHINFO_DIRNAME);
+            $name = pathinfo($original_path, PATHINFO_FILENAME);
+            $ext = pathinfo($original_path, PATHINFO_EXTENSION);
+            $backup_filename = $name . '-old.' . $ext;
+            $backup_path = trailingslashit($dir) . $backup_filename;
+
+            if (!copy($original_path, $backup_path)) {
+                wp_send_json_error(__('Failed to create backup of original image.', 'advanced-pixel-editor'));
+            }
+
+            $original_size = @getimagesize($original_path);
+            $backup_sizes['full-orig'] = [
+                'file'     => $backup_filename,
+                'width'    => $original_size ? $original_size[0] : 0,
+                'height'   => $original_size ? $original_size[1] : 0,
+                'filesize' => filesize($original_path),
+            ];
+            update_post_meta($attachment_id, '_wp_attachment_backup_sizes', $backup_sizes);
+        }
+
+        // Delete old thumbnails
+        if (!empty($meta['sizes'])) {
+            $dir = pathinfo($original_path, PATHINFO_DIRNAME);
+            foreach ($meta['sizes'] as $size_data) {
+                $thumb_path = trailingslashit($dir) . $size_data['file'];
+                if (file_exists($thumb_path)) {
+                    wp_delete_file($thumb_path);
+                }
+            }
+        }
+
+        // Write edited image to original path
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- Writing binary image data
+        if (file_put_contents($original_path, $decoded) === false) {
+            wp_send_json_error(__('Failed to write edited image file.', 'advanced-pixel-editor'));
+        }
+
+        // Regenerate metadata (thumbnails, dimensions, etc.)
+        $new_meta = wp_generate_attachment_metadata($attachment_id, $original_path);
+        wp_update_attachment_metadata($attachment_id, $new_meta);
+
+        $edit_link = get_edit_post_link($attachment_id, 'raw');
+
+        wp_send_json_success([
+            'attachment_id' => $attachment_id,
+            'message' => __('Original image replaced successfully!', 'advanced-pixel-editor'),
+            'edit_link' => $edit_link ?: admin_url('post.php?post=' . $attachment_id . '&action=edit')
         ]);
     }
 
@@ -318,8 +421,102 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error(__('Unable to get image URL.', 'advanced-pixel-editor'));
         }
 
+        // Check if this image has a backup
+        $backup_sizes = get_post_meta($attachment_id, '_wp_attachment_backup_sizes', true);
+        $has_backup = is_array($backup_sizes) && isset($backup_sizes['full-orig']);
+
         wp_send_json_success([
-            'original_url' => $image_url
+            'original_url' => $image_url,
+            'has_backup'   => $has_backup,
+        ]);
+    }
+
+    /**
+     * AJAX handler for restoring the original image from backup
+     */
+    public function ajax_restore() {
+        // Check user capability
+        if (!current_user_can('upload_files')) {
+            wp_send_json_error(__('You do not have permission to perform this action.', 'advanced-pixel-editor'));
+        }
+
+        // Check rate limiting
+        if ($this->check_rate_limit('save')) {
+            wp_send_json_error(__('Too many requests. Please wait a moment before trying again.', 'advanced-pixel-editor'));
+        }
+
+        // Validate nonce
+        $nonce = isset($_POST['_ajax_nonce']) ? sanitize_key(wp_unslash($_POST['_ajax_nonce'])) : '';
+        if (empty($nonce) || !wp_verify_nonce($nonce, 'advaimg_nonce')) {
+            wp_send_json_error(__('Security check failed.', 'advanced-pixel-editor'));
+        }
+
+        // Validate required parameters
+        if (!isset($_POST['image_id']) || empty($_POST['image_id'])) {
+            wp_send_json_error(__('No image selected.', 'advanced-pixel-editor'));
+        }
+
+        $attachment_id = absint($_POST['image_id']);
+
+        // Check if attachment exists
+        if (!wp_attachment_is_image($attachment_id)) {
+            wp_send_json_error(__('Invalid image attachment.', 'advanced-pixel-editor'));
+        }
+
+        // Get backup meta
+        $backup_sizes = get_post_meta($attachment_id, '_wp_attachment_backup_sizes', true);
+        if (!is_array($backup_sizes) || !isset($backup_sizes['full-orig'])) {
+            wp_send_json_error(__('No backup found for this image.', 'advanced-pixel-editor'));
+        }
+
+        $original_path = get_attached_file($attachment_id);
+        if (!$original_path) {
+            wp_send_json_error(__('Original image file not found.', 'advanced-pixel-editor'));
+        }
+
+        $dir = pathinfo($original_path, PATHINFO_DIRNAME);
+        $backup_filename = $backup_sizes['full-orig']['file'];
+        $backup_path = trailingslashit($dir) . $backup_filename;
+
+        // Verify backup file exists on disk
+        if (!file_exists($backup_path)) {
+            wp_send_json_error(__('Backup file not found on disk.', 'advanced-pixel-editor'));
+        }
+
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+
+        // Delete current thumbnails
+        $meta = wp_get_attachment_metadata($attachment_id);
+        if (!empty($meta['sizes'])) {
+            foreach ($meta['sizes'] as $size_data) {
+                $thumb_path = trailingslashit($dir) . $size_data['file'];
+                if (file_exists($thumb_path)) {
+                    wp_delete_file($thumb_path);
+                }
+            }
+        }
+
+        // Copy backup file over current file
+        if (!copy($backup_path, $original_path)) {
+            wp_send_json_error(__('Failed to restore backup file.', 'advanced-pixel-editor'));
+        }
+
+        // Delete backup file
+        wp_delete_file($backup_path);
+
+        // Delete backup meta
+        delete_post_meta($attachment_id, '_wp_attachment_backup_sizes');
+
+        // Regenerate metadata
+        $new_meta = wp_generate_attachment_metadata($attachment_id, $original_path);
+        wp_update_attachment_metadata($attachment_id, $new_meta);
+
+        // Get the restored image URL for preview refresh
+        $image_url = wp_get_attachment_image_url($attachment_id, 'full');
+
+        wp_send_json_success([
+            'message'      => __('Original image restored successfully.', 'advanced-pixel-editor'),
+            'original_url' => $image_url,
         ]);
     }
 

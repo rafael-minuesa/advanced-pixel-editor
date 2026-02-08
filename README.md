@@ -1,6 +1,6 @@
 # Advanced Pixel Editor
 
-[![Version](https://img.shields.io/badge/Version-2.9-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
+[![Version](https://img.shields.io/badge/Version-3.0-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
 [![WordPress Plugin Version](https://img.shields.io/badge/WordPress-5.6+-blue.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4+-purple.svg)](https://php.net/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,7 +10,7 @@ A professional WordPress plugin that brings advanced image editing capabilities 
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
-> **📦 Current Version: 2.9** | **📅 Released: January 28, 2026** | **⚡ WordPress 5.6+ Required**
+> **📦 Current Version: 3.0** | **📅 Released: February 8, 2026** | **⚡ WordPress 5.6+ Required**
 
 ![Advanced Pixel Editor Banner](./.wordpress-org/banner-1544x500.png)
 
@@ -118,7 +118,7 @@ By default, images up to 10MB and 4096×4096 pixels are supported for optimal pe
 Yes! Select any image from your WordPress media library to edit and enhance.
 
 ### Does this plugin create backups of original images?
-The plugin saves edited versions as new files in your media library, preserving your originals.
+Yes! When using "Save as new image" mode, the original is untouched. When using "Replace original" mode, a backup is created automatically and you can restore it at any time.
 
 ### Is the plugin accessible for users with disabilities?
 Yes! The plugin includes full ARIA support, keyboard navigation, and screen reader compatibility.
@@ -153,6 +153,12 @@ npm run build
 ```
 
 ## 📊 Changelog
+
+### [3.0] - 2026-02-08
+- Added save mode selection: save as new image or replace original
+- Added custom filename input for new image saves
+- Added automatic backup when replacing original image (WordPress `_wp_attachment_backup_sizes` pattern)
+- Added "Restore Original" option to revert replaced images
 
 ### [2.9] - 2026-01-28
 - Added "Advanced Editor" button to Media Library grid view modal (next to "Edit Image")

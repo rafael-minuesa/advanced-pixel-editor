@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0] - 2026-02-08
+
+### Added
+- Save mode selection: "Save as new image" (default) or "Replace original image"
+- Custom filename input when saving as a new image
+- Automatic backup when replacing original image using WordPress `_wp_attachment_backup_sizes` meta pattern
+- "Restore Original" button to revert replaced images to their original version
+- New AJAX endpoint `advaimg_restore` for image restoration
+- Backup detection on image load with restore notice UI
+- New i18n strings for all save/replace/restore UI elements
+
+### Changed
+- Save workflow refactored into `save_as_new()` and `save_replace()` private methods
+- `ajax_get_original()` now returns `has_backup` status
+- Updated help text to reflect new save options
+
 ## [2.9] - 2026-01-28
 
 ### Added
