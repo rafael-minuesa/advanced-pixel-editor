@@ -71,6 +71,7 @@ if (isset($_GET['attachment_id'])) {
                         <img id="aie-original-preview" src="" alt="<?php esc_attr_e('Original image', 'advanced-pixel-editor'); ?>" style="max-width: 100%; height: auto; display: none;" role="img">
                         <img id="aie-preview" src="" alt="<?php esc_attr_e('Edited image preview', 'advanced-pixel-editor'); ?>" style="max-width: 100%; height: auto; display: none;" role="img">
                         <div id="aie-slider-handle" class="aie-slider-handle"></div>
+                        <?php do_action('advaimg_editor_preview_overlay'); ?>
                     </div>
                     <p id="aie-no-preview" style="color: #666; font-style: italic;" role="status" aria-live="polite">
                         <?php esc_html_e('Preview will appear here after selecting an image', 'advanced-pixel-editor'); ?>
@@ -140,6 +141,8 @@ if (isset($_GET['attachment_id'])) {
                             <small><?php esc_html_e('Sharpening threshold (-1 to 1)', 'advanced-pixel-editor'); ?></small>
                         </div>
                     </div>
+
+                    <?php do_action('advaimg_editor_controls_after'); ?>
 
                     <!-- Save Options -->
                     <div class="aie-save-options" role="group" aria-labelledby="save-options-heading">
@@ -213,6 +216,7 @@ if (isset($_GET['attachment_id'])) {
                  <li><strong><?php esc_html_e('Sharpness Radius:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Determines how far the sharpening effect spreads', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Sharpness Threshold:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Sets the minimum contrast level for sharpening to apply', 'advanced-pixel-editor'); ?></li>
              </ul>
+             <?php do_action('advaimg_editor_help_after'); ?>
          </div>
     </div>
 </div>

@@ -52,6 +52,16 @@ class Advanced_Pixel_Editor {
     const RATE_LIMIT_WINDOW = 60;
 
     /**
+     * Top-level menu slug (used by Pro to add submenus)
+     */
+    const MENU_SLUG = 'advanced-pixel-editor';
+
+    /**
+     * Valid tab slugs
+     */
+    const VALID_TABS = ['editor', 'settings', 'about'];
+
+    /**
      * AJAX handler instance
      *
      * @var ADVAIMG_Ajax_Handler
@@ -82,8 +92,10 @@ class Advanced_Pixel_Editor {
      * @return array Modified links array
      */
     public function add_plugin_action_links($links) {
-        $settings_link = '<a href="' . esc_url(admin_url('upload.php?page=advanced-pixel-editor')) . '">' . esc_html__('Open Editor', 'advanced-pixel-editor') . '</a>';
+        $editor_link = '<a href="' . esc_url(admin_url('upload.php?page=' . self::MENU_SLUG)) . '">' . esc_html__('Editor', 'advanced-pixel-editor') . '</a>';
+        $settings_link = '<a href="' . esc_url(admin_url('upload.php?page=' . self::MENU_SLUG . '&tab=settings')) . '">' . esc_html__('Settings', 'advanced-pixel-editor') . '</a>';
         array_unshift($links, $settings_link);
+        array_unshift($links, $editor_link);
         return $links;
     }
 
@@ -96,7 +108,7 @@ class Advanced_Pixel_Editor {
      */
     public function add_media_row_action($actions, $post) {
         if (wp_attachment_is_image($post->ID)) {
-            $url = admin_url('upload.php?page=advanced-pixel-editor&attachment_id=' . $post->ID);
+            $url = admin_url('upload.php?page=' . self::MENU_SLUG . '&attachment_id=' . $post->ID);
             $link = '<a href="' . esc_url($url) . '">' . esc_html__('Advanced Edit', 'advanced-pixel-editor') . '</a>';
 
             // Insert after "edit" to appear right next to Edit
@@ -113,16 +125,26 @@ class Advanced_Pixel_Editor {
     }
 
     /**
-     * Add admin menu page under Media
+     * Add editor and settings pages under the Media menu
      */
     public function add_menu() {
         add_media_page(
             esc_html__('Advanced Pixel Editor', 'advanced-pixel-editor'),
             esc_html__('Advanced Pixel Editor', 'advanced-pixel-editor'),
             'upload_files',
-            'advanced-pixel-editor',
-            [$this, 'render_editor_page']
+            self::MENU_SLUG,
+            [$this, 'render_page']
         );
+    }
+
+    /**
+     * Get the current tab from the request
+     *
+     * @return string Current tab slug
+     */
+    private function get_current_tab() {
+        $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'editor';
+        return in_array($tab, self::VALID_TABS, true) ? $tab : 'editor';
     }
 
     /**
@@ -135,7 +157,7 @@ class Advanced_Pixel_Editor {
         if ($hook === 'post.php') {
             $post = get_post();
             if ($post && wp_attachment_is_image($post->ID)) {
-                $url = admin_url('upload.php?page=advanced-pixel-editor&attachment_id=' . $post->ID);
+                $url = admin_url('upload.php?page=' . self::MENU_SLUG . '&attachment_id=' . $post->ID);
                 $label = esc_js(__('Advanced Editor', 'advanced-pixel-editor'));
                 wp_add_inline_script('jquery', sprintf(
                     'jQuery(function($){var b=$("[id^=imgedit-open-btn-]");if(b.length){b.after(" <a href=\"%s\" class=\"button advaimg-advanced-edit\" style=\"margin-left:8px;\">%s</a>");}});',
@@ -159,34 +181,39 @@ class Advanced_Pixel_Editor {
             );
 
             wp_localize_script('advaimg-media-library-js', 'ADVAIMG_MEDIA', [
-                'editor_url' => admin_url('upload.php?page=advanced-pixel-editor'),
+                'editor_url' => admin_url('upload.php?page=' . self::MENU_SLUG),
                 'i18n'       => [
                     'advanced_editor' => __('Advanced Editor', 'advanced-pixel-editor'),
                 ],
             ]);
         }
 
-        // Editor page assets
-        if ($hook !== 'media_page_advanced-pixel-editor') {
+        // Plugin page — enqueue admin CSS for all tabs
+        if ($hook !== 'media_page_' . self::MENU_SLUG) {
             return;
         }
 
-        wp_enqueue_media(); // Enables WP media modal
-
-        // Get file modification times for cache busting
         $css_path = ADVAIMG_PLUGIN_DIR . 'assets/css/admin.css';
-        $js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor.js';
-
         $css_version = file_exists($css_path) ? filemtime($css_path) : self::VERSION;
-        $js_version = file_exists($js_path) ? filemtime($js_path) : self::VERSION;
 
-        // Enqueue CSS
         wp_enqueue_style(
             'advaimg-admin-css',
             ADVAIMG_PLUGIN_URL . 'assets/css/admin.css',
             [],
             $css_version
         );
+
+        // Only enqueue editor assets on the Editor tab
+        $current_tab = $this->get_current_tab();
+        if ($current_tab !== 'editor') {
+            return;
+        }
+
+        wp_enqueue_media(); // Enables WP media modal
+
+        // Get file modification time for cache busting
+        $js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor.js';
+        $js_version = file_exists($js_path) ? filemtime($js_path) : self::VERSION;
 
         // Enqueue JS
         wp_enqueue_script(
@@ -198,7 +225,7 @@ class Advanced_Pixel_Editor {
         );
 
         // Localize script with translations and AJAX data
-        wp_localize_script('advaimg-editor-js', 'ADVAIMG_AJAX', [
+        $localize_data = [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('advaimg_nonce'),
             'i18n'     => [
@@ -227,22 +254,80 @@ class Advanced_Pixel_Editor {
                 'replacing'          => __('Replacing...', 'advanced-pixel-editor'),
                 'restoring'          => __('Restoring...', 'advanced-pixel-editor'),
             ]
-        ]);
+        ];
+
+        $localize_data = apply_filters('advaimg_editor_localize_data', $localize_data);
+        wp_localize_script('advaimg-editor-js', 'ADVAIMG_AJAX', $localize_data);
     }
 
     /**
-     * Render the editor page
+     * Render the main plugin page with tabs
      */
-    public function render_editor_page() {
-        // Check user capability
+    public function render_page() {
         if (!current_user_can('upload_files')) {
             wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'advanced-pixel-editor'));
         }
 
+        $current_tab = $this->get_current_tab();
+
+        // Settings tab requires manage_options
+        if ($current_tab === 'settings' && !current_user_can('manage_options')) {
+            wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'advanced-pixel-editor'));
+        }
+
+        $base_url = admin_url('upload.php?page=' . self::MENU_SLUG);
+
+        $tabs = [
+            'editor'   => __('Editor', 'advanced-pixel-editor'),
+            'settings' => __('Settings', 'advanced-pixel-editor'),
+            'about'    => __('About', 'advanced-pixel-editor'),
+        ];
+
+        // Only show Settings tab to users who can manage options
+        if (!current_user_can('manage_options')) {
+            unset($tabs['settings']);
+        }
+
+        ?>
+        <div class="wrap">
+            <h1><?php esc_html_e('Advanced Pixel Editor', 'advanced-pixel-editor'); ?></h1>
+
+            <nav class="nav-tab-wrapper">
+                <?php foreach ($tabs as $slug => $label): ?>
+                    <a href="<?php echo esc_url(add_query_arg('tab', $slug, $base_url)); ?>"
+                       class="nav-tab <?php echo $current_tab === $slug ? 'nav-tab-active' : ''; ?>">
+                        <?php echo esc_html($label); ?>
+                    </a>
+                <?php endforeach; ?>
+            </nav>
+
+            <div class="aie-tab-content">
+                <?php
+                switch ($current_tab) {
+                    case 'settings':
+                        $this->render_settings_tab();
+                        break;
+                    case 'about':
+                        $this->render_about_tab();
+                        break;
+                    default:
+                        $this->render_editor_tab();
+                        break;
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * Render the Editor tab content
+     */
+    private function render_editor_tab() {
         // Check if Imagick is available
         if (!extension_loaded('imagick') && !class_exists('Imagick')) {
             ?>
-            <div class="notice notice-error">
+            <div class="notice notice-error" style="margin-top: 15px;">
                 <p>
                     <strong><?php esc_html_e('Missing Required Extension: Imagick', 'advanced-pixel-editor'); ?></strong>
                 </p>
@@ -250,32 +335,160 @@ class Advanced_Pixel_Editor {
                     <?php esc_html_e('The Advanced Pixel Editor requires the Imagick PHP extension to function properly.', 'advanced-pixel-editor'); ?>
                 </p>
 
-                <div style="background: #f8f9fa; padding: 15px; border-left: 4px solid #007cba; margin: 15px 0;">
-                    <h4 style="margin-top: 0; color: #007cba;">
-                        <?php esc_html_e('What is Imagick?', 'advanced-pixel-editor'); ?>
-                    </h4>
-                    <p style="margin-bottom: 10px;">
-                        <?php esc_html_e('Imagick is a powerful PHP extension that provides advanced image processing capabilities. It\'s based on the ImageMagick library, which has been a cornerstone of professional image manipulation since the early 1990s.', 'advanced-pixel-editor'); ?>
-                    </p>
-                    <ul style="margin-bottom: 10px;">
-                        <li><?php esc_html_e('Enables high-quality image editing and manipulation', 'advanced-pixel-editor'); ?></li>
-                        <li><?php esc_html_e('Supports all major image formats (JPEG, PNG, GIF, WebP, TIFF, etc.)', 'advanced-pixel-editor'); ?></li>
-                        <li><?php esc_html_e('Provides professional-grade filters and effects', 'advanced-pixel-editor'); ?></li>
-                        <li><?php esc_html_e('Used by thousands of websites and professional applications worldwide', 'advanced-pixel-editor'); ?></li>
-                    </ul>
-                </div>
-
                 <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #856404; margin: 15px 0;">
                     <h4 style="margin-top: 0; color: #856404;">
-                        <?php esc_html_e('Why is it Required?', 'advanced-pixel-editor'); ?>
+                        <?php esc_html_e('How to Enable Imagick', 'advanced-pixel-editor'); ?>
                     </h4>
-                    <p style="margin-bottom: 0;">
-                        <?php esc_html_e('Without Imagick, the plugin cannot perform essential image operations like contrast adjustment, sharpening, format conversion, or any advanced image processing. This is a server-side requirement that must be enabled by your hosting provider.', 'advanced-pixel-editor'); ?>
-                    </p>
+                    <ol style="margin-bottom: 10px;">
+                        <li><?php esc_html_e('Contact your web hosting provider', 'advanced-pixel-editor'); ?></li>
+                        <li><?php esc_html_e('Request that they enable the Imagick PHP extension', 'advanced-pixel-editor'); ?></li>
+                        <li><?php esc_html_e('Most hosting providers can enable this quickly (usually within hours)', 'advanced-pixel-editor'); ?></li>
+                    </ol>
                 </div>
 
-                <div style="background: #d1ecf1; padding: 15px; border-left: 4px solid #17a2b8; margin: 15px 0;">
-                    <h4 style="margin-top: 0; color: #17a2b8;">
+                <p>
+                    <?php
+                    printf(
+                        /* translators: %s: URL to the About tab */
+                        wp_kses(
+                            __('Visit the <a href="%s">About tab</a> for more information about ImageMagick.', 'advanced-pixel-editor'),
+                            ['a' => ['href' => []]]
+                        ),
+                        esc_url(admin_url('upload.php?page=' . self::MENU_SLUG . '&tab=about'))
+                    );
+                    ?>
+                </p>
+            </div>
+            <?php
+            return;
+        }
+
+        include ADVAIMG_PLUGIN_DIR . 'editor-page.php';
+    }
+
+    /**
+     * Render the Settings tab content
+     */
+    private function render_settings_tab() {
+        $pro_active = class_exists('Advanced_Pixel_Editor_Pro');
+
+        /**
+         * Pro plugin hooks here to render license form + active feature grid.
+         * When hooked, it takes over the Pro Features section entirely.
+         */
+        do_action('advaimg_settings_page');
+
+        if (!$pro_active):
+        ?>
+            <!-- Pro Features (dimmed — Pro not installed) -->
+            <div class="aie-pro-admin-container" style="max-width: 900px;">
+                <div style="margin: 24px 0; padding: 20px; background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04);">
+                    <h2 style="margin-top: 0; padding-bottom: 8px; border-bottom: 1px solid #eee;">
+                        <?php esc_html_e('Pro Features', 'advanced-pixel-editor'); ?>
+                    </h2>
+                    <p style="color: #50575e;">
+                        <?php esc_html_e('Upgrade to Advanced Pixel Editor Pro to unlock professional image editing features.', 'advanced-pixel-editor'); ?>
+                    </p>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; opacity: 0.6;">
+                        <?php
+                        $pro_features = [
+                            __('Batch Processing', 'advanced-pixel-editor')   => __('Process multiple images simultaneously with progress tracking.', 'advanced-pixel-editor'),
+                            __('Advanced Filters', 'advanced-pixel-editor')   => __('Brightness, saturation, hue, sepia, vignette, blur, noise reduction, and more.', 'advanced-pixel-editor'),
+                            __('Crop & Resize', 'advanced-pixel-editor')      => __('Interactive crop with aspect presets, resize with aspect lock, DPI control.', 'advanced-pixel-editor'),
+                            __('Watermarking', 'advanced-pixel-editor')       => __('Text and image watermarks with positioning, opacity, rotation, and tiling.', 'advanced-pixel-editor'),
+                            __('Priority Support', 'advanced-pixel-editor')   => __('Get priority technical support and feature requests.', 'advanced-pixel-editor'),
+                        ];
+                        foreach ($pro_features as $label => $description):
+                        ?>
+                            <div style="padding: 16px; background: #f6f7f7; border: 1px solid #dcdcde; border-radius: 4px;">
+                                <h3 style="margin: 0 0 8px; font-size: 1em;"><?php echo esc_html($label); ?></h3>
+                                <p style="margin: 0 0 8px; color: #50575e; font-size: 13px;"><?php echo esc_html($description); ?></p>
+                                <span style="display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 12px; background: #dcdcde; color: #50575e;">
+                                    <?php esc_html_e('Pro', 'advanced-pixel-editor'); ?>
+                                </span>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <p style="margin-top: 20px; text-align: center;">
+                        <a href="https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/" target="_blank" rel="noopener noreferrer" class="button button-primary button-hero">
+                            <?php esc_html_e('Get Advanced Pixel Editor Pro', 'advanced-pixel-editor'); ?>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        <?php endif;
+    }
+
+    /**
+     * Render the About tab content
+     */
+    private function render_about_tab() {
+        $imagick_available = extension_loaded('imagick') || class_exists('Imagick');
+        $imagick_version = '';
+        if ($imagick_available && class_exists('Imagick')) {
+            $version_info = \Imagick::getVersion();
+            if (isset($version_info['versionString'])) {
+                $imagick_version = $version_info['versionString'];
+            }
+        }
+
+        ?>
+        <!-- Plugin Info -->
+        <div class="aie-about-section">
+            <h2><?php esc_html_e('Advanced Pixel Editor', 'advanced-pixel-editor'); ?></h2>
+            <p>
+                <?php esc_html_e('A professional image editor for WordPress powered by ImageMagick. Edit, enhance, and transform your media library images with precision controls — right inside your dashboard.', 'advanced-pixel-editor'); ?>
+            </p>
+            <table class="aie-about-info-table">
+                <tr>
+                    <th><?php esc_html_e('Version', 'advanced-pixel-editor'); ?></th>
+                    <td><?php echo esc_html(ADVAIMG_VERSION); ?></td>
+                </tr>
+                <tr>
+                    <th><?php esc_html_e('Author', 'advanced-pixel-editor'); ?></th>
+                    <td>Rafael Minuesa</td>
+                </tr>
+            </table>
+            <p class="aie-about-links">
+                <a href="https://wordpress.org/plugins/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer" class="button">
+                    <?php esc_html_e('WordPress.org', 'advanced-pixel-editor'); ?>
+                </a>
+                <a href="https://github.com/rafael-minuesa/advanced-image-editor" target="_blank" rel="noopener noreferrer" class="button">
+                    <?php esc_html_e('GitHub', 'advanced-pixel-editor'); ?>
+                </a>
+            </p>
+        </div>
+
+        <!-- About ImageMagick -->
+        <div class="aie-about-section">
+            <h2><?php esc_html_e('About ImageMagick', 'advanced-pixel-editor'); ?></h2>
+
+            <div class="aie-imagick-status <?php echo $imagick_available ? 'available' : 'unavailable'; ?>">
+                <span class="aie-imagick-badge">
+                    <?php echo $imagick_available
+                        ? esc_html__('Imagick Installed', 'advanced-pixel-editor')
+                        : esc_html__('Imagick Not Installed', 'advanced-pixel-editor'); ?>
+                </span>
+                <?php if ($imagick_version): ?>
+                    <span class="aie-imagick-version"><?php echo esc_html($imagick_version); ?></span>
+                <?php endif; ?>
+            </div>
+
+            <p>
+                <?php esc_html_e('Imagick is a powerful PHP extension that provides advanced image processing capabilities. It\'s based on the ImageMagick library, which has been a cornerstone of professional image manipulation since the early 1990s.', 'advanced-pixel-editor'); ?>
+            </p>
+            <ul>
+                <li><?php esc_html_e('Enables high-quality image editing and manipulation', 'advanced-pixel-editor'); ?></li>
+                <li><?php esc_html_e('Supports all major image formats (JPEG, PNG, GIF, WebP, TIFF, etc.)', 'advanced-pixel-editor'); ?></li>
+                <li><?php esc_html_e('Provides professional-grade filters and effects', 'advanced-pixel-editor'); ?></li>
+                <li><?php esc_html_e('Used by thousands of websites and professional applications worldwide', 'advanced-pixel-editor'); ?></li>
+            </ul>
+
+            <?php if (!$imagick_available): ?>
+                <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #856404; margin: 15px 0;">
+                    <h4 style="margin-top: 0; color: #856404;">
                         <?php esc_html_e('How to Enable Imagick', 'advanced-pixel-editor'); ?>
                     </h4>
                     <ol style="margin-bottom: 10px;">
@@ -288,30 +501,49 @@ class Advanced_Pixel_Editor {
                         <em><?php esc_html_e('Note: Imagick is extremely common and should be available on most modern hosting platforms.', 'advanced-pixel-editor'); ?></em>
                     </p>
                 </div>
+            <?php endif; ?>
 
-                <div style="background: #f8f9fa; padding: 15px; border: 1px solid #dee2e6; margin: 15px 0; text-align: center;">
-                    <h4 style="margin-top: 0; color: #28a745;">
-                        <?php esc_html_e('Support Open Source Software', 'advanced-pixel-editor'); ?>
-                    </h4>
-                    <p style="margin-bottom: 10px;">
-                        <?php esc_html_e('ImageMagick is free, open-source software that powers millions of websites and applications worldwide. Consider supporting their important work:', 'advanced-pixel-editor'); ?>
-                    </p>
-                    <p style="margin-bottom: 0;">
-                        <a href="https://imagemagick.org/support/#support" target="_blank" rel="noopener noreferrer" class="button button-primary">
-                            <?php esc_html_e('Sponsor ImageMagick Development', 'advanced-pixel-editor'); ?>
-                        </a>
-                    </p>
-                </div>
-
+            <div class="aie-about-opensource">
+                <h3><?php esc_html_e('Support Open Source Software', 'advanced-pixel-editor'); ?></h3>
                 <p>
-                    <strong><?php esc_html_e('Need Help?', 'advanced-pixel-editor'); ?></strong>
-                    <?php esc_html_e('If you continue to have issues after enabling Imagick, please check our documentation or contact support.', 'advanced-pixel-editor'); ?>
+                    <?php esc_html_e('ImageMagick is free, open-source software that powers millions of websites and applications worldwide. Consider supporting their important work:', 'advanced-pixel-editor'); ?>
+                </p>
+                <p>
+                    <a href="https://imagemagick.org/support/#support" target="_blank" rel="noopener noreferrer" class="button button-primary">
+                        <?php esc_html_e('Sponsor ImageMagick Development', 'advanced-pixel-editor'); ?>
+                    </a>
                 </p>
             </div>
-            <?php
-            return;
-        }
+        </div>
 
-        include ADVAIMG_PLUGIN_DIR . 'editor-page.php';
+        <!-- Support & Resources -->
+        <div class="aie-about-section">
+            <h2><?php esc_html_e('Support & Resources', 'advanced-pixel-editor'); ?></h2>
+            <ul class="aie-about-resources">
+                <li>
+                    <a href="https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/" target="_blank" rel="noopener noreferrer">
+                        <?php esc_html_e('Advanced Pixel Editor Pro', 'advanced-pixel-editor'); ?>
+                    </a>
+                    — <?php esc_html_e('Unlock batch processing, advanced filters, watermarking, and more.', 'advanced-pixel-editor'); ?>
+                </li>
+                <li>
+                    <a href="https://support.prowoos.com" target="_blank" rel="noopener noreferrer">
+                        <?php esc_html_e('Support Center', 'advanced-pixel-editor'); ?>
+                    </a>
+                    — <?php esc_html_e('Documentation, FAQs, and support tickets.', 'advanced-pixel-editor'); ?>
+                </li>
+                <li>
+                    <a href="mailto:support@prowoos.com">support@prowoos.com</a>
+                    — <?php esc_html_e('Email support for questions and issues.', 'advanced-pixel-editor'); ?>
+                </li>
+                <li>
+                    <a href="https://wordpress.org/support/plugin/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer">
+                        <?php esc_html_e('WordPress.org Support Forum', 'advanced-pixel-editor'); ?>
+                    </a>
+                    — <?php esc_html_e('Community support for the free plugin.', 'advanced-pixel-editor'); ?>
+                </li>
+            </ul>
+        </div>
+        <?php
     }
 }
