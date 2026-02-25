@@ -126,6 +126,9 @@ class ADVAIMG_Ajax_Handler {
                 $img->unsharpMaskImage($radius, 1, $amount, $threshold);
             }
 
+            // Allow add-ons (e.g. Pro) to chain additional Imagick processing.
+            $img = apply_filters('advaimg_after_process', $img, $attachment_id, $_POST);
+
             // Create preview in JPEG format for display (but keep original for saving)
             $preview_img = clone $img;
             $preview_img->setImageFormat('jpeg');
