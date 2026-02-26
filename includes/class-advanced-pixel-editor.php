@@ -521,26 +521,22 @@ class Advanced_Pixel_Editor {
             <h2><?php esc_html_e('Support & Resources', 'advanced-pixel-editor'); ?></h2>
             <ul class="aie-about-resources">
                 <li>
-                    <a href="https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/" target="_blank" rel="noopener noreferrer">
-                        <?php esc_html_e('Advanced Pixel Editor Pro', 'advanced-pixel-editor'); ?>
+                    <a href="https://prowoos.com/plugins-reviews/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer">
+                        <?php esc_html_e('Documentation', 'advanced-pixel-editor'); ?>
                     </a>
-                    — <?php esc_html_e('Unlock batch processing, advanced filters, watermarking, and more.', 'advanced-pixel-editor'); ?>
-                </li>
-                <li>
-                    <a href="https://support.prowoos.com" target="_blank" rel="noopener noreferrer">
-                        <?php esc_html_e('Support Center', 'advanced-pixel-editor'); ?>
-                    </a>
-                    — <?php esc_html_e('Documentation, FAQs, and support tickets.', 'advanced-pixel-editor'); ?>
-                </li>
-                <li>
-                    <a href="mailto:support@prowoos.com">support@prowoos.com</a>
-                    — <?php esc_html_e('Email support for questions and issues.', 'advanced-pixel-editor'); ?>
+                    — <?php esc_html_e('plugin review.', 'advanced-pixel-editor'); ?>
                 </li>
                 <li>
                     <a href="https://wordpress.org/support/plugin/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer">
                         <?php esc_html_e('WordPress.org Support Forum', 'advanced-pixel-editor'); ?>
                     </a>
                     — <?php esc_html_e('Community support for the free plugin.', 'advanced-pixel-editor'); ?>
+                </li>
+                <li>
+                    <a href="https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/" target="_blank" rel="noopener noreferrer">
+                        <?php esc_html_e('Advanced Pixel Editor Pro', 'advanced-pixel-editor'); ?>
+                    </a>
+                    — <?php esc_html_e('Unlock batch processing, advanced filters, watermarking, and more.', 'advanced-pixel-editor'); ?>
                 </li>
             </ul>
         </div>
