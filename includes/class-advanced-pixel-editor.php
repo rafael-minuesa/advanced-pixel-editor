@@ -144,7 +144,8 @@ class Advanced_Pixel_Editor {
      */
     private function get_current_tab() {
         $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'editor';
-        return in_array($tab, self::VALID_TABS, true) ? $tab : 'editor';
+        $valid = apply_filters('advaimg_valid_tabs', self::VALID_TABS);
+        return in_array($tab, $valid, true) ? $tab : 'editor';
     }
 
     /**
@@ -277,6 +278,12 @@ class Advanced_Pixel_Editor {
 
         $base_url = admin_url('upload.php?page=' . self::MENU_SLUG);
 
+        // Preserve attachment_id across tab switches so the selected image persists
+        $attachment_id = isset($_GET['attachment_id']) ? absint($_GET['attachment_id']) : 0;
+        if ($attachment_id > 0) {
+            $base_url = add_query_arg('attachment_id', $attachment_id, $base_url);
+        }
+
         $tabs = [
             'editor'   => __('Editor', 'advanced-pixel-editor'),
             'settings' => __('Settings', 'advanced-pixel-editor'),
@@ -287,6 +294,8 @@ class Advanced_Pixel_Editor {
         if (!current_user_can('manage_options')) {
             unset($tabs['settings']);
         }
+
+        $tabs = apply_filters('advaimg_admin_tabs', $tabs);
 
         ?>
         <div class="wrap">
@@ -311,7 +320,11 @@ class Advanced_Pixel_Editor {
                         $this->render_about_tab();
                         break;
                     default:
-                        $this->render_editor_tab();
+                        if (has_action('advaimg_render_tab_' . $current_tab)) {
+                            do_action('advaimg_render_tab_' . $current_tab);
+                        } else {
+                            $this->render_editor_tab();
+                        }
                         break;
                 }
                 ?>
