@@ -329,6 +329,23 @@ jQuery(function($){
         const imageId = $imageId.val();
         return imageId && parseInt(imageId) > 0;
     }
+
+    // Persist selected image across tab switches and page reloads
+    function persistImageId(imageId) {
+        if (!imageId) return;
+
+        // Update browser URL so reloads keep the image
+        const url = new URL(window.location.href);
+        url.searchParams.set('attachment_id', imageId);
+        window.history.replaceState(null, '', url.toString());
+
+        // Update tab links so switching tabs keeps the image
+        $('.nav-tab-wrapper .nav-tab').each(function() {
+            const tabUrl = new URL($(this).attr('href'), window.location.origin);
+            tabUrl.searchParams.set('attachment_id', imageId);
+            $(this).attr('href', tabUrl.toString());
+        });
+    }
     
     // Reset sliders to defaults
     function resetToDefaults() {
@@ -568,6 +585,7 @@ jQuery(function($){
             $imageId.val(attachment.id);
             $('#aie-image-title').text(attachment.filename || attachment.title);
             $selectedImage.show();
+            persistImageId(attachment.id);
 
             // Show editor
             $editor.show();
@@ -615,6 +633,9 @@ jQuery(function($){
             $selectedImage.show();
             $('#aie-save, #aie-reset').prop('disabled', false).attr('aria-disabled', 'false');
 
+            // Keep tab links and URL in sync
+            persistImageId($imageId.val());
+
             // Load original image for comparison
             loadOriginalImage();
             sendPreview();
@@ -648,6 +669,77 @@ jQuery(function($){
             populateFilename(preloadTitle);
         }
     }
+
+    // ── Toolbar ──
+
+    /**
+     * Toolbar API: manages tool switching and allows Pro to register tools.
+     */
+    var toolbar = (function() {
+        var $toolbar = $('.aie-toolbar');
+        var callbacks = {};
+        var deactivateCallbacks = {};
+        var activeTool = 'contrast';
+
+        function activateTool(toolName) {
+            // Fire deactivate callback for the tool being switched away from
+            if (activeTool && activeTool !== toolName && deactivateCallbacks[activeTool]) {
+                deactivateCallbacks[activeTool](activeTool);
+            }
+
+            activeTool = toolName;
+
+            // Update toolbar buttons
+            $toolbar.find('.aie-toolbar-btn').removeClass('is-active');
+            $toolbar.find('.aie-toolbar-btn[data-tool="' + toolName + '"]').addClass('is-active');
+
+            // Update controls panels
+            $('.aie-tool-controls').removeClass('is-active');
+            $('.aie-tool-controls[data-tool="' + toolName + '"]').addClass('is-active');
+
+            // Fire registered callback if any
+            if (callbacks[toolName]) {
+                callbacks[toolName](toolName);
+            }
+        }
+
+        // Click handler for toolbar buttons
+        $toolbar.on('click', '.aie-toolbar-btn', function(e) {
+            e.preventDefault();
+            var toolName = $(this).data('tool');
+            if (toolName) {
+                activateTool(toolName);
+            }
+        });
+
+        return {
+            /**
+             * Register a tool with the toolbar.
+             *
+             * @param {string}   name         Tool identifier (e.g. 'pro-filters').
+             * @param {Function} onActivate   Optional callback when tool is activated.
+             * @param {Function} onDeactivate Optional callback when tool is switched away from.
+             */
+            addTool: function(name, onActivate, onDeactivate) {
+                if (onActivate) {
+                    callbacks[name] = onActivate;
+                }
+                if (onDeactivate) {
+                    deactivateCallbacks[name] = onDeactivate;
+                }
+            },
+
+            /**
+             * Programmatically activate a tool.
+             *
+             * @param {string} name Tool identifier.
+             */
+            activate: activateTool
+        };
+    })();
+
+    // Expose toolbar API for Pro plugin
+    window.aieToolbar = toolbar;
 
     // Cleanup on page unload to prevent memory leaks
     $(window).on('beforeunload', cleanup);

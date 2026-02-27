@@ -1,8 +1,8 @@
 /* Advanced Pixel Editor Admin Styles */
 
 .aie-container {
-    max-width: 800px;
-    margin: 20px auto;
+    max-width: 100%;
+    margin: 20px 0;
 }
 
 .aie-section {
@@ -49,16 +49,110 @@
     font-size: 14px;
 }
 
-/* Editor Layout */
+/* Editor Layout — 3-column: toolbar | preview | controls */
 .aie-editor-layout {
     display: flex;
-    gap: 20px;
+    gap: 0;
     margin-top: 20px;
+}
+
+/* Tool Sidebar */
+.aie-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 4px;
+    background: #f6f7f7;
+    border-right: 1px solid #dcdcde;
+    border-radius: 4px 0 0 4px;
+    flex-shrink: 0;
+}
+
+.aie-toolbar-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #50575e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2px;
+}
+
+.aie-toolbar-btn:hover {
+    background: #e0e0e0;
+}
+
+.aie-toolbar-btn.is-active {
+    background: #2271b1;
+    color: #fff;
+}
+
+.aie-toolbar-btn .dashicons {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+}
+
+/* Locked Pro upsell buttons (free plugin only) */
+.aie-toolbar-btn.aie-toolbar-btn--locked {
+    flex-direction: column;
+    height: auto;
+    padding: 5px 0 3px;
+    gap: 2px;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.aie-toolbar-btn--locked .aie-pro-badge {
+    display: block;
+    font-size: 7px;
+    line-height: 10px;
+    padding: 0 3px;
+}
+
+/* Dimmed Pro upsell controls (shown when Pro is not installed) */
+.aie-pro-upsell-controls {
+    opacity: 0.45;
+    pointer-events: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #dcdcde;
+}
+
+.aie-pro-upsell-controls .aie-pro-badge,
+.aie-toolbar-btn--locked .aie-pro-badge {
+    display: inline-block;
+    padding: 1px 5px;
+    background: #2271b1;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    border-radius: 2px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    line-height: 14px;
+    vertical-align: middle;
+}
+
+/* Tool controls visibility */
+.aie-tool-controls {
+    display: none;
+}
+
+.aie-tool-controls.is-active {
+    display: block;
 }
 
 .aie-preview-panel {
     flex: 1;
     min-width: 300px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .aie-controls-panel {
@@ -287,11 +381,25 @@
     margin: 20px 0;
 }
 
-/* Save Options */
+/* Save Options (standalone box below editor) */
 .aie-save-options {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #f0f0f0;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+}
+
+.aie-save-options-row {
+    display: flex;
+    gap: 20px;
+}
+
+.aie-save-options-row > .aie-control-group {
+    flex: 1;
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .aie-save-options h3 {
@@ -637,6 +745,19 @@
         gap: 15px;
     }
 
+    .aie-toolbar {
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid #dcdcde;
+        border-radius: 4px 4px 0 0;
+        justify-content: center;
+    }
+
+    .aie-preview-panel {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     .aie-preview-panel,
     .aie-controls-panel {
         min-width: auto;
@@ -654,6 +775,11 @@
 
     .aie-preview-wrapper {
         max-width: 100%;
+    }
+
+    .aie-save-options-row {
+        flex-direction: column;
+        gap: 10px;
     }
 
     .aie-image-selector {
