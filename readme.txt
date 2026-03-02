@@ -41,7 +41,7 @@ Need more than contrast and sharpening? [**Advanced Pixel Editor Pro**](https://
 * **Batch Processing** — Apply filters to 10–100+ images at once with real-time progress, pause/resume, and background processing — like Photoshop's Actions, but built into WordPress
 * **Filter Presets** — Save and reuse your favorite filter combinations
 
-Plans start at **$49/year** (1 site) with lifetime options available. **20% of all Pro proceeds are donated to the ImageMagick project** — the open-source library that powers this plugin and millions of websites worldwide. [View pricing and features →](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
+Plans start at **$29**. **20% of all Pro proceeds are donated to the ImageMagick project** — the open-source library that powers this plugin and millions of websites worldwide. [View pricing and features →](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
 
 = Requirements =
 
