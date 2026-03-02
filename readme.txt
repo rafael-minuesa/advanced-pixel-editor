@@ -1,94 +1,123 @@
 === Advanced Pixel Editor ===
 
 Contributors: rafaelminuesa
-Tags: image, editor, filter, contrast, sharpen
+Tags: image editor, photo editor, photoshop, image filter, imagick
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.2.0
+Stable tag: 3.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Advanced image editing with real-time preview, contrast adjustment, and sharpening filters. Requires ImageMagick PHP extension.
+Photoshop-grade image editing inside WordPress — sigmoidal contrast, unsharp masking, and real-time before/after preview. Powered by ImageMagick.
 
 == Description ==
 
-Advanced Pixel Editor is a powerful WordPress plugin that brings professional-grade image editing capabilities directly to your WordPress admin panel. **Requires the ImageMagick PHP extension** for superior image processing. Edit images from your media library with real-time preview, advanced filters, and seamless integration.
+Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photoshop-grade image processing — powered by **ImageMagick** — directly into your dashboard. Select any image from your Media Library, fine-tune contrast and sharpness with live preview, and save the result without ever opening a desktop app.
 
-**🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
+**Advanced image editing within WordPress.** Sigmoidal contrast adjustment and unsharp masking — the same core algorithms used by Photoshop and Lightroom — with precision sliders that update the preview instantly. Drag the built-in before/after comparison slider to evaluate your edits side-by-side with the original.
 
-**Core Features:**
-* **Real-time Preview**: See filter changes instantly as you adjust sliders
-* **Contrast Adjustment**: Professional contrast control with fine-tuned precision
-* **Unsharp Masking**: Advanced sharpening with full control over amount, radius, and threshold
-* **Accessibility**: Full keyboard navigation and screen reader support
-* **Security**: Rate limiting, input validation, and secure file handling
-* **Performance**: Optimized processing with memory management and dimension limits
-* **Responsive Design**: Works perfectly on all screen sizes
-* **WordPress Integration**: Seamless media library workflow
+**Works right where you already are.** Open the editor from the Media Library grid view, list view, or attachment edit screen. Your edited image can be saved as a new file or used to replace the original (with automatic backup and one-click restore).
+
+= What You Can Do =
+
+* **Sigmoidal Contrast** — The same gradual, tone-preserving contrast curve used by Photoshop and Lightroom
+* **Unsharp Mask** — Professional sharpening with independent amount, radius, and threshold controls — identical to Photoshop's Filter → Sharpen → Unsharp Mask
+* **Real-time Preview** — Every slider change renders instantly via ImageMagick on the server
+* **Before / After Slider** — Draggable comparison overlay to evaluate edits at a glance
+* **Save As New or Replace** — Keep the original untouched, or overwrite it with automatic backup
+* **Restore Original** — One click to revert a replaced image
+* **Deep Media Library Integration** — "Advanced Editor" buttons in grid modal, list view, and attachment page
+* **Fully Responsive** — Works on desktop, tablet, and mobile
+* **Accessible** — Full keyboard navigation, ARIA labels, and screen reader support
+
+= Upgrade to Pro =
+
+Need more than contrast and sharpening? [**Advanced Pixel Editor Pro**](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds a full Photoshop-style toolset on top of the free editor:
+
+* **Advanced Filters** — Photoshop-style Levels and Curves dialogs, plus brightness, saturation, hue, clarity, dehaze, vibrance, highlights/shadows, and artistic effects like sepia, vintage, duotone, and black & white
+* **Crop & Resize** — Interactive crop overlay with aspect ratio presets (free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI controls
+* **Watermarking** — Text watermarks with 50+ Google Fonts or image watermarks with transparency, plus 9-point positioning and tiling
+* **Batch Processing** — Apply filters to 10–100+ images at once with real-time progress, pause/resume, and background processing — like Photoshop's Actions, but built into WordPress
+* **Filter Presets** — Save and reuse your favorite filter combinations
+
+Plans start at **$49/year** (1 site) with lifetime options available. **20% of all Pro proceeds are donated to the ImageMagick project** — the open-source library that powers this plugin and millions of websites worldwide. [View pricing and features →](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
+
+= Requirements =
+
+This plugin requires the **ImageMagick PHP extension (Imagick)**, which is available on most modern hosting platforms. If your host doesn't have it enabled, contact them — most providers enable it within hours. Imagick is a worthwhile upgrade that also improves WordPress core image handling.
 
 == Installation ==
 
-**⚠️ Important Prerequisites:**
-This plugin requires the **ImageMagick PHP extension (Imagick)** to be installed and enabled on your server.
+1. Upload the `advanced-pixel-editor` folder to `/wp-content/plugins/` (or install directly from the WordPress plugin directory)
+2. Activate the plugin through the **Plugins** menu
+3. Go to **Media → Advanced Pixel Editor** to start editing — or click the "Advanced Editor" button on any image in your Media Library
 
-**Imagick is extremely common and should be available on most modern hosting platforms.** If Imagick is not enabled:
-
-1. Contact your web hosting provider
-2. Request that they enable the ImageMagick PHP extension
-3. Most hosting providers can enable this quickly (usually within hours)
-4. **Enabling Imagick is a significant upgrade** for image handling on WordPress sites, leading to better results from plugins and core features
-
-**Installation Steps:**
-
-1. Upload the `advanced-pixel-editor` folder to `/wp-content/plugins/`
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to Media → Advanced Pixel Editor to start editing
-
-**Need help?** Contact your webhost provider if Imagick is not installed on your server.
+**Prerequisite:** The ImageMagick PHP extension (Imagick) must be enabled on your server. Most modern hosts have it already. If yours doesn't, contact your hosting provider — they can usually enable it within hours.
 
 == Frequently Asked Questions ==
 
-= How do I access the image editor? =
+= How do I open the editor? =
 
-Navigate to Media → Advanced Pixel Editor in your WordPress admin panel.
+Three ways: go to **Media → Advanced Pixel Editor**, click the "Advanced Editor" button in the Media Library grid/list view, or click it on any attachment edit screen. The image loads automatically.
 
 = What image formats are supported? =
 
-The plugin supports all standard web image formats including JPEG, PNG, GIF, and WebP.
+JPEG, PNG, GIF, and WebP.
 
-= Is there a limit to image size? =
+= Is there a file size limit? =
 
-By default, images up to 10MB and 4096x4096 pixels are supported for optimal performance.
+By default, images up to 10 MB and 4096 × 4096 pixels are supported for optimal server performance.
 
-= Can I edit images that are already in my media library? =
+= Will editing overwrite my original image? =
 
-Yes! Select any image from your WordPress media library to edit.
+Only if you choose "Replace original" — and even then, an automatic backup is created so you can restore the original at any time. The default "Save as new image" mode leaves the original untouched.
 
-= Does this plugin create backups of original images? =
+= Is the editor accessible? =
 
-Yes! When using "Save as new image" mode, the original is untouched. When using "Replace original" mode, a backup is created automatically and you can restore it at any time.
+Yes. Full keyboard navigation, ARIA labels, and screen reader support are built in.
 
-= Is the plugin accessible for users with disabilities? =
+= Does it work on mobile? =
 
-Yes! The plugin includes full ARIA support, keyboard navigation, and screen reader compatibility.
+Yes. The editor is fully responsive and touch-friendly, including the comparison slider.
 
-= Can I use this plugin on mobile devices? =
+= What is the Pro add-on? =
 
-Yes, the editor is fully responsive and works on tablets and mobile devices.
+[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, curves, levels, artistic effects), crop & resize, watermarking, batch processing, and filter presets. It requires this free plugin to be installed.
 
-= Does this plugin require any special server configuration? =
+= Does this plugin require special server software? =
 
-Yes, the plugin requires the **ImageMagick PHP extension (Imagick)** to be installed and enabled on your server. Imagick is extremely common and should be available on most modern hosting platforms. Contact your web hosting provider if it's not installed - most can enable it quickly (usually within hours). Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
+Yes — the ImageMagick PHP extension (Imagick) must be enabled. Most modern hosts have it already; if not, your provider can usually enable it within hours.
 
 == Screenshots ==
 
-1. **Main Editor Interface** - Clean, professional interface with real-time preview
-2. **Filter Controls** - Intuitive sliders for contrast and sharpening adjustments
-3. **Accessibility Features** - Full keyboard navigation and screen reader support
-4. **Media Library Integration** - Seamless workflow with WordPress media library
+1. **Editor Interface** — Select an image and adjust contrast and sharpness with live preview
+2. **Before / After Comparison** — Drag the slider to compare your edits with the original
+3. **Media Library Integration** — Open the editor directly from grid view, list view, or the attachment page
+4. **Save Options** — Save as a new image or replace the original with automatic backup
 
 == Changelog ==
+
+= 3.3.2 =
+* Added per-attachment permission checks — prevents users from editing other users' images on multi-author sites
+* Added keyboard focus styles on toolbar and action buttons (WCAG 2.4.7)
+* Improved touch event handling to avoid conflicts with other plugins
+* Refreshed plugin description and readme for WordPress.org
+
+= 3.3.1 =
+* Fixed comparison slider: before/after labels now correctly match the image sides
+* Fixed comparison slider handle alignment when page is scrolled
+* Fixed sharpness sliders: removed invalid negative values, aligned radius maximum with server-side limit (0–5)
+* Fixed default slider values: filters start at neutral (no effect) so you see the original image first
+* Fixed Home/End keyboard shortcuts on sliders (were reversed)
+* Fixed save button loading spinner not visible on green button
+* Fixed preview loading spinner not rendering on image element
+* Fixed duplicate heading on editor page
+* Fixed double preview request when resetting filters
+
+= 3.3.0 =
+* Improved contrast filter: replaced binary toggle with gradual sigmoidal contrast (Photoshop-style tone-preserving curve)
+* Fixed save format: edited images now preserve the original format (PNG transparency, WebP, GIF) instead of converting to JPEG
 
 = 3.2.0 =
 * Add extensibility hooks for Pro add-on: filterable tabs, contrast controls hook
@@ -173,25 +202,4 @@ Contributions are welcome! Please see our [contributing guidelines](https://gith
 
 == Credits ==
 
-Developed by Rafael Minuesa
-* [GitHub](https://github.com/rafael-minuesa)
-* [Website](https://prowoos.com)
-
-Icons and assets used in accordance with their respective licenses.
-
-== License ==
-
-This plugin is licensed under the GPL v2 or later.
-
-    Advanced Pixel Editor is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 2 of the License, or
-    (at your option) any later version.
-
-    Advanced Pixel Editor is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Advanced Pixel Editor. If not, see <https://www.gnu.org/licenses/gpl-2.0.html>.
+Developed by [Rafael Minuesa](https://prowoos.com) and the [ProWoos](https://prowoos.com) team — [GitHub](https://github.com/rafael-minuesa)

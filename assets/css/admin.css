@@ -83,8 +83,14 @@
     padding: 2px;
 }
 
-.aie-toolbar-btn:hover {
+.aie-toolbar-btn:hover,
+.aie-toolbar-btn:focus-visible {
     background: #e0e0e0;
+}
+
+.aie-toolbar-btn:focus-visible {
+    outline: 2px solid #2271b1;
+    outline-offset: -2px;
 }
 
 .aie-toolbar-btn.is-active {
@@ -477,9 +483,15 @@
     flex: 1;
 }
 
-.aie-button:hover {
+.aie-button:hover,
+.aie-button:focus-visible {
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.aie-button:focus-visible {
+    outline: 2px solid #2271b1;
+    outline-offset: 2px;
 }
 
 .aie-button-success {
@@ -572,38 +584,40 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    margin: -10px 0 0 -10px;
     width: 16px;
     height: 16px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    border-top-color: currentColor;
+    border-top-color: #fff;
     animation: aie-spin 1s linear infinite;
 }
 
 .aie-button.loading.aie-button-secondary:before {
+    border: 2px solid rgba(0, 0, 0, 0.1);
     border-top-color: #3c434a;
 }
 
-/* Preview loading state */
-#aie-preview.loading {
+/* Preview loading state — applied to wrapper since ::after doesn't work on <img> */
+.aie-preview-wrapper.aie-loading #aie-preview,
+.aie-preview-wrapper.aie-loading #aie-original-preview {
     opacity: 0.5;
     filter: blur(2px);
-    position: relative;
 }
 
-#aie-preview.loading:after {
+.aie-preview-wrapper.aie-loading::after {
     content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    margin: -15px 0 0 -15px;
     width: 24px;
     height: 24px;
     border: 3px solid rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     border-top-color: #2271b1;
     animation: aie-spin 1s linear infinite;
+    z-index: 10;
 }
 
 /* How to Use Section */

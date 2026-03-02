@@ -52,6 +52,12 @@ class ADVAIMG_Ajax_Handler {
         }
 
         $attachment_id = absint($_POST['image_id']);
+
+        // Check per-attachment permission
+        if (!current_user_can('edit_post', $attachment_id)) {
+            wp_send_json_error(__('You do not have permission to edit this image.', 'advanced-pixel-editor'));
+        }
+
         $contrast      = isset($_POST['contrast']) ? floatval($_POST['contrast']) : 0;
         $amount        = isset($_POST['amount']) ? floatval($_POST['amount']) : 0;
         $radius        = isset($_POST['radius']) ? floatval($_POST['radius']) : 1;
@@ -114,11 +120,15 @@ class ADVAIMG_Ajax_Handler {
             // Store original format for output
             $original_format = $img->getImageFormat();
 
-            // Apply Contrast
-            if ($contrast !== 0) {
-                // Convert to correct range for contrastImage (boolean parameter)
-                // Positive contrast = enhance, negative = reduce
-                $img->contrastImage($contrast > 0);
+            // Apply Contrast via sigmoidal-contrast (gradual, not binary).
+            // Slider range: -1 to 1. Map abs(value) to strength 0–10.
+            // Positive = increase contrast, negative = decrease.
+            if (abs($contrast) > 0.001) {
+                $quantum   = $img->getQuantumRange();
+                $midpoint  = $quantum['quantumRangeLong'] * 0.5;
+                $strength  = abs($contrast) * 10;
+                $sharpen   = ($contrast > 0);
+                $img->sigmoidalContrastImage($sharpen, $strength, $midpoint);
             }
 
             // Apply Unsharp Mask
@@ -170,7 +180,10 @@ class ADVAIMG_Ajax_Handler {
     }
 
     /**
-     * AJAX handler for saving edited image
+     * AJAX handler for saving edited image.
+     *
+     * Re-processes the original file with the submitted filter parameters
+     * and saves in the original format (preserves PNG transparency, WebP, etc.).
      */
     public function ajax_save() {
         // Check user capability
@@ -194,35 +207,75 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error(__('No image selected.', 'advanced-pixel-editor'));
         }
 
-        if (!isset($_POST['image_data']) || empty($_POST['image_data'])) {
-            wp_send_json_error(__('No image data provided.', 'advanced-pixel-editor'));
-        }
-
         $attachment_id = absint($_POST['image_id']);
 
-        // Sanitize and validate base64 image data
-        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via sanitize_base64_image_data method
-        $raw_image_data = isset($_POST['image_data']) ? wp_unslash($_POST['image_data']) : '';
-        $sanitized = $this->sanitize_base64_image_data($raw_image_data);
-
-        if (is_wp_error($sanitized)) {
-            $this->log_save_error(
-                'Image data validation failed: ' . $sanitized->get_error_message(),
-                $attachment_id,
-                ['error_code' => $sanitized->get_error_code()]
-            );
-            wp_send_json_error($sanitized->get_error_message());
+        // Check per-attachment permission
+        if (!current_user_can('edit_post', $attachment_id)) {
+            wp_send_json_error(__('You do not have permission to edit this image.', 'advanced-pixel-editor'));
         }
-
-        $mime_type = $sanitized['mime_type'];
-        $decoded = $sanitized['decoded'];
 
         // Verify attachment exists
         if (!wp_attachment_is_image($attachment_id)) {
             wp_send_json_error(__('Invalid image attachment.', 'advanced-pixel-editor'));
         }
 
-        $save_mode = isset($_POST['save_mode']) ? sanitize_key($_POST['save_mode']) : 'new';
+        // Validate and clamp filter parameters (same logic as ajax_preview)
+        $contrast  = isset($_POST['contrast']) ? floatval($_POST['contrast']) : 0;
+        $amount    = isset($_POST['amount']) ? floatval($_POST['amount']) : 0;
+        $radius    = isset($_POST['radius']) ? floatval($_POST['radius']) : 1;
+        $threshold = isset($_POST['threshold']) ? floatval($_POST['threshold']) : 0;
+
+        $contrast  = max(-1, min(1, $contrast));
+        $amount    = max(0, min(5, $amount));
+        $radius    = max(0, min(5, $radius));
+        $threshold = max(0, min(1, $threshold));
+
+        $path = get_attached_file($attachment_id);
+        if (!file_exists($path)) {
+            wp_send_json_error(__('Image file not found on server.', 'advanced-pixel-editor'));
+        }
+
+        $img = null;
+        try {
+            $img = new Imagick($path);
+            $original_format = $img->getImageFormat();
+
+            // Apply the same filters as ajax_preview
+            if (abs($contrast) > 0.001) {
+                $quantum  = $img->getQuantumRange();
+                $midpoint = $quantum['quantumRangeLong'] * 0.5;
+                $strength = abs($contrast) * 10;
+                $img->sigmoidalContrastImage(($contrast > 0), $strength, $midpoint);
+            }
+
+            if ($amount > 0 && $radius > 0) {
+                $img->unsharpMaskImage($radius, 1, $amount, $threshold);
+            }
+
+            // Allow add-ons (e.g. Pro) to chain additional processing
+            $img = apply_filters('advaimg_after_process', $img, $attachment_id, $_POST);
+
+            // Get the processed image blob in the ORIGINAL format
+            $img->setImageFormat($original_format);
+            $decoded   = $img->getImageBlob();
+            $mime_type = advanced_image_editor_get_mime_type_from_format($original_format);
+
+        } catch (Exception $e) {
+            $this->log_save_error('Save processing failed: ' . $e->getMessage(), $attachment_id);
+            wp_send_json_error(
+                sprintf(
+                    /* translators: %s: Error message from image processing */
+                    __('Image processing failed: %s', 'advanced-pixel-editor'),
+                    $e->getMessage()
+                )
+            );
+        } finally {
+            if ($img instanceof Imagick) {
+                $img->clear();
+            }
+        }
+
+        $save_mode       = isset($_POST['save_mode']) ? sanitize_key($_POST['save_mode']) : 'new';
         $custom_filename = isset($_POST['filename']) ? sanitize_file_name(wp_unslash($_POST['filename'])) : '';
 
         if ($save_mode === 'replace') {
@@ -412,6 +465,11 @@ class ADVAIMG_Ajax_Handler {
 
         $attachment_id = absint($_POST['image_id']);
 
+        // Check per-attachment permission
+        if (!current_user_can('edit_post', $attachment_id)) {
+            wp_send_json_error(__('You do not have permission to edit this image.', 'advanced-pixel-editor'));
+        }
+
         // Check if attachment exists
         if (!wp_attachment_is_image($attachment_id)) {
             wp_send_json_error(__('Invalid image attachment.', 'advanced-pixel-editor'));
@@ -460,6 +518,11 @@ class ADVAIMG_Ajax_Handler {
         }
 
         $attachment_id = absint($_POST['image_id']);
+
+        // Check per-attachment permission
+        if (!current_user_can('edit_post', $attachment_id)) {
+            wp_send_json_error(__('You do not have permission to edit this image.', 'advanced-pixel-editor'));
+        }
 
         // Check if attachment exists
         if (!wp_attachment_is_image($attachment_id)) {
@@ -614,10 +677,7 @@ class ADVAIMG_Ajax_Handler {
             $log_message .= ' - Context: ' . wp_json_encode($context);
         }
 
-        if (function_exists('wp_log_error')) {
-            // WordPress 6.5+ has wp_log_error function
-            wp_log_error($log_message);
-        } elseif (defined('WP_DEBUG') && WP_DEBUG) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
             // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Only used in debug mode
             error_log($log_message);
         }
