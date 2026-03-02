@@ -1,6 +1,6 @@
 # Advanced Pixel Editor
 
-[![Version](https://img.shields.io/badge/Version-3.2.0-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
+[![Version](https://img.shields.io/badge/Version-3.3.2-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
 [![WordPress Plugin Version](https://img.shields.io/badge/WordPress-5.6+-blue.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4+-purple.svg)](https://php.net/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,7 +10,7 @@ A professional WordPress plugin that brings advanced image editing capabilities 
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
-> **📦 Current Version: 3.2.0** | **📅 Released: February 27, 2026** | **⚡ WordPress 5.6+ Required**
+> **📦 Current Version: 3.3.2** | **📅 Released: March 2, 2026** | **⚡ WordPress 5.6+ Required**
 
 ![Advanced Pixel Editor Banner](./.wordpress-org/banner-1544x500.png)
 
@@ -154,6 +154,19 @@ npm run build
 
 ## 📊 Changelog
 
+### [3.3.2] - 2026-03-02
+- Added per-attachment permission checks for multi-author security
+- Added keyboard focus styles for WCAG 2.4.7 compliance
+- Improved touch event handling and code cleanup
+- Refreshed WordPress.org readme with Pro add-on reference
+
+### [3.3.1] - 2026-03-02
+- Fixed comparison slider labels, handle alignment, sharpness ranges, default values, keyboard shortcuts, loading spinners, and duplicate heading
+
+### [3.3.0] - 2026-03-02
+- Contrast filter upgraded to gradual sigmoidal contrast (Photoshop-style curve)
+- Save now preserves original image format (PNG transparency, WebP, GIF) instead of converting to JPEG
+
 ### [3.2.0] - 2026-02-27
 - Add filterable tab system (`advaimg_admin_tabs`, `advaimg_valid_tabs`, `advaimg_render_tab_` action) for add-on extensibility
 - Add `advaimg_editor_contrast_after` hook for injecting controls into the Contrast tool group
@@ -240,7 +253,7 @@ This plugin is licensed under the GPL v2 or later.
 
 ## 🙏 Credits
 
-**Developed by:** [Rafael Minuesa](https://github.com/rafael-minuesa)
+**Developed by:** [Rafael Minuesa](https://github.com/rafael-minuesa) and the [ProWoos](https://prowoos.com) team
 
 **Built with:**
 - Advanced Imagick processing

@@ -173,7 +173,8 @@ jQuery(function($){
         const handlePosition = (sliderValue / 100) * containerWidth;
 
         $sliderHandle.css('left', handlePosition + 'px');
-        // Clip the edited image (on top) to reveal the original (behind)
+        // Clip the edited image (on top) from the right to reveal the original behind.
+        // Left side = edited, right side = original.
         $preview.css('clip-path', `inset(0 ${100 - sliderValue}% 0 0)`);
     }
 
@@ -181,11 +182,10 @@ jQuery(function($){
     let isDraggingHandle = false;
 
     function getSliderValueFromPosition(clientX) {
-        const $wrapper = $('.aie-preview-wrapper');
-        const wrapperOffset = $wrapper.offset();
-        const wrapperWidth = $wrapper.width();
-        const relativeX = clientX - wrapperOffset.left;
-        const percentage = Math.max(0, Math.min(100, (relativeX / wrapperWidth) * 100));
+        const wrapper = $('.aie-preview-wrapper')[0];
+        const rect = wrapper.getBoundingClientRect();
+        const relativeX = clientX - rect.left;
+        const percentage = Math.max(0, Math.min(100, (relativeX / rect.width) * 100));
         return percentage;
     }
 
@@ -209,19 +209,19 @@ jQuery(function($){
         });
     });
 
-    // Touch events for draggable handle
-    $sliderHandle.on('touchstart', function(e) {
+    // Touch events for draggable handle (namespaced to avoid conflicts)
+    $sliderHandle.on('touchstart.aieSlider', function(e) {
         e.preventDefault();
         isDraggingHandle = true;
     });
 
-    $(document).on('touchmove', function(e) {
+    $(document).on('touchmove.aieSlider', function(e) {
         if (!isDraggingHandle) return;
         const touch = e.originalEvent.touches[0];
         handleDragMove(touch.clientX);
     });
 
-    $(document).on('touchend', function() {
+    $(document).on('touchend.aieSlider', function() {
         isDraggingHandle = false;
     });
 
@@ -280,11 +280,11 @@ jQuery(function($){
                 break;
             case 'Home':
                 e.preventDefault();
-                currentValue = max;
+                currentValue = min;
                 break;
             case 'End':
                 e.preventDefault();
-                currentValue = min;
+                currentValue = max;
                 break;
             default:
                 return; // Let other keys work normally
@@ -297,13 +297,13 @@ jQuery(function($){
     function showLoading(message = ADVAIMG_AJAX.i18n.processing) {
         $loading.find('span').text(message);
         $loading.show();
-        $('#aie-preview').addClass('loading');
+        $('.aie-preview-wrapper').addClass('aie-loading');
         $('#aie-save, #aie-reset').prop('disabled', true).attr('aria-disabled', 'true');
     }
 
     function hideLoading() {
         $loading.hide();
-        $('#aie-preview').removeClass('loading');
+        $('.aie-preview-wrapper').removeClass('aie-loading');
         // Re-enable buttons if we have a valid image
         if (validateImageID()) {
             $('#aie-save, #aie-reset').prop('disabled', false).attr('aria-disabled', 'false');
@@ -349,12 +349,15 @@ jQuery(function($){
     
     // Reset sliders to defaults
     function resetToDefaults() {
-        $contrast.val(0.5).trigger('input');
-        $amount.val(0.5).trigger('input');
+        $contrast.val(0).trigger('input');
+        $amount.val(0).trigger('input');
         $radius.val(1).trigger('input');
         $threshold.val(0).trigger('input');
-        
-        // Trigger preview after reset
+
+        // Cancel any debounced preview triggered by the above input events,
+        // then send a single preview request.
+        clearTimeout(previewTimeout);
+        previewTimeout = null;
         if (validateImageID()) {
             sendPreview();
         }
@@ -427,12 +430,12 @@ jQuery(function($){
             previewTimeout = null;
         }
 
-        // Remove event listeners
-        $(document).off('keydown', '#aie-contrast, #aie-amount, #aie-radius, #aie-threshold');
-        $(document).off('input', '#aie-contrast-input, #aie-amount-input, #aie-radius-input, #aie-threshold-input');
+        // Remove event listeners from actual elements (not delegated)
+        $contrast.add($amount).add($radius).add($threshold).off('input keydown');
+        $contrastInput.add($amountInput).add($radiusInput).add($thresholdInput).off('input');
         $(document).off('mousemove.sliderDrag mouseup.sliderDrag');
-        $(document).off('touchmove touchend');
-        $sliderHandle.off('mousedown touchstart');
+        $(document).off('touchmove.aieSlider touchend.aieSlider');
+        $sliderHandle.off('mousedown touchstart.aieSlider');
         $('.aie-preview-wrapper').off('mousedown');
         $('#aie-reset').off('click');
         $('#aie-save').off('click');
@@ -460,7 +463,8 @@ jQuery(function($){
     // Slider inputs with debounce
     $contrast.add($amount).add($radius).add($threshold).on('input', debouncedPreview);
     
-    // Save button
+    // Save button — sends filter parameters so the backend re-processes
+    // from the original file in its native format (preserves PNG transparency, etc.)
     $('#aie-save').on('click', function(){
         // Prevent operations after cleanup
         if (isDestroyed) {
@@ -471,13 +475,13 @@ jQuery(function($){
             alert(ADVAIMG_AJAX.i18n.no_image);
             return;
         }
-        
+
         const previewSrc = $preview.attr('src');
         if (!previewSrc) {
             alert(ADVAIMG_AJAX.i18n.no_image);
             return;
         }
-        
+
         const currentMode = $saveMode.val();
         const confirmMsg = currentMode === 'replace'
             ? (ADVAIMG_AJAX.i18n.confirm_replace || 'Replace the original image? A backup will be saved automatically.')
@@ -496,11 +500,14 @@ jQuery(function($){
             action: "advaimg_save",
             _ajax_nonce: ADVAIMG_AJAX.nonce,
             image_id: $imageId.val(),
-            image_data: previewSrc,
+            contrast: $contrast.val(),
+            amount: $amount.val(),
+            radius: $radius.val(),
+            threshold: $threshold.val(),
             save_mode: currentMode,
             filename: $filename.val()
         };
-        
+
         $.post(ADVAIMG_AJAX.ajax_url, data, function(resp){
             if (resp.success) {
                 alert(resp.data.message);

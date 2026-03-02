@@ -461,7 +461,7 @@ class Advanced_Pixel_Editor {
                 </tr>
                 <tr>
                     <th><?php esc_html_e('Author', 'advanced-pixel-editor'); ?></th>
-                    <td>Rafael Minuesa</td>
+                    <td>Rafael Minuesa &amp; the <a href="https://prowoos.com" target="_blank" rel="noopener noreferrer">ProWoos</a> team</td>
                 </tr>
             </table>
             <p class="aie-about-links">

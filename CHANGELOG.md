@@ -5,11 +5,44 @@ All notable changes to **Advanced Pixel Editor** will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [3.3.2] - 2026-03-02
+
+### Security
+- Added `current_user_can('edit_post', $attachment_id)` checks to all four AJAX handlers — prevents users from previewing/saving/restoring other users' images on multi-author sites
+
+### Accessibility
+- Added `:focus-visible` outline styles for toolbar buttons and action buttons (WCAG 2.4.7)
+
+### Changed
+- Touch event listeners namespaced (`.aieSlider`) to avoid conflicts with other plugins
+- Cleanup function now removes correct event listeners via cached element references
+- Removed dead code branch referencing non-existent `wp_log_error()` function
+- Refreshed WordPress.org readme with Photoshop-grade feature descriptions and Pro add-on reference
+
+## [3.3.1] - 2026-03-02
+
+### Fixed
+- Comparison slider labels swapped to match actual image sides (edited left, original right)
+- Comparison slider handle drifting when page is scrolled (used `getBoundingClientRect` instead of jQuery `offset`)
+- Sharpness slider ranges corrected: amount 0–5, radius 0–5, threshold 0–1 (removed invalid negative values)
+- All filter defaults set to neutral (0) so the image loads unmodified
+- Home/End keyboard shortcuts on sliders were reversed (now Home=min, End=max per WAI-ARIA)
+- Save button loading spinner invisible — `currentColor` resolved to `transparent`; now uses explicit white
+- Preview loading spinner never rendered — `::after` pseudo-element moved from `<img>` to wrapper element
+- Duplicate `<h1>` heading and nested `<div class="wrap">` on editor page
+- Reset button fired two AJAX preview requests (debounced + immediate); now cancels debounce first
+
+## [3.3.0] - 2026-03-02
+
+### Changed
+- Contrast filter now uses sigmoidal contrast (gradual, Photoshop-style tone curve) instead of binary `contrastImage()` toggle
+- Save operation re-processes from the original file in its native format instead of saving the JPEG preview blob — preserves PNG transparency, WebP quality, and GIF support
+
 ## [3.2.0] - 2026-02-27
 
 Add extensibility hooks for Pro add-on: filterable tabs, contrast controls hook
-
-## [Unreleased]
 
 ## [3.1.1] - 2026-02-08
 
