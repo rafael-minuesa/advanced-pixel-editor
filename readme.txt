@@ -43,15 +43,11 @@ Need more than contrast, sharpening, and crop? [**Advanced Pixel Editor Pro**](h
 
 [View pricing and features](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
 
-When you purchase Advanced Pixel Editor Pro, 20% of all proceeds are donated to support the ImageMagick project — the powerful, free image processing library that makes professional image editing possible for millions of websites worldwide.
-
 = Powered by ImageMagick =
 
-This plugin is powered by [ImageMagick](https://imagemagick.org/), the premier open-source image processing library. ImageMagick has been a cornerstone of digital imaging since 1987, supporting over 200 image formats and powering millions of websites and applications worldwide. It provides the same core algorithms used by professional desktop applications like Photoshop and Lightroom — sigmoidal contrast, unsharp masking, Lanczos resampling, and more — all running server-side through the PHP Imagick extension.
+This plugin is powered by [ImageMagick](https://imagemagick.org/), the premier open-source image processing library that has been a cornerstone of digital imaging since 1987. It provides the same core algorithms used by Photoshop and Lightroom — sigmoidal contrast, unsharp masking, Lanczos resampling, and more — all running server-side through the PHP Imagick extension. The plugin requires the **Imagick PHP extension**, which is available on most modern hosting platforms. If your host doesn't have it enabled, contact them — most providers enable it within hours.
 
-The plugin requires the **ImageMagick PHP extension (Imagick)**, which is available on most modern hosting platforms. If your host doesn't have it enabled, contact them — most providers enable it within hours. Imagick is a worthwhile upgrade that also improves WordPress core image handling.
-
-You can sponsor the ImageMagick project directly at [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick).
+When you purchase Advanced Pixel Editor Pro, 20% of all proceeds are donated to the ImageMagick project. You can also sponsor ImageMagick directly at [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick).
 
 == Installation ==
 
