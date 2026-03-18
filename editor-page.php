@@ -57,6 +57,9 @@ if (isset($_GET['attachment_id'])) {
                     <button class="aie-toolbar-btn" data-tool="sharpness" title="<?php esc_attr_e('Sharpness', 'advanced-pixel-editor'); ?>">
                         <span class="dashicons dashicons-visibility"></span>
                     </button>
+                    <button class="aie-toolbar-btn" data-tool="crop" title="<?php esc_attr_e('Crop & Resize', 'advanced-pixel-editor'); ?>">
+                        <span class="dashicons dashicons-image-crop"></span>
+                    </button>
                     <?php
                     if (has_action('advaimg_editor_toolbar_icons')) {
                         do_action('advaimg_editor_toolbar_icons');
@@ -65,10 +68,6 @@ if (isset($_GET['attachment_id'])) {
                         ?>
                         <button class="aie-toolbar-btn aie-toolbar-btn--locked" disabled title="<?php esc_attr_e('Advanced Filters (Pro)', 'advanced-pixel-editor'); ?>">
                             <span class="dashicons dashicons-art"></span>
-                            <span class="aie-pro-badge">PRO</span>
-                        </button>
-                        <button class="aie-toolbar-btn aie-toolbar-btn--locked" disabled title="<?php esc_attr_e('Crop & Resize (Pro)', 'advanced-pixel-editor'); ?>">
-                            <span class="dashicons dashicons-image-crop"></span>
                             <span class="aie-pro-badge">PRO</span>
                         </button>
                         <button class="aie-toolbar-btn aie-toolbar-btn--locked" disabled title="<?php esc_attr_e('Watermark (Pro)', 'advanced-pixel-editor'); ?>">
@@ -99,6 +98,18 @@ if (isset($_GET['attachment_id'])) {
                         <img id="aie-original-preview" src="" alt="<?php esc_attr_e('Original image', 'advanced-pixel-editor'); ?>" style="max-width: 100%; height: auto; display: none;" role="img">
                         <img id="aie-preview" src="" alt="<?php esc_attr_e('Edited image preview', 'advanced-pixel-editor'); ?>" style="max-width: 100%; height: auto; display: none;" role="img">
                         <div id="aie-slider-handle" class="aie-slider-handle"></div>
+                        <div id="aie-crop-overlay" class="aie-crop-overlay" style="display:none;">
+                            <div class="aie-crop-selection">
+                                <div class="aie-crop-handle" data-handle="nw"></div>
+                                <div class="aie-crop-handle" data-handle="n"></div>
+                                <div class="aie-crop-handle" data-handle="ne"></div>
+                                <div class="aie-crop-handle" data-handle="w"></div>
+                                <div class="aie-crop-handle" data-handle="e"></div>
+                                <div class="aie-crop-handle" data-handle="sw"></div>
+                                <div class="aie-crop-handle" data-handle="s"></div>
+                                <div class="aie-crop-handle" data-handle="se"></div>
+                            </div>
+                        </div>
                         <?php do_action('advaimg_editor_preview_overlay'); ?>
                     </div>
                     <p id="aie-no-preview" style="color: #666; font-style: italic;" role="status" aria-live="polite">
@@ -203,6 +214,11 @@ if (isset($_GET['attachment_id'])) {
                         </div>
                     </div>
 
+                    <!-- Crop & Resize Tool Controls -->
+                    <div class="aie-tool-controls" data-tool="crop">
+                        <div id="aie-transform-panel"></div>
+                    </div>
+
                     <?php do_action('advaimg_editor_controls_after'); ?>
                 </div>
             </div>
@@ -278,6 +294,7 @@ if (isset($_GET['attachment_id'])) {
                  <li><strong><?php esc_html_e('Sharpness Amount:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Controls the intensity of sharpening', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Sharpness Radius:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Determines how far the sharpening effect spreads', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Sharpness Threshold:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Sets the minimum contrast level for sharpening to apply', 'advanced-pixel-editor'); ?></li>
+                 <li><strong><?php esc_html_e('Crop & Resize:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Crop to a selection with aspect ratio presets, resize dimensions with aspect lock, or set DPI', 'advanced-pixel-editor'); ?></li>
              </ul>
              <?php do_action('advaimg_editor_help_after'); ?>
          </div>

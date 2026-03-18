@@ -225,6 +225,18 @@ class Advanced_Pixel_Editor {
             true
         );
 
+        // Enqueue transform (crop & resize) JS
+        $transform_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor-transform.js';
+        $transform_js_version = file_exists($transform_js_path) ? filemtime($transform_js_path) : self::VERSION;
+
+        wp_enqueue_script(
+            'advaimg-editor-transform-js',
+            ADVAIMG_PLUGIN_URL . 'assets/js/editor-transform.js',
+            ['jquery', 'advaimg-editor-js'],
+            $transform_js_version,
+            true
+        );
+
         // Localize script with translations and AJAX data
         $localize_data = [
             'ajax_url' => admin_url('admin-ajax.php'),
@@ -254,6 +266,21 @@ class Advanced_Pixel_Editor {
                 'restore_failed'     => __('Failed to restore original image.', 'advanced-pixel-editor'),
                 'replacing'          => __('Replacing...', 'advanced-pixel-editor'),
                 'restoring'          => __('Restoring...', 'advanced-pixel-editor'),
+                'crop'               => __('Crop', 'advanced-pixel-editor'),
+                'resize'             => __('Resize', 'advanced-pixel-editor'),
+                'dpi'                => __('Resolution (DPI)', 'advanced-pixel-editor'),
+                'aspect_free'        => __('Free', 'advanced-pixel-editor'),
+                'apply_crop'         => __('Apply Crop', 'advanced-pixel-editor'),
+                'clear_crop'         => __('Clear', 'advanced-pixel-editor'),
+                'lock_aspect'        => __('Lock aspect ratio', 'advanced-pixel-editor'),
+                'width'              => __('Width', 'advanced-pixel-editor'),
+                'height'             => __('Height', 'advanced-pixel-editor'),
+                'resample'           => __('Resample (scale pixels)', 'advanced-pixel-editor'),
+                'crop_hint'          => __('Click on the image to start cropping', 'advanced-pixel-editor'),
+                'apply_resize'       => __('Apply Resize', 'advanced-pixel-editor'),
+                'clear_resize'       => __('Clear', 'advanced-pixel-editor'),
+                'apply_dpi'          => __('Apply DPI', 'advanced-pixel-editor'),
+                'clear_dpi'          => __('Clear', 'advanced-pixel-editor'),
             ]
         ];
 
@@ -408,7 +435,6 @@ class Advanced_Pixel_Editor {
                         $pro_features = [
                             __('Batch Processing', 'advanced-pixel-editor')   => __('Process multiple images simultaneously with progress tracking.', 'advanced-pixel-editor'),
                             __('Advanced Filters', 'advanced-pixel-editor')   => __('Brightness, saturation, hue, sepia, vignette, blur, noise reduction, and more.', 'advanced-pixel-editor'),
-                            __('Crop & Resize', 'advanced-pixel-editor')      => __('Interactive crop with aspect presets, resize with aspect lock, DPI control.', 'advanced-pixel-editor'),
                             __('Watermarking', 'advanced-pixel-editor')       => __('Text and image watermarks with positioning, opacity, rotation, and tiling.', 'advanced-pixel-editor'),
                             __('Priority Support', 'advanced-pixel-editor')   => __('Get priority technical support and feature requests.', 'advanced-pixel-editor'),
                         ];

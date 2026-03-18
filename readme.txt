@@ -5,7 +5,7 @@ Tags: image editor, photo editor, photoshop, image filter, imagick
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.3.2
+Stable tag: 3.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,21 +27,27 @@ Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photosh
 * **Before / After Slider** — Draggable comparison overlay to evaluate edits at a glance
 * **Save As New or Replace** — Keep the original untouched, or overwrite it with automatic backup
 * **Restore Original** — One click to revert a replaced image
+* **Crop & Resize** — Interactive crop overlay with aspect ratio presets (free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI controls
 * **Deep Media Library Integration** — "Advanced Editor" buttons in grid modal, list view, and attachment page
 * **Fully Responsive** — Works on desktop, tablet, and mobile
 * **Accessible** — Full keyboard navigation, ARIA labels, and screen reader support
 
 = Upgrade to Pro =
 
-Need more than contrast and sharpening? [**Advanced Pixel Editor Pro**](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds a full Photoshop-style toolset on top of the free editor:
+Need more than contrast, sharpening, and crop? [**Advanced Pixel Editor Pro**](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds a full Photoshop-style toolset on top of the free editor:
 
 * **Advanced Filters** — Photoshop-style Levels and Curves dialogs, plus brightness, saturation, hue, clarity, dehaze, vibrance, highlights/shadows, and artistic effects like sepia, vintage, duotone, and black & white
-* **Crop & Resize** — Interactive crop overlay with aspect ratio presets (free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI controls
 * **Watermarking** — Text watermarks with 50+ Google Fonts or image watermarks with transparency, plus 9-point positioning and tiling
 * **Batch Processing** — Apply filters to 10–100+ images at once with real-time progress, pause/resume, and background processing — like Photoshop's Actions, but built into WordPress
 * **Filter Presets** — Save and reuse your favorite filter combinations
 
-Plans start at **$29**. **20% of all Pro proceeds are donated to the ImageMagick project** — the open-source library that powers this plugin and millions of websites worldwide. [View pricing and features →](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
+[View pricing and features](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
+
+= Powered by ImageMagick =
+
+This plugin is powered by [ImageMagick](https://imagemagick.org/), the premier open-source image processing library. ImageMagick has been a cornerstone of digital imaging since 1987, supporting over 200 image formats and powering millions of websites and applications worldwide. It provides the same core algorithms used by professional desktop applications like Photoshop and Lightroom — sigmoidal contrast, unsharp masking, Lanczos resampling, and more — all running server-side through the PHP Imagick extension.
+
+You can sponsor the ImageMagick project directly at [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick).
 
 = Requirements =
 
@@ -83,7 +89,7 @@ Yes. The editor is fully responsive and touch-friendly, including the comparison
 
 = What is the Pro add-on? =
 
-[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, curves, levels, artistic effects), crop & resize, watermarking, batch processing, and filter presets. It requires this free plugin to be installed.
+[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, curves, levels, artistic effects), watermarking, batch processing, and filter presets. It requires this free plugin to be installed.
 
 = Does this plugin require special server software? =
 
@@ -97,6 +103,14 @@ Yes — the ImageMagick PHP extension (Imagick) must be enabled. Most modern hos
 4. **Save Options** — Save as a new image or replace the original with automatic backup
 
 == Changelog ==
+
+= 3.4.0 =
+* Added Crop & Resize tool: interactive crop overlay with aspect ratio presets (Free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI/resample controls
+* Added crop overlay with 8 drag handles for precise cropping
+* Added resize width/height inputs with linked aspect ratio
+* Added DPI metadata control with optional pixel resampling
+* Added Apply/Clear buttons for Resize and DPI controls
+* Comparison slider is hidden while the crop tool is active to prevent interference
 
 = 3.3.2 =
 * Added per-attachment permission checks — prevents users from editing other users' images on multi-author sites
@@ -186,6 +200,9 @@ Yes — the ImageMagick PHP extension (Imagick) must be enabled. Most modern hos
 * Initial release with basic image editing functionality
 
 == Upgrade Notice ==
+
+= 3.4.0 =
+New feature: Crop & Resize with interactive crop overlay, aspect ratio presets, resize with aspect lock, and DPI controls — now included in the free plugin.
 
 = 2.1 =
 Major update with enhanced security, accessibility, and performance improvements. Upgrade recommended for all users.

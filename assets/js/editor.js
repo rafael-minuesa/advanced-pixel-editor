@@ -229,6 +229,8 @@ jQuery(function($){
     $('.aie-preview-wrapper').on('mousedown', function(e) {
         if ($(e.target).is($sliderHandle) || $(e.target).closest($sliderHandle).length) return;
         if (!$previewToggle.is(':checked')) return;
+        // Skip comparison slider drag when the crop tool is active.
+        if (toolbar.activeTool() === 'crop') return;
 
         const newValue = getSliderValueFromPosition(e.clientX);
         $compareSlider.val(newValue);
@@ -741,7 +743,12 @@ jQuery(function($){
              *
              * @param {string} name Tool identifier.
              */
-            activate: activateTool
+            activate: activateTool,
+
+            /**
+             * Return the currently active tool name.
+             */
+            activeTool: function() { return activeTool; }
         };
     })();
 

@@ -3,7 +3,7 @@
  * Plugin Name: Advanced Pixel Editor
  * Plugin URI: https://github.com/rafael-minuesa/advanced-pixel-editor/
  * Description: Professional image editing tool with advanced filters, contrast adjustment, and unsharp masking. Real-time preview, accessibility features, and seamless WordPress integration.
- * Version: 3.3.2
+ * Version: 3.4.0
  * Author: Rafael Minuesa
  * Author URI: https://github.com/rafael-minuesa
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('ADVAIMG_VERSION', '3.3.2');
+define('ADVAIMG_VERSION', '3.4.0');
 define('ADVAIMG_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ADVAIMG_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('ADVAIMG_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -29,6 +29,7 @@ define('ADVAIMG_PLUGIN_BASENAME', plugin_basename(__FILE__));
 require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advanced-pixel-editor.php';
 require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advaimg-ajax-handler.php';
 require_once ADVAIMG_PLUGIN_DIR . 'includes/advaimg-functions.php';
+require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advaimg-transform.php';
 
 // Initialize the plugin
 new Advanced_Pixel_Editor();
