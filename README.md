@@ -95,7 +95,9 @@ Looking to process multiple images at once, add watermarks, or use advanced filt
 
 This plugin is powered by ImageMagick, the world's most comprehensive free software suite for image processing. ImageMagick has been a cornerstone of digital imaging since 1987, supporting millions of websites and applications worldwide.
 
-[Learn more about ImageMagick](https://imagemagick.org/)
+When you purchase [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/), 20% of all proceeds are donated to support the ImageMagick project — helping sustain the free software that powers professional image processing worldwide.
+
+[Learn more about ImageMagick](https://imagemagick.org/) | [Sponsor ImageMagick on GitHub](https://github.com/sponsors/ImageMagick)
 
 ## 📸 Screenshots
 
