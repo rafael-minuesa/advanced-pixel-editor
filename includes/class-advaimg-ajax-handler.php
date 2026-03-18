@@ -136,6 +136,10 @@ class ADVAIMG_Ajax_Handler {
                 $img->unsharpMaskImage($radius, 1, $amount, $threshold);
             }
 
+            // Apply crop, resize, and DPI transforms.
+            $transform = new ADVAIMG_Transform();
+            $img = $transform->process($img, $_POST);
+
             // Allow add-ons (e.g. Pro) to chain additional Imagick processing.
             $img = apply_filters('advaimg_after_process', $img, $attachment_id, $_POST);
 
@@ -251,6 +255,10 @@ class ADVAIMG_Ajax_Handler {
             if ($amount > 0 && $radius > 0) {
                 $img->unsharpMaskImage($radius, 1, $amount, $threshold);
             }
+
+            // Apply crop, resize, and DPI transforms.
+            $transform = new ADVAIMG_Transform();
+            $img = $transform->process($img, $_POST);
 
             // Allow add-ons (e.g. Pro) to chain additional processing
             $img = apply_filters('advaimg_after_process', $img, $attachment_id, $_POST);
