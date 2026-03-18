@@ -43,11 +43,43 @@ Need more than contrast, sharpening, and crop? [**Advanced Pixel Editor Pro**](h
 
 [View pricing and features](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
 
-= Powered by ImageMagick =
+= Powered by ImageMagick – The Industry-Standard Open-Source Image Engine =
 
-This plugin is powered by [ImageMagick](https://imagemagick.org/), the premier open-source image processing library that has been a cornerstone of digital imaging since 1987. It provides the same core algorithms used by Photoshop and Lightroom — sigmoidal contrast, unsharp masking, Lanczos resampling, and more — all running server-side through the PHP Imagick extension. The plugin requires the **Imagick PHP extension**, which is available on most modern hosting platforms. If your host doesn't have it enabled, contact them — most providers enable it within hours.
+Advanced Pixel Editor is powered by [ImageMagick](https://imagemagick.org/), the leading free and open-source software suite for creating, editing, converting, and manipulating digital images. First conceived in 1987 and publicly released in 1990, ImageMagick remains a foundational tool in digital imaging nearly four decades later.
 
-When you purchase Advanced Pixel Editor Pro, 20% of all proceeds are donated to the ImageMagick project. You can also sponsor ImageMagick directly at [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick).
+It delivers battle-tested algorithms that power professional workflows worldwide — many of which are functionally equivalent (or directly comparable) to those found in premium tools like Adobe Photoshop and Lightroom, including:
+
+* **Sigmoidal contrast** for natural, highlight-preserving brightening and dynamic range adjustments
+* **Unsharp masking** for precise sharpening with controllable halo suppression
+* **Lanczos resampling** (and other high-quality filters) for crisp resizing and scaling
+
+All processing runs securely server-side via the mature PHP Imagick extension, which binds directly to ImageMagick's core libraries. This gives your WordPress site professional-grade image manipulation without relying on client-side JavaScript limitations or third-party cloud dependencies.
+
+= Requirements & Hosting Compatibility =
+
+The plugin requires the **Imagick PHP extension** (not the older deprecated GD-only fallback).
+
+Most modern hosting providers (including SiteGround, Kinsta, WP Engine, Flywheel, Cloudways, and the majority of VPS/dedicated servers running PHP 8.1+) have Imagick pre-installed or available with one support ticket. If your host does not have it enabled:
+
+1. Open a quick support ticket asking: "Can you enable the Imagick PHP extension for my account?"
+2. Most providers activate it within hours (often instantly via their control panel).
+
+We strongly recommend confirming Imagick is active before going live — you can usually check via a `phpinfo()` page or a simple test script:
+
+`<?php echo extension_loaded('imagick') ? 'Imagick is installed (version: ' . phpversion('imagick') . ')' : 'Imagick extension is NOT available.'; ?>`
+
+If Imagick cannot be enabled on your current host, consider migrating to a provider that supports it natively — it's a standard requirement for serious image-heavy WordPress sites in 2026.
+
+= Giving Back to the Open-Source Community =
+
+When you purchase [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/), 20% of proceeds are donated directly to support ongoing development, security maintenance, and infrastructure costs of the ImageMagick project.
+
+You can also contribute independently:
+
+* **Sponsor ImageMagick on GitHub Sponsors** → [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick) — The project maintains an active sponsorship page with transparent goals and recognition for supporters.
+* **Visit the official ImageMagick sponsorship page** → [imagemagick.org/support](https://imagemagick.org/support)
+
+Your support helps keep this critical open-source library secure, fast, and freely available for millions of developers and businesses worldwide.
 
 == Installation ==
 
@@ -55,7 +87,7 @@ When you purchase Advanced Pixel Editor Pro, 20% of all proceeds are donated to 
 2. Activate the plugin through the **Plugins** menu
 3. Go to **Media → Advanced Pixel Editor** to start editing — or click the "Advanced Editor" button on any image in your Media Library
 
-**Prerequisite:** The ImageMagick PHP extension (Imagick) must be enabled on your server. Most modern hosts have it already. If yours doesn't, contact your hosting provider — they can usually enable it within hours.
+**Prerequisite:** The Imagick PHP extension must be enabled on your server. See the **Requirements & Hosting Compatibility** section above for details.
 
 == Frequently Asked Questions ==
 
@@ -89,7 +121,7 @@ Yes. The editor is fully responsive and touch-friendly, including the comparison
 
 = Does this plugin require special server software? =
 
-Yes — the ImageMagick PHP extension (Imagick) must be enabled. Most modern hosts have it already; if not, your provider can usually enable it within hours.
+Yes — the Imagick PHP extension must be enabled. See the **Requirements & Hosting Compatibility** section for supported hosts and setup instructions.
 
 == Screenshots ==
 
