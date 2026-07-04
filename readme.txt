@@ -3,9 +3,9 @@
 Contributors: rafaelminuesa
 Tags: image editor, photo editor, photoshop, image filter, imagick
 Requires at least: 5.6
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.4.0
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,11 @@ Yes — the Imagick PHP extension must be enabled. See the **Requirements & Host
 4. **Save Options** — Save as a new image or replace the original with automatic backup
 
 == Changelog ==
+
+= 3.5.0 =
+* Add Rotate tool: free rotation from -180 to 180 degrees with 45 and 90 degree presets
+* New toolbar button with live preview; corners filled white (JPEG) or transparent (PNG/WebP)
+* Declared compatibility with WordPress 7.0
 
 = 3.4.0 =
 * Added Crop & Resize tool: interactive crop overlay with aspect ratio presets (Free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI/resample controls

@@ -1,8 +1,8 @@
 <?php
 /**
- * Transform (Crop, Resize, DPI) for Advanced Pixel Editor
+ * Transform (Rotate, Crop, Resize, DPI) for Advanced Pixel Editor
  *
- * Provides Imagick-powered crop, resize, and DPI/resample operations.
+ * Provides Imagick-powered rotate, crop, resize, and DPI/resample operations.
  *
  * @package AdvancedImageEditor
  * @author  Rafael Minuesa
@@ -18,16 +18,47 @@ class ADVAIMG_Transform {
     /**
      * Process transform operations on an Imagick instance.
      *
-     * Order: crop first, then resize, then DPI.
+     * Order: rotate first (crop coordinates map to the rotated image the
+     * user sees in the preview), then crop, then resize, then DPI.
      *
      * @param Imagick $img       The Imagick instance.
      * @param array   $post_data Raw POST data.
      * @return Imagick
      */
     public function process(Imagick $img, array $post_data) {
+        $img = $this->apply_rotate($img, $post_data);
         $img = $this->apply_crop($img, $post_data);
         $img = $this->apply_resize($img, $post_data);
         $img = $this->apply_dpi($img, $post_data);
+        return $img;
+    }
+
+    /**
+     * Apply rotation if a non-zero angle is present.
+     *
+     * Non-right-angle rotations enlarge the canvas; the new corner area is
+     * filled transparent for alpha-capable formats (PNG, WebP, GIF) and
+     * white for opaque formats (JPEG).
+     *
+     * @param Imagick $img       The Imagick instance.
+     * @param array   $post_data POST data.
+     * @return Imagick
+     */
+    private function apply_rotate(Imagick $img, array $post_data) {
+        $degrees = isset($post_data['advaimg_rotate']) ? floatval($post_data['advaimg_rotate']) : 0;
+        $degrees = fmod($degrees, 360);
+
+        if (abs($degrees) < 0.01) {
+            return $img;
+        }
+
+        $format = strtoupper($img->getImageFormat());
+        $supports_alpha = in_array($format, ['PNG', 'WEBP', 'GIF'], true);
+        $background = new ImagickPixel($supports_alpha ? 'transparent' : 'white');
+
+        $img->rotateImage($background, $degrees);
+        $img->setImagePage(0, 0, 0, 0); // Reset canvas offset.
+
         return $img;
     }
 
