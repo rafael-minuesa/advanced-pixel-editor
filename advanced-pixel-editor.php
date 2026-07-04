@@ -3,7 +3,7 @@
  * Plugin Name: Advanced Pixel Editor
  * Plugin URI: https://github.com/rafael-minuesa/advanced-pixel-editor/
  * Description: Professional image editing tool with advanced filters, contrast adjustment, and unsharp masking. Real-time preview, accessibility features, and seamless WordPress integration.
- * Version: 3.5.0
+ * Version: 3.6.0
  * Author: Rafael Minuesa
  * Author URI: https://github.com/rafael-minuesa
  * License: GPL v2 or later

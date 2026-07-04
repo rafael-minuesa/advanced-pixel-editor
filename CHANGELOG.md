@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New toolbar button with live preview; corners filled white (JPEG) or transparent (PNG/WebP)
 - Declared compatibility with WordPress 7.0
 
+## [3.6.0] - 2026-07-04
+
+- Add Flip tool: mirror images horizontally or vertically, with combined flips supported
+- New toolbar button with live preview; works together with Rotate, Crop and all filters
+
 ## [Unreleased]
 
 ## [3.3.2] - 2026-03-02
