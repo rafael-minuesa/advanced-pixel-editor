@@ -237,6 +237,18 @@ class Advanced_Pixel_Editor {
             true
         );
 
+        // Enqueue rotate JS (depends on transform JS for the shared params object)
+        $rotate_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor-rotate.js';
+        $rotate_js_version = file_exists($rotate_js_path) ? filemtime($rotate_js_path) : self::VERSION;
+
+        wp_enqueue_script(
+            'advaimg-editor-rotate-js',
+            ADVAIMG_PLUGIN_URL . 'assets/js/editor-rotate.js',
+            ['jquery', 'advaimg-editor-transform-js'],
+            $rotate_js_version,
+            true
+        );
+
         // Localize script with translations and AJAX data
         $localize_data = [
             'ajax_url' => admin_url('admin-ajax.php'),

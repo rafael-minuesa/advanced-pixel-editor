@@ -60,6 +60,9 @@ if (isset($_GET['attachment_id'])) {
                     <button class="aie-toolbar-btn" data-tool="crop" title="<?php esc_attr_e('Crop & Resize', 'advanced-pixel-editor'); ?>">
                         <span class="dashicons dashicons-image-crop"></span>
                     </button>
+                    <button class="aie-toolbar-btn" data-tool="rotate" title="<?php esc_attr_e('Rotate', 'advanced-pixel-editor'); ?>">
+                        <span class="dashicons dashicons-image-rotate"></span>
+                    </button>
                     <?php
                     if (has_action('advaimg_editor_toolbar_icons')) {
                         do_action('advaimg_editor_toolbar_icons');
@@ -219,6 +222,32 @@ if (isset($_GET['attachment_id'])) {
                         <div id="aie-transform-panel"></div>
                     </div>
 
+                    <!-- Rotate Tool Controls -->
+                    <div class="aie-tool-controls" data-tool="rotate">
+                        <div class="aie-control-group">
+                            <label for="aie-rotate">
+                                <?php esc_html_e('Rotate (degrees)', 'advanced-pixel-editor'); ?>
+                            </label>
+                            <div class="aie-input-group">
+                                <input type="number" id="aie-rotate-input" min="-180" max="180" step="0.1" value="0" aria-label="<?php esc_attr_e('Rotation angle in degrees', 'advanced-pixel-editor'); ?>">
+                                <input type="range" id="aie-rotate" min="-180" max="180" step="1" value="0"
+                                       aria-describedby="rotate-help" aria-valuemin="-180" aria-valuemax="180" aria-valuenow="0">
+                            </div>
+                            <div id="rotate-help" class="aie-help-text">
+                                <small><?php esc_html_e('Free rotation from -180 to 180 degrees. Corners are filled white (JPEG) or transparent (PNG/WebP).', 'advanced-pixel-editor'); ?></small>
+                            </div>
+                            <div class="aie-crop-presets aie-rotate-presets">
+                                <button type="button" data-deg="-90">-90&deg;</button>
+                                <button type="button" data-deg="-45">-45&deg;</button>
+                                <button type="button" data-deg="45">+45&deg;</button>
+                                <button type="button" data-deg="90">+90&deg;</button>
+                            </div>
+                            <div class="aie-crop-actions">
+                                <button type="button" class="button" id="aie-clear-rotate"><?php esc_html_e('Reset Rotation', 'advanced-pixel-editor'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <?php do_action('advaimg_editor_controls_after'); ?>
                 </div>
             </div>
@@ -295,6 +324,7 @@ if (isset($_GET['attachment_id'])) {
                  <li><strong><?php esc_html_e('Sharpness Radius:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Determines how far the sharpening effect spreads', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Sharpness Threshold:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Sets the minimum contrast level for sharpening to apply', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Crop & Resize:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Crop to a selection with aspect ratio presets, resize dimensions with aspect lock, or set DPI', 'advanced-pixel-editor'); ?></li>
+                 <li><strong><?php esc_html_e('Rotate:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Rotate freely by any angle, or use the 45 and 90 degree preset buttons', 'advanced-pixel-editor'); ?></li>
              </ul>
              <?php do_action('advaimg_editor_help_after'); ?>
          </div>
