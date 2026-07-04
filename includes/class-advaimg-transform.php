@@ -1,8 +1,8 @@
 <?php
 /**
- * Transform (Rotate, Crop, Resize, DPI) for Advanced Pixel Editor
+ * Transform (Rotate, Flip, Crop, Resize, DPI) for Advanced Pixel Editor
  *
- * Provides Imagick-powered rotate, crop, resize, and DPI/resample operations.
+ * Provides Imagick-powered rotate, flip, crop, resize, and DPI/resample operations.
  *
  * @package AdvancedImageEditor
  * @author  Rafael Minuesa
@@ -27,9 +27,35 @@ class ADVAIMG_Transform {
      */
     public function process(Imagick $img, array $post_data) {
         $img = $this->apply_rotate($img, $post_data);
+        $img = $this->apply_flip($img, $post_data);
         $img = $this->apply_crop($img, $post_data);
         $img = $this->apply_resize($img, $post_data);
         $img = $this->apply_dpi($img, $post_data);
+        return $img;
+    }
+
+    /**
+     * Apply horizontal and/or vertical flip if requested.
+     *
+     * Runs after rotate so mirroring always matches the on-screen
+     * orientation, and before crop so crop coordinates keep mapping to
+     * the displayed preview.
+     *
+     * @param Imagick $img       The Imagick instance.
+     * @param array   $post_data POST data.
+     * @return Imagick
+     */
+    private function apply_flip(Imagick $img, array $post_data) {
+        $flip_h = !empty($post_data['advaimg_flip_h']) && $post_data['advaimg_flip_h'] !== '0';
+        $flip_v = !empty($post_data['advaimg_flip_v']) && $post_data['advaimg_flip_v'] !== '0';
+
+        if ($flip_h) {
+            $img->flopImage(); // Mirror left-right.
+        }
+        if ($flip_v) {
+            $img->flipImage(); // Mirror top-bottom.
+        }
+
         return $img;
     }
 

@@ -63,6 +63,9 @@ if (isset($_GET['attachment_id'])) {
                     <button class="aie-toolbar-btn" data-tool="rotate" title="<?php esc_attr_e('Rotate', 'advanced-pixel-editor'); ?>">
                         <span class="dashicons dashicons-image-rotate"></span>
                     </button>
+                    <button class="aie-toolbar-btn" data-tool="flip" title="<?php esc_attr_e('Flip', 'advanced-pixel-editor'); ?>">
+                        <span class="dashicons dashicons-image-flip-horizontal"></span>
+                    </button>
                     <?php
                     if (has_action('advaimg_editor_toolbar_icons')) {
                         do_action('advaimg_editor_toolbar_icons');
@@ -248,6 +251,29 @@ if (isset($_GET['attachment_id'])) {
                         </div>
                     </div>
 
+                    <!-- Flip Tool Controls -->
+                    <div class="aie-tool-controls" data-tool="flip">
+                        <div class="aie-control-group">
+                            <label><?php esc_html_e('Flip', 'advanced-pixel-editor'); ?></label>
+                            <div class="aie-crop-presets aie-flip-toggles">
+                                <button type="button" id="aie-flip-h" aria-pressed="false">
+                                    <span class="dashicons dashicons-image-flip-horizontal" aria-hidden="true"></span>
+                                    <?php esc_html_e('Horizontal', 'advanced-pixel-editor'); ?>
+                                </button>
+                                <button type="button" id="aie-flip-v" aria-pressed="false">
+                                    <span class="dashicons dashicons-image-flip-vertical" aria-hidden="true"></span>
+                                    <?php esc_html_e('Vertical', 'advanced-pixel-editor'); ?>
+                                </button>
+                            </div>
+                            <div id="flip-help" class="aie-help-text">
+                                <small><?php esc_html_e('Mirror the image left-right (horizontal) or top-bottom (vertical). Both can be combined.', 'advanced-pixel-editor'); ?></small>
+                            </div>
+                            <div class="aie-crop-actions">
+                                <button type="button" class="button" id="aie-clear-flip"><?php esc_html_e('Reset Flip', 'advanced-pixel-editor'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <?php do_action('advaimg_editor_controls_after'); ?>
                 </div>
             </div>
@@ -325,6 +351,7 @@ if (isset($_GET['attachment_id'])) {
                  <li><strong><?php esc_html_e('Sharpness Threshold:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Sets the minimum contrast level for sharpening to apply', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Crop & Resize:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Crop to a selection with aspect ratio presets, resize dimensions with aspect lock, or set DPI', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Rotate:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Rotate freely by any angle, or use the 45 and 90 degree preset buttons', 'advanced-pixel-editor'); ?></li>
+                 <li><strong><?php esc_html_e('Flip:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Mirror the image horizontally or vertically', 'advanced-pixel-editor'); ?></li>
              </ul>
              <?php do_action('advaimg_editor_help_after'); ?>
          </div>

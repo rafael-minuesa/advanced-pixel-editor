@@ -249,6 +249,18 @@ class Advanced_Pixel_Editor {
             true
         );
 
+        // Enqueue flip JS (depends on transform JS for the shared params object)
+        $flip_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor-flip.js';
+        $flip_js_version = file_exists($flip_js_path) ? filemtime($flip_js_path) : self::VERSION;
+
+        wp_enqueue_script(
+            'advaimg-editor-flip-js',
+            ADVAIMG_PLUGIN_URL . 'assets/js/editor-flip.js',
+            ['jquery', 'advaimg-editor-transform-js'],
+            $flip_js_version,
+            true
+        );
+
         // Localize script with translations and AJAX data
         $localize_data = [
             'ajax_url' => admin_url('admin-ajax.php'),

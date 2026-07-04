@@ -5,7 +5,7 @@ Tags: image editor, photo editor, photoshop, image filter, imagick
 Requires at least: 5.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.5.0
+Stable tag: 3.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,7 @@ Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photosh
 * **Save As New or Replace** — Keep the original untouched, or overwrite it with automatic backup
 * **Restore Original** — One click to revert a replaced image
 * **Crop & Resize** — Interactive crop overlay with aspect ratio presets (free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI controls
+* **Rotate & Flip** — Free rotation with 45 and 90 degree presets, plus horizontal and vertical mirroring
 * **Deep Media Library Integration** — "Advanced Editor" buttons in grid modal, list view, and attachment page
 * **Fully Responsive** — Works on desktop, tablet, and mobile
 * **Accessible** — Full keyboard navigation, ARIA labels, and screen reader support
@@ -131,6 +132,10 @@ Yes — the Imagick PHP extension must be enabled. See the **Requirements & Host
 4. **Save Options** — Save as a new image or replace the original with automatic backup
 
 == Changelog ==
+
+= 3.6.0 =
+* Add Flip tool: mirror images horizontally or vertically, with combined flips supported
+* New toolbar button with live preview; works together with Rotate, Crop and all filters
 
 = 3.5.0 =
 * Add Rotate tool: free rotation from -180 to 180 degrees with 45 and 90 degree presets
