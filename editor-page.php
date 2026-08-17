@@ -70,16 +70,17 @@ if (isset($_GET['attachment_id'])) {
                     if (has_action('advaimg_editor_toolbar_icons')) {
                         do_action('advaimg_editor_toolbar_icons');
                     } else {
-                        // Show dimmed Pro upsell icons when Pro is not installed.
+                        // Show dimmed Pro upsell icons when Pro is not installed. They link to the Pro page.
+                        $advaimg_pro_url = 'https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/';
                         ?>
-                        <button class="aie-toolbar-btn aie-toolbar-btn--locked" disabled title="<?php esc_attr_e('Advanced Filters (Pro)', 'advanced-pixel-editor'); ?>">
+                        <a class="aie-toolbar-btn aie-toolbar-btn--locked" href="<?php echo esc_url($advaimg_pro_url); ?>" target="_blank" rel="noopener noreferrer" title="<?php esc_attr_e('Advanced Filters (Pro). Opens the Pro page in a new tab.', 'advanced-pixel-editor'); ?>">
                             <span class="dashicons dashicons-art"></span>
                             <span class="aie-pro-badge">PRO</span>
-                        </button>
-                        <button class="aie-toolbar-btn aie-toolbar-btn--locked" disabled title="<?php esc_attr_e('Watermark (Pro)', 'advanced-pixel-editor'); ?>">
+                        </a>
+                        <a class="aie-toolbar-btn aie-toolbar-btn--locked" href="<?php echo esc_url($advaimg_pro_url); ?>" target="_blank" rel="noopener noreferrer" title="<?php esc_attr_e('Watermark (Pro). Opens the Pro page in a new tab.', 'advanced-pixel-editor'); ?>">
                             <span class="dashicons dashicons-media-text"></span>
                             <span class="aie-pro-badge">PRO</span>
-                        </button>
+                        </a>
                         <?php
                     }
                     ?>
@@ -169,6 +170,11 @@ if (isset($_GET['attachment_id'])) {
                                 </div>
                             </div>
                         </div>
+                        <p class="aie-pro-upsell-link">
+                            <a href="https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/" target="_blank" rel="noopener noreferrer">
+                                <?php esc_html_e('Unlock brightness, saturation, hue and more filters with Advanced Pixel Editor Pro', 'advanced-pixel-editor'); ?>
+                            </a>
+                        </p>
                         <?php endif; ?>
                     </div>
 

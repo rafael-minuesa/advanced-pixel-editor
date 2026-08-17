@@ -111,7 +111,15 @@
     padding: 5px 0 3px;
     gap: 2px;
     opacity: 0.4;
-    cursor: not-allowed;
+    cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.aie-toolbar-btn.aie-toolbar-btn--locked:hover,
+.aie-toolbar-btn.aie-toolbar-btn--locked:focus-visible {
+    opacity: 1;
+    color: #2271b1;
 }
 
 .aie-toolbar-btn--locked .aie-pro-badge {
@@ -119,6 +127,12 @@
     font-size: 7px;
     line-height: 10px;
     padding: 0 3px;
+}
+
+/* Link under the dimmed Pro controls */
+.aie-pro-upsell-link {
+    margin: 8px 0 0;
+    font-size: 12px;
 }
 
 /* Dimmed Pro upsell controls (shown when Pro is not installed) */
@@ -752,7 +766,8 @@
     width: 100%;
     height: 100%;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.5);
+    background: transparent;
+    overflow: hidden; /* keep the selection's dimming shadow inside the image */
     cursor: crosshair;
 }
 
@@ -816,7 +831,7 @@
 }
 
 .aie-crop-dims input[type="number"] {
-    width: 65px;
+    width: 84px; /* room for 5 digits plus the spinner */
     min-width: 0;
     text-align: center;
 }

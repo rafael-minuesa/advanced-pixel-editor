@@ -714,6 +714,10 @@ jQuery(function($){
 
         // Click handler for toolbar buttons
         $toolbar.on('click', '.aie-toolbar-btn', function(e) {
+            // Locked Pro buttons are plain links to the Pro page; let them navigate.
+            if ($(this).hasClass('aie-toolbar-btn--locked')) {
+                return;
+            }
             e.preventDefault();
             var toolName = $(this).data('tool');
             if (toolName) {

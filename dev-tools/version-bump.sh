@@ -50,7 +50,7 @@ echo "New version: $NEW_VERSION"
 
 # Update version in plugin file
 sed -i "s/Version: $CURRENT_VERSION/Version: $NEW_VERSION/" advanced-pixel-editor.php
-sed -i "s/AIE_VERSION', '$CURRENT_VERSION'/AIE_VERSION', '$NEW_VERSION'/" advanced-pixel-editor.php
+sed -i "s/ADVAIMG_VERSION', '$CURRENT_VERSION'/ADVAIMG_VERSION', '$NEW_VERSION'/" advanced-pixel-editor.php
 
 # Update version in readme.txt
 sed -i "s/Stable tag: $CURRENT_VERSION/Stable tag: $NEW_VERSION/" readme.txt

@@ -16,6 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Flip tool: mirror images horizontally or vertically, with combined flips supported
 - New toolbar button with live preview; works together with Rotate, Crop and all filters
 
+## [3.6.1] - 2026-08-17
+
+### Fixed
+- Crop overlay dimmed the entire page (the selection's box-shadow was not clipped to the preview) and darkened the selected area; now only the area outside the selection dims
+- Crop X/Y/W/H inputs were too narrow, four-digit values were clipped
+- `ADVAIMG_VERSION` constant was stuck at 3.4.0 (the bump script targeted the old `AIE_VERSION` name); the About tab showed the wrong version
+
+### Changed
+- Locked Pro toolbar icons are now links to the Pro page, and a link sits under the dimmed Pro sliders
+- readme: short description and tags now name crop, resize, rotate, flip; Pro section and FAQ match the real Pro feature set; nine new screenshots
+
 ## [Unreleased]
 
 ## [3.3.2] - 2026-03-02

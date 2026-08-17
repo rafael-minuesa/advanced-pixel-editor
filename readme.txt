@@ -1,15 +1,15 @@
 === Advanced Pixel Editor ===
 
 Contributors: rafaelminuesa
-Tags: image editor, photo editor, photoshop, image filter, imagick
+Tags: image editor, photo editor, crop, resize, imagick
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.6.0
+Stable tag: 3.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Photoshop-grade image editing inside WordPress — sigmoidal contrast, unsharp masking, and real-time before/after preview. Powered by ImageMagick.
+Crop, resize, rotate, flip, contrast and sharpen images inside the Media Library with live before/after preview. Powered by ImageMagick.
 
 == Description ==
 
@@ -35,12 +35,12 @@ Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photosh
 
 = Upgrade to Pro =
 
-Need more than contrast, sharpening, and crop? [**Advanced Pixel Editor Pro**](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds a full Photoshop-style toolset on top of the free editor:
+Need more than contrast, sharpening, crop, rotate and flip? [**Advanced Pixel Editor Pro**](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds these tools to the same editor:
 
-* **Advanced Filters** — Photoshop-style Levels and Curves dialogs, plus brightness, saturation, hue, clarity, dehaze, vibrance, highlights/shadows, and artistic effects like sepia, vintage, duotone, and black & white
-* **Watermarking** — Text watermarks with 50+ Google Fonts or image watermarks with transparency, plus 9-point positioning and tiling
-* **Batch Processing** — Apply filters to 10–100+ images at once with real-time progress, pause/resume, and background processing — like Photoshop's Actions, but built into WordPress
-* **Filter Presets** — Save and reuse your favorite filter combinations
+* **Advanced Filters.** Brightness, saturation, hue, auto levels, sepia, vignette, Gaussian blur, noise reduction and emboss, all with live preview
+* **Watermarking.** Text watermarks (size, color, opacity, rotation) or image watermarks from your Media Library, with a 9-point position grid and tiling
+* **Batch Processing.** Apply contrast, sharpness, brightness, saturation and hue to many images at once, processed in the background with progress tracking, saved as new files or replacing the originals
+* **Zoom & Pan.** Magnify the preview up to 8x to judge fine detail while you edit
 
 [View pricing and features](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/)
 
@@ -118,7 +118,7 @@ Yes. The editor is fully responsive and touch-friendly, including the comparison
 
 = What is the Pro add-on? =
 
-[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, curves, levels, artistic effects), watermarking, batch processing, and filter presets. It requires this free plugin to be installed.
+[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blur, noise reduction, emboss), text and image watermarking, background batch processing, and zoom & pan in the preview. It requires this free plugin to be installed.
 
 = Does this plugin require special server software? =
 
@@ -126,12 +126,24 @@ Yes — the Imagick PHP extension must be enabled. See the **Requirements & Host
 
 == Screenshots ==
 
-1. **Editor Interface** — Select an image and adjust contrast and sharpness with live preview
-2. **Before / After Comparison** — Drag the slider to compare your edits with the original
-3. **Media Library Integration** — Open the editor directly from grid view, list view, or the attachment page
-4. **Save Options** — Save as a new image or replace the original with automatic backup
+1. Contrast with the live before/after comparison slider
+2. Unsharp mask sharpening with amount, radius and threshold
+3. Crop with the interactive overlay and aspect ratio presets, plus resize and DPI
+4. Free rotation with 45 and 90 degree presets
+5. Horizontal and vertical flip
+6. Save as a new image or replace the original with an automatic backup
+7. "Advanced Editor" button next to "Edit Image" on the attachment page (also in the Media Library grid and list views)
+8. Advanced Filters panel (Pro add-on): sepia and vignette shown, with brightness, saturation, hue, auto levels, blur, noise reduction and emboss
+9. Watermark panel (Pro add-on): text watermark, 9-point position grid, opacity, rotation and tiling
 
 == Changelog ==
+
+= 3.6.1 =
+* Fixed the crop overlay dimming the whole page instead of only the area outside the selection
+* Widened the crop X/Y/W/H inputs so four-digit values are no longer clipped
+* The locked Pro toolbar icons and dimmed Pro sliders now link to the Pro page
+* Fixed the About tab showing an outdated version number
+* Refreshed the plugin description, tags, and screenshots
 
 = 3.6.0 =
 * Add Flip tool: mirror images horizontally or vertically, with combined flips supported
