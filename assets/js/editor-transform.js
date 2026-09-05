@@ -24,6 +24,8 @@
     var sourceHeight = 0;
     var previewWidth = 0;
     var previewHeight = 0;
+    var canvasWidth = 0;
+    var canvasHeight = 0;
     var isDragging = false;
     var dragHandle = null;
     var dragStart = {};
@@ -124,7 +126,14 @@
     }
 
     function getSourceCanvas() {
-        var dimensions = aieTransformGeometry.rotatedDimensions(
+        var dimensions;
+
+        // Prefer the canvas the server reported for the displayed preview.
+        if (canvasWidth > 0 && canvasHeight > 0) {
+            return { x: 0, y: 0, width: canvasWidth, height: canvasHeight };
+        }
+
+        dimensions = aieTransformGeometry.rotatedDimensions(
             sourceWidth || previewWidth,
             sourceHeight || previewHeight,
             window.aieTransformParams.advaimg_rotate || 0
@@ -204,10 +213,20 @@
             setParam('advaimg_crop_y', crop.y);
             setParam('advaimg_crop_w', crop.width);
             setParam('advaimg_crop_h', crop.height);
+
+            // The server crops before it resizes, so a resize applied to the
+            // previous canvas would stretch the cropped region. Drop it; the
+            // preview load handler refreshes the resize inputs.
+            removeParam('advaimg_resize_w');
+            removeParam('advaimg_resize_h');
+
             triggerPreview();
 
-            // Hide overlay after applying.
+            // Hide the overlay and clear the selection so a second click
+            // cannot re-compose stale coordinates against the new canvas.
             hideCropOverlay();
+            $('#aie-crop-x, #aie-crop-y').val(0);
+            $('#aie-crop-w, #aie-crop-h').val(0);
         });
 
         // Clear crop.
@@ -516,11 +535,18 @@
             }
         });
 
+        $(document).on('advaimg:preview', function(event, data) {
+            canvasWidth = data && data.canvas_width ? parseInt(data.canvas_width, 10) || 0 : 0;
+            canvasHeight = data && data.canvas_height ? parseInt(data.canvas_height, 10) || 0 : 0;
+        });
+
         $(document).on('advaimg:image-selected', function() {
             sourceWidth = 0;
             sourceHeight = 0;
             previewWidth = 0;
             previewHeight = 0;
+            canvasWidth = 0;
+            canvasHeight = 0;
         });
     }
 
@@ -533,14 +559,14 @@
         aspectLocked = true;
         isDragging = false;
         dragHandle = null;
-        hideCropOverlay();
+        clearCrop(false);
 
         $('.aie-crop-presets button').removeClass('active');
         $('.aie-crop-presets button[data-ratio="free"]').addClass('active');
-        $('#aie-crop-x, #aie-crop-y').val(0);
-        $('#aie-crop-w, #aie-crop-h').val(0);
-        $('#aie-resize-w').val(previewWidth || sourceWidth || 0);
-        $('#aie-resize-h').val(previewHeight || sourceHeight || 0);
+        if (previewWidth > 0 && previewHeight > 0) {
+            $('#aie-resize-w').val(previewWidth);
+            $('#aie-resize-h').val(previewHeight);
+        }
         $('#aie-aspect-lock').removeClass('unlocked').addClass('locked').html('&#x1f512;');
         $('#aie-dpi').val('');
         $('#aie-resample').prop('checked', false);

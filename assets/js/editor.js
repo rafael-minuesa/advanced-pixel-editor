@@ -417,6 +417,7 @@ jQuery(function($){
 
             if (resp.success) {
                 $preview.attr('src', resp.data.preview);
+                $(document).trigger('advaimg:preview', [resp.data]);
                 if ($previewToggle.is(':checked')) {
                     $preview.show();
                 }
@@ -552,6 +553,18 @@ jQuery(function($){
 
                 if (currentMode === 'replace') {
                     $restoreNotice.show();
+
+                    // The file on disk changed. Forget cached dimensions and
+                    // transforms, reload the original preview past the browser
+                    // cache, and render the replaced file with defaults.
+                    $(document).trigger('advaimg:image-selected');
+                    const currentOriginal = $originalPreview.attr('src');
+                    if (currentOriginal) {
+                        const replacedUrl = new URL(currentOriginal, window.location.origin);
+                        replacedUrl.searchParams.set('_advaimg', Date.now());
+                        $originalPreview.attr('src', replacedUrl.toString());
+                    }
+                    resetToDefaults();
                 }
 
                 // Optional: Offer to go to the edited image
