@@ -40,18 +40,27 @@
         }
     }
 
+    function clearExistingCrop() {
+        if (window.aieTransformApi) {
+            window.aieTransformApi.clearCrop(false);
+        }
+    }
+
     function bindEvents() {
         $('#aie-flip-h').on('click', function() {
+            clearExistingCrop();
             setFlip($(this), 'advaimg_flip_h', !$(this).hasClass('active'));
             triggerPreview();
         });
 
         $('#aie-flip-v').on('click', function() {
+            clearExistingCrop();
             setFlip($(this), 'advaimg_flip_v', !$(this).hasClass('active'));
             triggerPreview();
         });
 
         $('#aie-clear-flip').on('click', function() {
+            clearExistingCrop();
             setFlip($('#aie-flip-h'), 'advaimg_flip_h', false);
             setFlip($('#aie-flip-v'), 'advaimg_flip_v', false);
             triggerPreview();
@@ -64,6 +73,11 @@
         if (!$('#aie-flip-h').length) return;
 
         bindEvents();
+
+        $(document).on('advaimg:reset', function() {
+            setFlip($('#aie-flip-h'), 'advaimg_flip_h', false);
+            setFlip($('#aie-flip-v'), 'advaimg_flip_v', false);
+        });
 
         // Register with the toolbar (no activate/deactivate side effects:
         // flip keeps dimensions, so the comparison slider stays usable).

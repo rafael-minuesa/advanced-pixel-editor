@@ -16,6 +16,23 @@ if (!defined('ABSPATH')) {
 class ADVAIMG_Transform {
 
     /**
+     * Canvas size after rotate and flip, before crop and resize, from the
+     * last process() call. Crop coordinates are expressed on this canvas.
+     *
+     * @var array{0:int,1:int}|null
+     */
+    private $last_canvas = null;
+
+    /**
+     * Return the canvas crop coordinates refer to for the last process() call.
+     *
+     * @return array{0:int,1:int}|null
+     */
+    public function get_last_canvas() {
+        return $this->last_canvas;
+    }
+
+    /**
      * Process transform operations on an Imagick instance.
      *
      * Order: rotate first (crop coordinates map to the rotated image the
@@ -36,6 +53,7 @@ class ADVAIMG_Transform {
 
         $img = $this->apply_rotate($img, $post_data);
         $img = $this->apply_flip($img, $post_data);
+        $this->last_canvas = [$img->getImageWidth(), $img->getImageHeight()];
         $img = $this->apply_crop($img, $post_data);
         $img = $this->apply_resize($img, $post_data);
         $img = $this->apply_dpi($img, $post_data);

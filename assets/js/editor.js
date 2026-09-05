@@ -8,10 +8,12 @@ jQuery(function($){
 
     let frame;
     let previewTimeout = null;
+    let previewRequest = null;
+    let previewSequence = 0;
     let isDestroyed = false;
     
     // DOM elements
-    const $loading = $('#aie-loading');
+    let $loading = $('#aie-loading');
     const $imageId = $('#aie-image-id');
     const $preview = $('#aie-preview');
     const $originalPreview = $('#aie-original-preview');
@@ -56,6 +58,7 @@ jQuery(function($){
             '<div id="aie-loading-progress"><div id="aie-loading-progress-bar"></div></div>' +
             '</div>'
         );
+        $loading = $('#aie-loading');
     }
     
     // Update value displays and accessibility attributes in real-time
@@ -325,6 +328,16 @@ jQuery(function($){
             button.text(originalText);
         }
     }
+
+    function getErrorMessage(data, fallback) {
+        if (typeof data === 'string' && data) {
+            return data;
+        }
+        if (data && typeof data.message === 'string' && data.message) {
+            return data.message;
+        }
+        return fallback || ADVAIMG_AJAX.i18n.unknown_error;
+    }
     
     // Validation
     function validateImageID() {
@@ -351,6 +364,7 @@ jQuery(function($){
     
     // Reset sliders to defaults
     function resetToDefaults() {
+        $(document).trigger('advaimg:reset');
         $contrast.val(0).trigger('input');
         $amount.val(0).trigger('input');
         $radius.val(1).trigger('input');
@@ -378,6 +392,11 @@ jQuery(function($){
             return;
         }
 
+        const requestId = ++previewSequence;
+        if (previewRequest && previewRequest.readyState !== 4) {
+            previewRequest.abort();
+        }
+
         showLoading();
 
         const data = {
@@ -390,9 +409,15 @@ jQuery(function($){
             threshold: $threshold.val(),
         };
 
-        $.post(ADVAIMG_AJAX.ajax_url, data, function(resp){
+        previewRequest = $.post(ADVAIMG_AJAX.ajax_url, data)
+        .done(function(resp){
+            if (requestId !== previewSequence || isDestroyed) {
+                return;
+            }
+
             if (resp.success) {
                 $preview.attr('src', resp.data.preview);
+                $(document).trigger('advaimg:preview', [resp.data]);
                 if ($previewToggle.is(':checked')) {
                     $preview.show();
                 }
@@ -402,15 +427,21 @@ jQuery(function($){
                 updateSliderPosition();
             } else {
                 console.error('Preview failed:', resp.data);
-                alert(ADVAIMG_AJAX.i18n.preview_failed + ': ' + (resp.data || ADVAIMG_AJAX.i18n.unknown_error));
+                alert(ADVAIMG_AJAX.i18n.preview_failed + ': ' + getErrorMessage(resp.data));
             }
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
+            if (textStatus === 'abort' || requestId !== previewSequence || isDestroyed) {
+                return;
+            }
             console.error('AJAX Error:', textStatus, errorThrown);
-            alert(ADVAIMG_AJAX.i18n.network_error);
+            alert(getErrorMessage(jqXHR.responseJSON && jqXHR.responseJSON.data, ADVAIMG_AJAX.i18n.network_error));
         })
         .always(function() {
-            hideLoading();
+            if (requestId === previewSequence) {
+                previewRequest = null;
+                hideLoading();
+            }
         });
     }
     
@@ -431,6 +462,12 @@ jQuery(function($){
             clearTimeout(previewTimeout);
             previewTimeout = null;
         }
+
+        previewSequence++;
+        if (previewRequest && previewRequest.readyState !== 4) {
+            previewRequest.abort();
+        }
+        previewRequest = null;
 
         // Remove event listeners from actual elements (not delegated)
         $contrast.add($amount).add($radius).add($threshold).off('input keydown');
@@ -514,18 +551,34 @@ jQuery(function($){
             if (resp.success) {
                 alert(resp.data.message);
 
+                if (currentMode === 'replace') {
+                    $restoreNotice.show();
+
+                    // The file on disk changed. Forget cached dimensions and
+                    // transforms, reload the original preview past the browser
+                    // cache, and render the replaced file with defaults.
+                    $(document).trigger('advaimg:image-selected');
+                    const currentOriginal = $originalPreview.attr('src');
+                    if (currentOriginal) {
+                        const replacedUrl = new URL(currentOriginal, window.location.origin);
+                        replacedUrl.searchParams.set('_advaimg', Date.now());
+                        $originalPreview.attr('src', replacedUrl.toString());
+                    }
+                    resetToDefaults();
+                }
+
                 // Optional: Offer to go to the edited image
                 if (resp.data.edit_link && confirm(ADVAIMG_AJAX.i18n.view_edited)) {
                     window.open(resp.data.edit_link, '_blank');
                 }
             } else {
                 console.error('Save failed:', resp.data);
-                alert(ADVAIMG_AJAX.i18n.save_failed + ': ' + (resp.data.message || ADVAIMG_AJAX.i18n.unknown_error));
+                alert(ADVAIMG_AJAX.i18n.save_failed + ': ' + getErrorMessage(resp.data));
             }
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
             console.error('AJAX Error:', textStatus, errorThrown);
-            alert(ADVAIMG_AJAX.i18n.network_error);
+            alert(getErrorMessage(jqXHR.responseJSON && jqXHR.responseJSON.data, ADVAIMG_AJAX.i18n.network_error));
         })
         .always(function() {
             hideButtonLoading($('#aie-save'));
@@ -554,15 +607,18 @@ jQuery(function($){
 
                 // Reload preview with restored image
                 if (resp.data.original_url) {
-                    $originalPreview.attr('src', resp.data.original_url);
+                    const restoredUrl = new URL(resp.data.original_url, window.location.origin);
+                    restoredUrl.searchParams.set('_advaimg', Date.now());
+                    $(document).trigger('advaimg:image-selected');
+                    $originalPreview.attr('src', restoredUrl.toString());
                 }
-                sendPreview();
+                resetToDefaults();
             } else {
-                alert((ADVAIMG_AJAX.i18n.restore_failed || 'Failed to restore original image') + ': ' + (resp.data || ADVAIMG_AJAX.i18n.unknown_error));
+                alert((ADVAIMG_AJAX.i18n.restore_failed || 'Failed to restore original image') + ': ' + getErrorMessage(resp.data));
             }
         })
-        .fail(function() {
-            alert(ADVAIMG_AJAX.i18n.network_error);
+        .fail(function(jqXHR) {
+            alert(getErrorMessage(jqXHR.responseJSON && jqXHR.responseJSON.data, ADVAIMG_AJAX.i18n.network_error));
         })
         .always(function() {
             hideButtonLoading($restoreBtn);
@@ -591,6 +647,7 @@ jQuery(function($){
         frame.on('select', function(){
             const attachment = frame.state().get('selection').first().toJSON();
 
+            $(document).trigger('advaimg:image-selected');
             $imageId.val(attachment.id);
             $('#aie-image-title').text(attachment.filename || attachment.title);
             $selectedImage.show();

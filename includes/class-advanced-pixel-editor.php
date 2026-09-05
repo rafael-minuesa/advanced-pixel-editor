@@ -255,6 +255,18 @@ class Advanced_Pixel_Editor {
             true
         );
 
+        // Enqueue pure transform geometry helpers.
+        $geometry_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/transform-geometry.js';
+        $geometry_js_version = file_exists($geometry_js_path) ? filemtime($geometry_js_path) : self::VERSION;
+
+        wp_enqueue_script(
+            'advaimg-transform-geometry-js',
+            ADVAIMG_PLUGIN_URL . 'assets/js/transform-geometry.js',
+            [],
+            $geometry_js_version,
+            true
+        );
+
         // Enqueue transform (crop & resize) JS
         $transform_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor-transform.js';
         $transform_js_version = file_exists($transform_js_path) ? filemtime($transform_js_path) : self::VERSION;
@@ -262,7 +274,7 @@ class Advanced_Pixel_Editor {
         wp_enqueue_script(
             'advaimg-editor-transform-js',
             ADVAIMG_PLUGIN_URL . 'assets/js/editor-transform.js',
-            ['jquery', 'advaimg-editor-js'],
+            ['jquery', 'advaimg-editor-js', 'advaimg-transform-geometry-js'],
             $transform_js_version,
             true
         );
@@ -307,6 +319,7 @@ class Advanced_Pixel_Editor {
                 'save_failed'        => __('Failed to save image', 'advanced-pixel-editor'),
                 'confirm_save'       => __('Save this edited image to your media library?', 'advanced-pixel-editor'),
                 'view_edited'        => __('Would you like to view the edited image?', 'advanced-pixel-editor'),
+                'crop_not_ready'     => __('The preview has not finished loading yet. Wait for it and apply the crop again.', 'advanced-pixel-editor'),
                 'unknown_error'      => __('Unknown error occurred', 'advanced-pixel-editor'),
                 'rate_limit_error'   => __('Too many requests. Please wait a moment before trying again.', 'advanced-pixel-editor'),
                 'reset_confirm'      => __('Reset all filters to default values?', 'advanced-pixel-editor'),

@@ -11,7 +11,7 @@
  * - Resize and DPI each have their own "Apply" button.
  */
 
-/* global jQuery, ADVAIMG_AJAX */
+/* global jQuery, ADVAIMG_AJAX, aieTransformGeometry */
 
 (function($) {
     'use strict';
@@ -20,8 +20,12 @@
     var cropOverlayVisible = false; // Whether the crop selection overlay is shown.
     var aspectRatio = null; // null = free
     var aspectLocked = true;
-    var originalWidth = 0;
-    var originalHeight = 0;
+    var sourceWidth = 0;
+    var sourceHeight = 0;
+    var previewWidth = 0;
+    var previewHeight = 0;
+    var canvasWidth = 0;
+    var canvasHeight = 0;
     var isDragging = false;
     var dragHandle = null;
     var dragStart = {};
@@ -121,6 +125,51 @@
         delete window.aieTransformParams[key];
     }
 
+    function getSourceCanvas() {
+        var dimensions;
+
+        // Prefer the canvas the server reported for the displayed preview.
+        if (canvasWidth > 0 && canvasHeight > 0) {
+            return { x: 0, y: 0, width: canvasWidth, height: canvasHeight };
+        }
+
+        dimensions = aieTransformGeometry.rotatedDimensions(
+            sourceWidth || previewWidth,
+            sourceHeight || previewHeight,
+            window.aieTransformParams.advaimg_rotate || 0
+        );
+
+        return {
+            x: 0,
+            y: 0,
+            width: dimensions.width,
+            height: dimensions.height
+        };
+    }
+
+    function getCurrentCropBase() {
+        var canvas = getSourceCanvas();
+        var x = parseInt(window.aieTransformParams.advaimg_crop_x, 10);
+        var y = parseInt(window.aieTransformParams.advaimg_crop_y, 10);
+        var width = parseInt(window.aieTransformParams.advaimg_crop_w, 10);
+        var height = parseInt(window.aieTransformParams.advaimg_crop_h, 10);
+        var clampedX;
+        var clampedY;
+
+        if (x >= 0 && y >= 0 && width > 0 && height > 0) {
+            clampedX = Math.min(x, Math.max(0, canvas.width - 1));
+            clampedY = Math.min(y, Math.max(0, canvas.height - 1));
+            return {
+                x: clampedX,
+                y: clampedY,
+                width: Math.min(width, canvas.width - clampedX),
+                height: Math.min(height, canvas.height - clampedY)
+            };
+        }
+
+        return canvas;
+    }
+
     function triggerPreview() {
         var $contrast = $('#aie-contrast');
         if ($contrast.length) {
@@ -148,29 +197,46 @@
             var y = Math.round(parseFloat($('#aie-crop-y').val()) || 0);
             var w = Math.round(parseFloat($('#aie-crop-w').val()) || 0);
             var h = Math.round(parseFloat($('#aie-crop-h').val()) || 0);
+            var crop;
 
             if (w <= 0 || h <= 0) return;
 
-            setParam('advaimg_crop_x', x);
-            setParam('advaimg_crop_y', y);
-            setParam('advaimg_crop_w', w);
-            setParam('advaimg_crop_h', h);
+            crop = aieTransformGeometry.composeCropRect(
+                { x: x, y: y, width: w, height: h },
+                { width: previewWidth, height: previewHeight },
+                getCurrentCropBase()
+            );
+
+            if (!crop) {
+                // The preview size is not known yet (image just selected or
+                // the preview request is still running or failed).
+                alert(i18n('crop_not_ready'));
+                return;
+            }
+
+            setParam('advaimg_crop_x', crop.x);
+            setParam('advaimg_crop_y', crop.y);
+            setParam('advaimg_crop_w', crop.width);
+            setParam('advaimg_crop_h', crop.height);
+
+            // The server crops before it resizes, so a resize applied to the
+            // previous canvas would stretch the cropped region. Drop it; the
+            // preview load handler refreshes the resize inputs.
+            removeParam('advaimg_resize_w');
+            removeParam('advaimg_resize_h');
+
             triggerPreview();
 
-            // Hide overlay after applying.
+            // Hide the overlay and clear the selection so a second click
+            // cannot re-compose stale coordinates against the new canvas.
             hideCropOverlay();
+            $('#aie-crop-x, #aie-crop-y').val(0);
+            $('#aie-crop-w, #aie-crop-h').val(0);
         });
 
         // Clear crop.
         $panel.find('#aie-clear-crop').on('click', function() {
-            removeParam('advaimg_crop_x');
-            removeParam('advaimg_crop_y');
-            removeParam('advaimg_crop_w');
-            removeParam('advaimg_crop_h');
-            hideCropOverlay();
-            $('#aie-crop-x, #aie-crop-y').val(0);
-            $('#aie-crop-w, #aie-crop-h').val(0);
-            triggerPreview();
+            clearCrop(true);
         });
 
         // Apply resize.
@@ -188,9 +254,9 @@
         $panel.find('#aie-clear-resize').on('click', function() {
             removeParam('advaimg_resize_w');
             removeParam('advaimg_resize_h');
-            if (originalWidth > 0) {
-                $('#aie-resize-w').val(originalWidth);
-                $('#aie-resize-h').val(originalHeight);
+            if (previewWidth > 0) {
+                $('#aie-resize-w').val(previewWidth);
+                $('#aie-resize-h').val(previewHeight);
             }
             triggerPreview();
         });
@@ -205,8 +271,8 @@
         // Resize width change — update linked height only, don't apply yet.
         $panel.find('#aie-resize-w').on('input', function() {
             var w = parseInt(this.value) || 0;
-            if (aspectLocked && originalWidth > 0 && originalHeight > 0) {
-                var h = Math.round(w * (originalHeight / originalWidth));
+            if (aspectLocked && previewWidth > 0 && previewHeight > 0) {
+                var h = Math.round(w * (previewHeight / previewWidth));
                 $panel.find('#aie-resize-h').val(h);
             }
         });
@@ -214,8 +280,8 @@
         // Resize height change — update linked width only, don't apply yet.
         $panel.find('#aie-resize-h').on('input', function() {
             var h = parseInt(this.value) || 0;
-            if (aspectLocked && originalWidth > 0 && originalHeight > 0) {
-                var w = Math.round(h * (originalWidth / originalHeight));
+            if (aspectLocked && previewWidth > 0 && previewHeight > 0) {
+                var w = Math.round(h * (previewWidth / previewHeight));
                 $panel.find('#aie-resize-w').val(w);
             }
         });
@@ -265,6 +331,25 @@
     function hideCropOverlay() {
         $('#aie-crop-overlay').hide();
         cropOverlayVisible = false;
+    }
+
+    /**
+     * Remove crop parameters without disturbing other transforms.
+     *
+     * @param {boolean} requestPreview Whether to request an updated preview.
+     */
+    function clearCrop(requestPreview) {
+        removeParam('advaimg_crop_x');
+        removeParam('advaimg_crop_y');
+        removeParam('advaimg_crop_w');
+        removeParam('advaimg_crop_h');
+        hideCropOverlay();
+        $('#aie-crop-x, #aie-crop-y').val(0);
+        $('#aie-crop-w, #aie-crop-h').val(0);
+
+        if (requestPreview) {
+            triggerPreview();
+        }
     }
 
     /**
@@ -432,18 +517,64 @@
     }
 
     /**
-     * Update original dimensions when an image is loaded.
+     * Track the immutable source dimensions separately from the processed
+     * preview dimensions. Crop coordinates are expressed on the source canvas.
      */
     function watchImageLoad() {
         var $preview = $('#aie-preview');
-        $preview.on('load', function() {
+        var $originalPreview = $('#aie-original-preview');
+
+        $originalPreview.on('load', function() {
             if (this.naturalWidth) {
-                originalWidth = this.naturalWidth;
-                originalHeight = this.naturalHeight;
-                $('#aie-resize-w').val(originalWidth).attr('placeholder', originalWidth);
-                $('#aie-resize-h').val(originalHeight).attr('placeholder', originalHeight);
+                sourceWidth = this.naturalWidth;
+                sourceHeight = this.naturalHeight;
             }
         });
+
+        $preview.on('load', function() {
+            if (this.naturalWidth) {
+                previewWidth = this.naturalWidth;
+                previewHeight = this.naturalHeight;
+                $('#aie-resize-w').val(previewWidth).attr('placeholder', previewWidth);
+                $('#aie-resize-h').val(previewHeight).attr('placeholder', previewHeight);
+            }
+        });
+
+        $(document).on('advaimg:preview', function(event, data) {
+            canvasWidth = data && data.canvas_width ? parseInt(data.canvas_width, 10) || 0 : 0;
+            canvasHeight = data && data.canvas_height ? parseInt(data.canvas_height, 10) || 0 : 0;
+        });
+
+        $(document).on('advaimg:image-selected', function() {
+            sourceWidth = 0;
+            sourceHeight = 0;
+            previewWidth = 0;
+            previewHeight = 0;
+            canvasWidth = 0;
+            canvasHeight = 0;
+        });
+    }
+
+    function resetTransformState() {
+        Object.keys(window.aieTransformParams).forEach(function(key) {
+            delete window.aieTransformParams[key];
+        });
+
+        aspectRatio = null;
+        aspectLocked = true;
+        isDragging = false;
+        dragHandle = null;
+        clearCrop(false);
+
+        $('.aie-crop-presets button').removeClass('active');
+        $('.aie-crop-presets button[data-ratio="free"]').addClass('active');
+        if (previewWidth > 0 && previewHeight > 0) {
+            $('#aie-resize-w').val(previewWidth);
+            $('#aie-resize-h').val(previewHeight);
+        }
+        $('#aie-aspect-lock').removeClass('unlocked').addClass('locked').html('&#x1f512;');
+        $('#aie-dpi').val('');
+        $('#aie-resample').prop('checked', false);
     }
 
     /**
@@ -474,6 +605,12 @@
         buildPanel();
         watchImageLoad();
         initAjaxPrefilter();
+
+        $(document).on('advaimg:reset', resetTransformState);
+
+        window.aieTransformApi = {
+            clearCrop: clearCrop
+        };
 
         // Register crop tool with the toolbar system.
         if (typeof window.aieToolbar !== 'undefined') {

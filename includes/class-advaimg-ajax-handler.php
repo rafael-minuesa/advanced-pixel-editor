@@ -17,6 +17,13 @@ if (!defined('ABSPATH')) {
 class ADVAIMG_Ajax_Handler {
 
     /**
+     * Canvas size after rotate and flip for the last processed frame.
+     *
+     * @var array{0:int,1:int}|null
+     */
+    private $last_canvas = null;
+
+    /**
      * Constructor - Register AJAX hooks
      */
     public function __construct() {
@@ -217,6 +224,7 @@ class ADVAIMG_Ajax_Handler {
 
         $transform = new ADVAIMG_Transform();
         $frame     = $transform->process($frame, $post_data);
+        $this->last_canvas = $transform->get_last_canvas();
         $frame     = apply_filters('advaimg_after_process', $frame, $attachment_id, $post_data);
 
         if (!$frame instanceof Imagick) {
@@ -331,10 +339,14 @@ class ADVAIMG_Ajax_Handler {
             $preview_base64 = base64_encode($preview_blob);
             $preview_img->clear();
 
+            $canvas = $this->last_canvas;
+
             wp_send_json_success([
                 'preview' => 'data:image/jpeg;base64,' . $preview_base64,
                 'original_format' => $source_info['original_format'],
-                'mime_type' => $source_info['mime_type']
+                'mime_type' => $source_info['mime_type'],
+                'canvas_width' => $canvas ? $canvas[0] : 0,
+                'canvas_height' => $canvas ? $canvas[1] : 0
             ]);
 
         } catch (Throwable $e) {
