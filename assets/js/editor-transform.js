@@ -207,7 +207,12 @@
                 getCurrentCropBase()
             );
 
-            if (!crop) return;
+            if (!crop) {
+                // The preview size is not known yet (image just selected or
+                // the preview request is still running or failed).
+                alert(i18n('crop_not_ready'));
+                return;
+            }
 
             setParam('advaimg_crop_x', crop.x);
             setParam('advaimg_crop_y', crop.y);

@@ -319,6 +319,7 @@ class Advanced_Pixel_Editor {
                 'save_failed'        => __('Failed to save image', 'advanced-pixel-editor'),
                 'confirm_save'       => __('Save this edited image to your media library?', 'advanced-pixel-editor'),
                 'view_edited'        => __('Would you like to view the edited image?', 'advanced-pixel-editor'),
+                'crop_not_ready'     => __('The preview has not finished loading yet. Wait for it and apply the crop again.', 'advanced-pixel-editor'),
                 'unknown_error'      => __('Unknown error occurred', 'advanced-pixel-editor'),
                 'rate_limit_error'   => __('Too many requests. Please wait a moment before trying again.', 'advanced-pixel-editor'),
                 'reset_confirm'      => __('Reset all filters to default values?', 'advanced-pixel-editor'),
