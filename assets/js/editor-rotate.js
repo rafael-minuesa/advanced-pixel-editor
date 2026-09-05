@@ -1,5 +1,5 @@
 /**
- * Advanced Pixel Editor — Rotate Module
+ * Advanced Pixel Editor, Rotate Module
  *
  * Free rotation via slider/number input plus 45 and 90 degree preset
  * buttons. The angle is sent as `advaimg_rotate` through the shared

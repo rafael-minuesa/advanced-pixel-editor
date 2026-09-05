@@ -96,7 +96,7 @@ Advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blu
 
 This plugin is powered by ImageMagick, the world's most comprehensive free software suite for image processing. ImageMagick has been a cornerstone of digital imaging since 1987, supporting millions of websites and applications worldwide.
 
-When you purchase [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/), 20% of all proceeds are donated to support the ImageMagick project — helping sustain the free software that powers professional image processing worldwide.
+When you purchase [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/), 20% of all proceeds are donated to support the ImageMagick project, helping sustain the free software that powers professional image processing worldwide.
 
 [Learn more about ImageMagick](https://imagemagick.org/) | [Sponsor ImageMagick on GitHub](https://github.com/sponsors/ImageMagick)
 
@@ -208,7 +208,7 @@ GitHub Actions runs these checks across supported PHP versions for every pull re
 - Add icon palette toolbar with tool-based panel switching
 
 ### [3.1.1] - 2026-02-08
-- Fixed "Advanced Editor" button placement on attachment edit page — now appears next to "Edit Image"
+- Fixed "Advanced Editor" button placement on attachment edit page, now appears next to "Edit Image"
 - Added translation template (.pot) file
 
 ### [3.1] - 2026-02-08
