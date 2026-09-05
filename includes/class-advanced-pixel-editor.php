@@ -7,7 +7,7 @@
  * @package AdvancedImageEditor
  * @author Rafael Minuesa
  * @license GPL-2.0+
- * @link https://github.com/rafael-minuesa/advanced-image-editor
+ * @link https://github.com/rafael-minuesa/advanced-pixel-editor
  */
 
 if (!defined('ABSPATH')) {
@@ -518,7 +518,7 @@ class Advanced_Pixel_Editor {
                 <a href="https://wordpress.org/plugins/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer" class="button">
                     <?php esc_html_e('WordPress.org', 'advanced-pixel-editor'); ?>
                 </a>
-                <a href="https://github.com/rafael-minuesa/advanced-image-editor" target="_blank" rel="noopener noreferrer" class="button">
+                <a href="https://github.com/rafael-minuesa/advanced-pixel-editor" target="_blank" rel="noopener noreferrer" class="button">
                     <?php esc_html_e('GitHub', 'advanced-pixel-editor'); ?>
                 </a>
             </p>

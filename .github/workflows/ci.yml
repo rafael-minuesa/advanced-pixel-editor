@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.4'
+          - '8.1'
+          - '8.5'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: none
+      - name: Lint PHP
+        run: find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+      - name: Run standalone PHP regressions
+        shell: bash
+        run: |
+          shopt -s nullglob
+          for test_file in tests/*.php; do
+            php "$test_file"
+          done
+
+  javascript:
+    name: JavaScript and shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Check JavaScript syntax
+        run: find assets/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Run JavaScript regressions
+        shell: bash
+        run: |
+          shopt -s nullglob
+          test_files=(tests/*.test.js)
+          if (( ${#test_files[@]} )); then
+            node --test "${test_files[@]}"
+          fi
+      - name: Check shell syntax
+        run: bash -n build-wp-org-zip.sh dev-tools/*.sh
+
+  package:
+    name: WordPress.org package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build distribution archive
+        run: ./build-wp-org-zip.sh
+      - name: Verify distribution archive
+        shell: bash
+        run: |
+          unzip -t ../advanced-pixel-editor.zip
+          archive_files="$(unzip -Z1 ../advanced-pixel-editor.zip)"
+          grep -qx 'advanced-pixel-editor/advanced-pixel-editor.php' <<< "$archive_files"
+          if grep -Eq '^advanced-pixel-editor/(\.git|\.github|tests|dev-tools)/' <<< "$archive_files"; then
+            echo 'Development-only files leaked into the distribution archive.' >&2
+            exit 1
+          fi

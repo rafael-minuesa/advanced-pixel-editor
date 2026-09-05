@@ -30,6 +30,25 @@ git clone https://github.com/rafael-minuesa/advanced-pixel-editor.git
 
 3. Navigate to Media > Advanced Pixel Editor to verify it loads correctly.
 
+## Testing
+
+Run the same dependency-free checks used by CI before opening a pull request:
+
+```bash
+find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
+find assets/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+bash -n build-wp-org-zip.sh dev-tools/*.sh
+
+# Run these when the branch contains standalone regressions.
+shopt -s nullglob
+js_tests=(tests/*.test.js)
+if (( ${#js_tests[@]} )); then node --test "${js_tests[@]}"; fi
+for test_file in tests/*.php; do php "$test_file"; done
+```
+
+The GitHub workflow also builds and validates the WordPress.org ZIP. A local
+WordPress install with Imagick is still required for end-to-end editor testing.
+
 ## Project Structure
 
 ```
@@ -44,7 +63,12 @@ advanced-pixel-editor/
 │   ├── css/admin.css                  # Editor styles
 │   └── js/
 │       ├── editor.js                  # Editor JavaScript
+│       ├── editor-transform.js        # Crop, resize, and DPI controls
+│       ├── editor-rotate.js           # Rotation controls
+│       ├── editor-flip.js             # Flip controls
 │       └── media-library.js           # Media Library integration
+├── .github/workflows/                 # Continuous integration
+├── tests/                             # Standalone regression tests
 ├── languages/                         # Translation files
 └── readme.txt                         # WordPress.org readme
 ```

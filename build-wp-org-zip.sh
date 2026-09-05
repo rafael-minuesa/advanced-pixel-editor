@@ -44,6 +44,7 @@ echo ""
 echo "Excluding development files:"
 echo "  - .gitignore"
 echo "  - .git/ folder"
+echo "  - .github/ folder"
 echo "  - .claude/ folder"
 echo "  - CLAUDE.md"
 echo "  - README.md (GitHub readme)"
@@ -57,6 +58,7 @@ echo ""
 
 zip -r "$ZIP_PATH" "$PLUGIN_NAME/" \
     -x "$PLUGIN_NAME/.git/*" \
+    -x "$PLUGIN_NAME/.github/*" \
     -x "$PLUGIN_NAME/.gitignore" \
     -x "$PLUGIN_NAME/.claude/*" \
     -x "$PLUGIN_NAME/CLAUDE.md" \
