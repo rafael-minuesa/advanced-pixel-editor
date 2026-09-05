@@ -1,6 +1,6 @@
 # Advanced Pixel Editor
 
-[![Version](https://img.shields.io/badge/Version-3.6.1-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
+[![Version](https://img.shields.io/badge/Version-3.7.0-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
 [![WordPress Plugin Version](https://img.shields.io/badge/WordPress-5.6+-blue.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4+-purple.svg)](https://php.net/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,7 +10,7 @@ Crop, resize, rotate, flip, contrast and sharpen images inside the WordPress Med
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
-> **📦 Current Version: 3.6.1** | **📅 Released: August 17, 2026** | **⚡ WordPress 5.6+ Required**
+> **📦 Current Version: 3.7.0** | **📅 Released: September 6, 2026** | **⚡ WordPress 5.6+ Required**
 
 ![Advanced Pixel Editor Banner](./.wordpress-org/banner-1544x500.png)
 
@@ -166,6 +166,19 @@ for f in build-wp-org-zip.sh dev-tools/*.sh; do bash -n "$f"; done
 GitHub Actions runs these checks across supported PHP versions for every pull request.
 
 ## 📊 Changelog
+
+### [3.7.0] - 2026-09-06
+- Animated GIF and WebP images are processed frame by frame and saved with all their frames
+- Crop selections are mapped on the canvas the server reports, so crops after resize, rotation, repeated crops and Replace Original land where you drew them
+- Apply Crop clears the selection after applying, drops an active resize, and says so when the preview is not ready yet
+- Replace Original validates the edited file before it replaces the original and restores the original if metadata generation fails; backups get collision-safe names
+- The server checks format, dimensions, total pixels, frame count and DPI before processing and refuses unsupported formats with a clear message; rotation, resize and DPI resampling have their own output limits
+- Preview requests are sequenced and cancelled so a slow response can no longer overwrite a newer edit
+- Reset and switching images clear every transform (Advanced Pixel Editor Pro 2.4.4 follows the same reset)
+- AVIF, HEIC and HEIF are recognized by name
+- The "Advanced Editor" button label is escaped before it is inserted into the Media Library
+- Truthful plugin description and About tab resources; translation template regenerated (212 strings) with a context for the crop preset "Free"
+- Added GitHub Actions checks for PHP 7.4, 8.1 and 8.5, JavaScript, shell syntax and the WordPress.org package
 
 ### [3.6.1] - 2026-08-17
 - Fixed the crop overlay dimming the whole page instead of only the area outside the selection

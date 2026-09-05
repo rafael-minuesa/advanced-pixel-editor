@@ -5,7 +5,7 @@ Tags: image editor, photo editor, crop, resize, imagick
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.6.1
+Stable tag: 3.7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,19 @@ Yes, the Imagick PHP extension must be enabled. See the **Requirements & Hosting
 9. Watermark panel (Pro add-on): text watermark, 9-point position grid, opacity, rotation and tiling
 
 == Changelog ==
+
+= 3.7.0 =
+* Animated GIF and WebP images are processed frame by frame and saved with all their frames
+* Crop selections are mapped on the canvas the server reports, so crops after resize, rotation, repeated crops and Replace Original land where you drew them
+* Apply Crop clears the selection after applying, drops an active resize, and says so when the preview is not ready yet
+* Replace Original validates the edited file before it replaces the original and restores the original if metadata generation fails; backups get collision-safe names
+* The server checks format, dimensions, total pixels, frame count and DPI before processing and refuses unsupported formats with a clear message; rotation, resize and DPI resampling have their own output limits
+* Preview requests are sequenced and cancelled so a slow response can no longer overwrite a newer edit
+* Reset and switching images clear every transform (Advanced Pixel Editor Pro 2.4.4 follows the same reset)
+* AVIF, HEIC and HEIF are recognized by name
+* The "Advanced Editor" button label is escaped before it is inserted into the Media Library
+* Truthful plugin description and About tab resources; translation template regenerated (212 strings) with a context for the crop preset "Free"
+* Added GitHub Actions checks for PHP 7.4, 8.1 and 8.5, JavaScript, shell syntax and the WordPress.org package
 
 = 3.6.1 =
 * Fixed the crop overlay dimming the whole page instead of only the area outside the selection

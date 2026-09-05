@@ -5,16 +5,21 @@ All notable changes to **Advanced Pixel Editor** will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.5.0] - 2026-07-04
+## [Unreleased]
 
-- Add Rotate tool: free rotation from -180 to 180 degrees with 45 and 90 degree presets
-- New toolbar button with live preview; corners filled white (JPEG) or transparent (PNG/WebP)
-- Declared compatibility with WordPress 7.0
+## [3.7.0] - 2026-09-06
 
-## [3.6.0] - 2026-07-04
-
-- Add Flip tool: mirror images horizontally or vertically, with combined flips supported
-- New toolbar button with live preview; works together with Rotate, Crop and all filters
+- Animated GIF and WebP images are processed frame by frame and saved with all their frames
+- Crop selections are mapped on the canvas the server reports, so crops after resize, rotation, repeated crops and Replace Original land where you drew them
+- Apply Crop clears the selection after applying, drops an active resize, and says so when the preview is not ready yet
+- Replace Original validates the edited file before it replaces the original and restores the original if metadata generation fails; backups get collision-safe names
+- The server checks format, dimensions, total pixels, frame count and DPI before processing and refuses unsupported formats with a clear message; rotation, resize and DPI resampling have their own output limits
+- Preview requests are sequenced and cancelled so a slow response can no longer overwrite a newer edit
+- Reset and switching images clear every transform (Advanced Pixel Editor Pro 2.4.4 follows the same reset)
+- AVIF, HEIC and HEIF are recognized by name
+- The "Advanced Editor" button label is escaped before it is inserted into the Media Library
+- Truthful plugin description and About tab resources; translation template regenerated (212 strings) with a context for the crop preset "Free"
+- Added GitHub Actions checks for PHP 7.4, 8.1 and 8.5, JavaScript, shell syntax and the WordPress.org package
 
 ## [3.6.1] - 2026-08-17
 
@@ -27,7 +32,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Locked Pro toolbar icons are now links to the Pro page, and a link sits under the dimmed Pro sliders
 - readme: short description and tags now name crop, resize, rotate, flip; Pro section and FAQ match the real Pro feature set; nine new screenshots
 
-## [Unreleased]
+## [3.6.0] - 2026-07-04
+
+- Add Flip tool: mirror images horizontally or vertically, with combined flips supported
+- New toolbar button with live preview; works together with Rotate, Crop and all filters
+
+## [3.5.0] - 2026-07-04
+
+- Add Rotate tool: free rotation from -180 to 180 degrees with 45 and 90 degree presets
+- New toolbar button with live preview; corners filled white (JPEG) or transparent (PNG/WebP)
+- Declared compatibility with WordPress 7.0
 
 ## [3.3.2] - 2026-03-02
 

@@ -2,14 +2,14 @@
 # This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Advanced Pixel Editor 3.6.1\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/prA\n"
+"Project-Id-Version: Advanced Pixel Editor 3.7.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/advanced-pixel-editor\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-05T23:19:25+00:00\n"
+"POT-Creation-Date: 2026-09-05T23:34:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: advanced-pixel-editor\n"
@@ -18,8 +18,8 @@ msgstr ""
 #: advanced-pixel-editor.php
 #: includes/class-advanced-pixel-editor.php:162
 #: includes/class-advanced-pixel-editor.php:163
-#: includes/class-advanced-pixel-editor.php:396
-#: includes/class-advanced-pixel-editor.php:546
+#: includes/class-advanced-pixel-editor.php:398
+#: includes/class-advanced-pixel-editor.php:548
 msgid "Advanced Pixel Editor"
 msgstr ""
 
@@ -258,7 +258,7 @@ msgid "Image editing actions"
 msgstr ""
 
 #: editor-page.php:327
-#: includes/class-advanced-pixel-editor.php:328
+#: includes/class-advanced-pixel-editor.php:330
 msgid "Save Edited Image"
 msgstr ""
 
@@ -399,7 +399,7 @@ msgstr ""
 
 #: includes/class-advaimg-ajax-handler.php:292
 #: includes/class-advaimg-ajax-handler.php:919
-#: includes/class-advanced-pixel-editor.php:324
+#: includes/class-advanced-pixel-editor.php:326
 msgid "Too many requests. Please wait a moment before trying again."
 msgstr ""
 
@@ -469,7 +469,7 @@ msgid "Edited with Advanced Pixel Editor"
 msgstr ""
 
 #: includes/class-advaimg-ajax-handler.php:544
-#: includes/class-advanced-pixel-editor.php:316
+#: includes/class-advanced-pixel-editor.php:318
 msgid "Image saved successfully!"
 msgstr ""
 
@@ -547,7 +547,7 @@ msgid "Backup file not found on disk."
 msgstr ""
 
 #: includes/class-advaimg-ajax-handler.php:996
-#: includes/class-advanced-pixel-editor.php:332
+#: includes/class-advanced-pixel-editor.php:334
 msgid "Original image restored successfully."
 msgstr ""
 
@@ -572,12 +572,12 @@ msgid "Requested output dimensions (%1$dx%2$d) exceed the processing limit (%3$d
 msgstr ""
 
 #: includes/class-advanced-pixel-editor.php:125
-#: includes/class-advanced-pixel-editor.php:382
+#: includes/class-advanced-pixel-editor.php:384
 msgid "Editor"
 msgstr ""
 
 #: includes/class-advanced-pixel-editor.php:126
-#: includes/class-advanced-pixel-editor.php:383
+#: includes/class-advanced-pixel-editor.php:385
 msgid "Settings"
 msgstr ""
 
@@ -585,333 +585,333 @@ msgstr ""
 msgid "Advanced Edit"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:192
-#: includes/class-advanced-pixel-editor.php:217
+#: includes/class-advanced-pixel-editor.php:193
+#: includes/class-advanced-pixel-editor.php:219
 msgid "Advanced Editor"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:311
+#: includes/class-advanced-pixel-editor.php:313
 msgid "Select an Image to Edit"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:312
+#: includes/class-advanced-pixel-editor.php:314
 msgid "Use This Image"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:313
+#: includes/class-advanced-pixel-editor.php:315
 msgid "Saving..."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:314
+#: includes/class-advanced-pixel-editor.php:316
 msgid "Processing..."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:315
+#: includes/class-advanced-pixel-editor.php:317
 msgid "Please select an image first"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:317
+#: includes/class-advanced-pixel-editor.php:319
 msgid "Failed to generate preview"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:318
+#: includes/class-advanced-pixel-editor.php:320
 msgid "Network error - please try again"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:319
+#: includes/class-advanced-pixel-editor.php:321
 msgid "Failed to save image"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:320
+#: includes/class-advanced-pixel-editor.php:322
 msgid "Save this edited image to your media library?"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:321
+#: includes/class-advanced-pixel-editor.php:323
 msgid "Would you like to view the edited image?"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:322
+#: includes/class-advanced-pixel-editor.php:324
 msgid "The preview has not finished loading yet. Wait for it and apply the crop again."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:323
+#: includes/class-advanced-pixel-editor.php:325
 msgid "Unknown error occurred"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:325
+#: includes/class-advanced-pixel-editor.php:327
 msgid "Reset all filters to default values?"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:326
+#: includes/class-advanced-pixel-editor.php:328
 msgid "Ready to save edited image"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:327
+#: includes/class-advanced-pixel-editor.php:329
 msgid "Ready to reset filters"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:329
+#: includes/class-advanced-pixel-editor.php:331
 msgid "Replace Original"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:330
+#: includes/class-advanced-pixel-editor.php:332
 msgid "Replace the original image? A backup will be saved automatically."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:331
+#: includes/class-advanced-pixel-editor.php:333
 msgid "Restore the original image? The current edited version will be replaced."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:333
+#: includes/class-advanced-pixel-editor.php:335
 msgid "Failed to restore original image."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:334
+#: includes/class-advanced-pixel-editor.php:336
 msgid "Replacing..."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:335
+#: includes/class-advanced-pixel-editor.php:337
 msgid "Restoring..."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:336
+#: includes/class-advanced-pixel-editor.php:338
 msgid "Crop"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:337
+#: includes/class-advanced-pixel-editor.php:339
 msgid "Resize"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:338
+#: includes/class-advanced-pixel-editor.php:340
 msgid "Resolution (DPI)"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:339
+#: includes/class-advanced-pixel-editor.php:341
 msgctxt "crop aspect ratio preset without constraint"
 msgid "Free"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:340
+#: includes/class-advanced-pixel-editor.php:342
 msgid "Apply Crop"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:341
-#: includes/class-advanced-pixel-editor.php:348
+#: includes/class-advanced-pixel-editor.php:343
 #: includes/class-advanced-pixel-editor.php:350
+#: includes/class-advanced-pixel-editor.php:352
 msgid "Clear"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:342
+#: includes/class-advanced-pixel-editor.php:344
 msgid "Lock aspect ratio"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:343
+#: includes/class-advanced-pixel-editor.php:345
 msgid "Width"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:344
+#: includes/class-advanced-pixel-editor.php:346
 msgid "Height"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:345
+#: includes/class-advanced-pixel-editor.php:347
 msgid "Resample (scale pixels)"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:346
+#: includes/class-advanced-pixel-editor.php:348
 msgid "Click on the image to start cropping"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:347
+#: includes/class-advanced-pixel-editor.php:349
 msgid "Apply Resize"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:349
+#: includes/class-advanced-pixel-editor.php:351
 msgid "Apply DPI"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:363
-#: includes/class-advanced-pixel-editor.php:370
+#: includes/class-advanced-pixel-editor.php:365
+#: includes/class-advanced-pixel-editor.php:372
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:384
+#: includes/class-advanced-pixel-editor.php:386
 msgid "About"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:439
+#: includes/class-advanced-pixel-editor.php:441
 msgid "Missing Required Extension: Imagick"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:442
+#: includes/class-advanced-pixel-editor.php:444
 msgid "The Advanced Pixel Editor requires the Imagick PHP extension to function properly."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:447
-#: includes/class-advanced-pixel-editor.php:598
+#: includes/class-advanced-pixel-editor.php:449
+#: includes/class-advanced-pixel-editor.php:600
 msgid "How to Enable Imagick"
-msgstr ""
-
-#: includes/class-advanced-pixel-editor.php:450
-#: includes/class-advanced-pixel-editor.php:601
-msgid "Contact your web hosting provider"
-msgstr ""
-
-#: includes/class-advanced-pixel-editor.php:451
-#: includes/class-advanced-pixel-editor.php:602
-msgid "Request that they enable the Imagick PHP extension"
 msgstr ""
 
 #: includes/class-advanced-pixel-editor.php:452
 #: includes/class-advanced-pixel-editor.php:603
+msgid "Contact your web hosting provider"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:453
+#: includes/class-advanced-pixel-editor.php:604
+msgid "Request that they enable the Imagick PHP extension"
+msgstr ""
+
+#: includes/class-advanced-pixel-editor.php:454
+#: includes/class-advanced-pixel-editor.php:605
 msgid "Most hosting providers can enable this quickly (usually within hours)"
 msgstr ""
 
 #. translators: %s: URL to the About tab
-#: includes/class-advanced-pixel-editor.php:461
+#: includes/class-advanced-pixel-editor.php:463
 #, php-format
 msgid "Visit the <a href=\"%s\">About tab</a> for more information about ImageMagick."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:494
+#: includes/class-advanced-pixel-editor.php:496
 msgid "Pro Features"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:497
+#: includes/class-advanced-pixel-editor.php:499
 msgid "Upgrade to Advanced Pixel Editor Pro to unlock professional image editing features."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:503
+#: includes/class-advanced-pixel-editor.php:505
 msgid "Batch Processing"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:503
+#: includes/class-advanced-pixel-editor.php:505
 msgid "Process multiple images simultaneously with progress tracking."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:504
+#: includes/class-advanced-pixel-editor.php:506
 msgid "Advanced Filters"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:504
+#: includes/class-advanced-pixel-editor.php:506
 msgid "Brightness, saturation, hue, sepia, vignette, blur, noise reduction, and more."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:505
+#: includes/class-advanced-pixel-editor.php:507
 msgid "Watermarking"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:505
+#: includes/class-advanced-pixel-editor.php:507
 msgid "Text and image watermarks with positioning, opacity, rotation, and tiling."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:506
+#: includes/class-advanced-pixel-editor.php:508
 msgid "Priority Support"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:506
+#: includes/class-advanced-pixel-editor.php:508
 msgid "Get priority technical support and feature requests."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:514
+#: includes/class-advanced-pixel-editor.php:516
 msgid "Pro"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:522
+#: includes/class-advanced-pixel-editor.php:524
 msgid "Get Advanced Pixel Editor Pro"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:548
+#: includes/class-advanced-pixel-editor.php:550
 msgid "A professional image editor for WordPress powered by ImageMagick. Edit, enhance, and transform your media library images with precision controls, right inside your dashboard."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:552
+#: includes/class-advanced-pixel-editor.php:554
 msgid "Version"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:556
+#: includes/class-advanced-pixel-editor.php:558
 msgid "Author"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:562
+#: includes/class-advanced-pixel-editor.php:564
 msgid "WordPress.org"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:565
+#: includes/class-advanced-pixel-editor.php:567
 msgid "GitHub"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:572
+#: includes/class-advanced-pixel-editor.php:574
 msgid "About ImageMagick"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:577
+#: includes/class-advanced-pixel-editor.php:579
 msgid "Imagick Installed"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:578
+#: includes/class-advanced-pixel-editor.php:580
 msgid "Imagick Not Installed"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:586
+#: includes/class-advanced-pixel-editor.php:588
 msgid "Imagick is a powerful PHP extension that provides advanced image processing capabilities. It's based on the ImageMagick library, which has been a cornerstone of professional image manipulation since the early 1990s."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:589
+#: includes/class-advanced-pixel-editor.php:591
 msgid "Enables high-quality image editing and manipulation"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:590
+#: includes/class-advanced-pixel-editor.php:592
 msgid "Supports all major image formats (JPEG, PNG, GIF, WebP, TIFF, etc.)"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:591
+#: includes/class-advanced-pixel-editor.php:593
 msgid "Provides professional-grade filters and effects"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:592
+#: includes/class-advanced-pixel-editor.php:594
 msgid "Used by thousands of websites and professional applications worldwide"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:604
+#: includes/class-advanced-pixel-editor.php:606
 msgid "If using shared hosting, you may need to upgrade to a VPS or dedicated server"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:607
+#: includes/class-advanced-pixel-editor.php:609
 msgid "Note: Imagick is extremely common and should be available on most modern hosting platforms."
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:613
+#: includes/class-advanced-pixel-editor.php:615
 msgid "Support Open Source Software"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:615
+#: includes/class-advanced-pixel-editor.php:617
 msgid "ImageMagick is free, open-source software that powers millions of websites and applications worldwide. Consider supporting their important work:"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:619
+#: includes/class-advanced-pixel-editor.php:621
 msgid "Sponsor ImageMagick Development"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:627
+#: includes/class-advanced-pixel-editor.php:629
 msgid "Support & Resources"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:631
+#: includes/class-advanced-pixel-editor.php:633
 msgid "Plugin review on ProWoos"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:636
+#: includes/class-advanced-pixel-editor.php:638
 msgid "WordPress.org Support Forum"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:638
+#: includes/class-advanced-pixel-editor.php:640
 msgid "community support for the free plugin"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:642
+#: includes/class-advanced-pixel-editor.php:644
 msgid "Advanced Pixel Editor Pro"
 msgstr ""
 
-#: includes/class-advanced-pixel-editor.php:644
+#: includes/class-advanced-pixel-editor.php:646
 msgid "advanced filters, text and image watermarks, zoom and pan"
 msgstr ""
