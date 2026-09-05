@@ -502,7 +502,7 @@ jQuery(function($){
     // Slider inputs with debounce
     $contrast.add($amount).add($radius).add($threshold).on('input', debouncedPreview);
     
-    // Save button — sends filter parameters so the backend re-processes
+    // Save button, sends filter parameters so the backend re-processes
     // from the original file in its native format (preserves PNG transparency, etc.)
     $('#aie-save').on('click', function(){
         // Prevent operations after cleanup

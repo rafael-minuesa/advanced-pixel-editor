@@ -13,25 +13,25 @@ Crop, resize, rotate, flip, contrast and sharpen images inside the Media Library
 
 == Description ==
 
-Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photoshop-grade image processing — powered by **ImageMagick** — directly into your dashboard. Select any image from your Media Library, fine-tune contrast and sharpness with live preview, and save the result without ever opening a desktop app.
+Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photoshop-grade image processing, powered by **ImageMagick**, directly into your dashboard. Select any image from your Media Library, fine-tune contrast and sharpness with live preview, and save the result without ever opening a desktop app.
 
-**Advanced image editing within WordPress.** Sigmoidal contrast adjustment and unsharp masking — the same core algorithms used by Photoshop and Lightroom — with precision sliders that update the preview instantly. Drag the built-in before/after comparison slider to evaluate your edits side-by-side with the original.
+**Advanced image editing within WordPress.** Sigmoidal contrast adjustment and unsharp masking (the same core algorithms used by Photoshop and Lightroom) with precision sliders that update the preview instantly. Drag the built-in before/after comparison slider to evaluate your edits side-by-side with the original.
 
 **Works right where you already are.** Open the editor from the Media Library grid view, list view, or attachment edit screen. Your edited image can be saved as a new file or used to replace the original (with automatic backup and one-click restore).
 
 = What You Can Do =
 
-* **Sigmoidal Contrast** — The same gradual, tone-preserving contrast curve used by Photoshop and Lightroom
-* **Unsharp Mask** — Professional sharpening with independent amount, radius, and threshold controls — identical to Photoshop's Filter → Sharpen → Unsharp Mask
-* **Real-time Preview** — Every slider change renders instantly via ImageMagick on the server
-* **Before / After Slider** — Draggable comparison overlay to evaluate edits at a glance
-* **Save As New or Replace** — Keep the original untouched, or overwrite it with automatic backup
-* **Restore Original** — One click to revert a replaced image
-* **Crop & Resize** — Interactive crop overlay with aspect ratio presets (free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI controls
-* **Rotate & Flip** — Free rotation with 45 and 90 degree presets, plus horizontal and vertical mirroring
-* **Deep Media Library Integration** — "Advanced Editor" buttons in grid modal, list view, and attachment page
-* **Fully Responsive** — Works on desktop, tablet, and mobile
-* **Accessible** — Full keyboard navigation, ARIA labels, and screen reader support
+* **Sigmoidal Contrast**: The same gradual, tone-preserving contrast curve used by Photoshop and Lightroom
+* **Unsharp Mask**: Professional sharpening with independent amount, radius, and threshold controls, identical to Photoshop's Filter → Sharpen → Unsharp Mask
+* **Real-time Preview**: Every slider change renders instantly via ImageMagick on the server
+* **Before / After Slider**: Draggable comparison overlay to evaluate edits at a glance
+* **Save As New or Replace**: Keep the original untouched, or overwrite it with automatic backup
+* **Restore Original**: One click to revert a replaced image
+* **Crop & Resize**: Interactive crop overlay with aspect ratio presets (free, 1:1, 4:3, 16:9), resize with aspect lock, and DPI controls
+* **Rotate & Flip**: Free rotation with 45 and 90 degree presets, plus horizontal and vertical mirroring
+* **Deep Media Library Integration**: "Advanced Editor" buttons in grid modal, list view, and attachment page
+* **Fully Responsive**: Works on desktop, tablet, and mobile
+* **Accessible**: Full keyboard navigation, ARIA labels, and screen reader support
 
 = Upgrade to Pro =
 
@@ -48,7 +48,7 @@ Need more than contrast, sharpening, crop, rotate and flip? [**Advanced Pixel Ed
 
 Advanced Pixel Editor is powered by [ImageMagick](https://imagemagick.org/), the leading free and open-source software suite for creating, editing, converting, and manipulating digital images. First conceived in 1987 and publicly released in 1990, ImageMagick remains a foundational tool in digital imaging nearly four decades later.
 
-It delivers battle-tested algorithms that power professional workflows worldwide — many of which are functionally equivalent (or directly comparable) to those found in premium tools like Adobe Photoshop and Lightroom, including:
+It delivers battle-tested algorithms that power professional workflows worldwide, many of which are functionally equivalent (or directly comparable) to those found in premium tools like Adobe Photoshop and Lightroom, including:
 
 * **Sigmoidal contrast** for natural, highlight-preserving brightening and dynamic range adjustments
 * **Unsharp masking** for precise sharpening with controllable halo suppression
@@ -65,11 +65,11 @@ Most modern hosting providers (including SiteGround, Kinsta, WP Engine, Flywheel
 1. Open a quick support ticket asking: "Can you enable the Imagick PHP extension for my account?"
 2. Most providers activate it within hours (often instantly via their control panel).
 
-We strongly recommend confirming Imagick is active before going live — you can usually check via a `phpinfo()` page or a simple test script:
+We strongly recommend confirming Imagick is active before going live. You can usually check via a `phpinfo()` page or a simple test script:
 
 `<?php echo extension_loaded('imagick') ? 'Imagick is installed (version: ' . phpversion('imagick') . ')' : 'Imagick extension is NOT available.'; ?>`
 
-If Imagick cannot be enabled on your current host, consider migrating to a provider that supports it natively — it's a standard requirement for serious image-heavy WordPress sites in 2026.
+If Imagick cannot be enabled on your current host, consider migrating to a provider that supports it natively. It is a standard requirement for serious image-heavy WordPress sites in 2026.
 
 = Giving Back to the Open-Source Community =
 
@@ -77,7 +77,7 @@ When you purchase [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-devel
 
 You can also contribute independently:
 
-* **Sponsor ImageMagick on GitHub Sponsors** → [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick) — The project maintains an active sponsorship page with transparent goals and recognition for supporters.
+* **Sponsor ImageMagick on GitHub Sponsors** → [github.com/sponsors/ImageMagick](https://github.com/sponsors/ImageMagick) The project maintains an active sponsorship page with transparent goals and recognition for supporters.
 * **Visit the official ImageMagick sponsorship page** → [imagemagick.org/support](https://imagemagick.org/support)
 
 Your support helps keep this critical open-source library secure, fast, and freely available for millions of developers and businesses worldwide.
@@ -86,7 +86,7 @@ Your support helps keep this critical open-source library secure, fast, and free
 
 1. Upload the `advanced-pixel-editor` folder to `/wp-content/plugins/` (or install directly from the WordPress plugin directory)
 2. Activate the plugin through the **Plugins** menu
-3. Go to **Media → Advanced Pixel Editor** to start editing — or click the "Advanced Editor" button on any image in your Media Library
+3. Go to **Media → Advanced Pixel Editor** to start editing, or click the "Advanced Editor" button on any image in your Media Library
 
 **Prerequisite:** The Imagick PHP extension must be enabled on your server. See the **Requirements & Hosting Compatibility** section above for details.
 
@@ -106,7 +106,7 @@ By default, images up to 10 MB and 4096 × 4096 pixels are supported for optimal
 
 = Will editing overwrite my original image? =
 
-Only if you choose "Replace original" — and even then, an automatic backup is created so you can restore the original at any time. The default "Save as new image" mode leaves the original untouched.
+Only if you choose "Replace original", and even then, an automatic backup is created so you can restore the original at any time. The default "Save as new image" mode leaves the original untouched.
 
 = Is the editor accessible? =
 
@@ -118,11 +118,11 @@ Yes. The editor is fully responsive and touch-friendly, including the comparison
 
 = What is the Pro add-on? =
 
-[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blur, noise reduction, emboss), text and image watermarking, background batch processing, and zoom & pan in the preview. It requires this free plugin to be installed.
+[Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blur, noise reduction, emboss), text and image watermarking, and zoom & pan in the preview. It requires this free plugin to be installed.
 
 = Does this plugin require special server software? =
 
-Yes — the Imagick PHP extension must be enabled. See the **Requirements & Hosting Compatibility** section for supported hosts and setup instructions.
+Yes, the Imagick PHP extension must be enabled. See the **Requirements & Hosting Compatibility** section for supported hosts and setup instructions.
 
 == Screenshots ==
 
@@ -163,7 +163,7 @@ Yes — the Imagick PHP extension must be enabled. See the **Requirements & Host
 * Comparison slider is hidden while the crop tool is active to prevent interference
 
 = 3.3.2 =
-* Added per-attachment permission checks — prevents users from editing other users' images on multi-author sites
+* Added per-attachment permission checks, prevents users from editing other users' images on multi-author sites
 * Added keyboard focus styles on toolbar and action buttons (WCAG 2.4.7)
 * Improved touch event handling to avoid conflicts with other plugins
 * Refreshed plugin description and readme for WordPress.org
@@ -187,7 +187,7 @@ Yes — the Imagick PHP extension must be enabled. See the **Requirements & Host
 * Add extensibility hooks for Pro add-on: filterable tabs, contrast controls hook
 
 = 3.1.1 =
-* Fixed "Advanced Editor" button placement on attachment edit page — now appears next to "Edit Image"
+* Fixed "Advanced Editor" button placement on attachment edit page, now appears next to "Edit Image"
 * Added translation template (.pot) file
 
 = 3.1 =
@@ -252,7 +252,7 @@ Yes — the Imagick PHP extension must be enabled. See the **Requirements & Host
 == Upgrade Notice ==
 
 = 3.4.0 =
-New feature: Crop & Resize with interactive crop overlay, aspect ratio presets, resize with aspect lock, and DPI controls — now included in the free plugin.
+New feature: Crop & Resize with interactive crop overlay, aspect ratio presets, resize with aspect lock, and DPI controls, now included in the free plugin.
 
 = 2.1 =
 Major update with enhanced security, accessibility, and performance improvements. Upgrade recommended for all users.
@@ -269,4 +269,4 @@ Contributions are welcome! Please see our [contributing guidelines](https://gith
 
 == Credits ==
 
-Developed by [Rafael Minuesa](https://prowoos.com) and the [ProWoos](https://prowoos.com) team — [GitHub](https://github.com/rafael-minuesa)
+Developed by [Rafael Minuesa](https://prowoos.com) and the [ProWoos](https://prowoos.com) team. [GitHub](https://github.com/rafael-minuesa)

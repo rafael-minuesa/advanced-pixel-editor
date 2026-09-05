@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Pixel Editor
  * Plugin URI: https://github.com/rafael-minuesa/advanced-pixel-editor/
- * Description: Professional image editing tool with advanced filters, contrast adjustment, and unsharp masking. Real-time preview, accessibility features, and seamless WordPress integration.
+ * Description: Crop, resize, rotate, flip, contrast and sharpen images inside the Media Library with live before/after preview. Powered by ImageMagick.
  * Version: 3.6.1
  * Author: Rafael Minuesa
  * Author URI: https://github.com/rafael-minuesa

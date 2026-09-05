@@ -1,5 +1,5 @@
 /**
- * Advanced Pixel Editor — Transform Module (Crop & Resize)
+ * Advanced Pixel Editor, Transform Module (Crop & Resize)
  *
  * Renders crop overlay with 8 drag handles, aspect ratio presets,
  * numeric inputs, resize width/height with aspect lock, and DPI control.
@@ -268,7 +268,7 @@
             $(this).html(aspectLocked ? '&#x1f512;' : '&#x1f513;');
         });
 
-        // Resize width change — update linked height only, don't apply yet.
+        // Resize width change, update linked height only, don't apply yet.
         $panel.find('#aie-resize-w').on('input', function() {
             var w = parseInt(this.value) || 0;
             if (aspectLocked && previewWidth > 0 && previewHeight > 0) {
@@ -277,7 +277,7 @@
             }
         });
 
-        // Resize height change — update linked width only, don't apply yet.
+        // Resize height change, update linked width only, don't apply yet.
         $panel.find('#aie-resize-h').on('input', function() {
             var h = parseInt(this.value) || 0;
             if (aspectLocked && previewWidth > 0 && previewHeight > 0) {
@@ -615,13 +615,13 @@
         // Register crop tool with the toolbar system.
         if (typeof window.aieToolbar !== 'undefined') {
             window.aieToolbar.addTool('crop', function() {
-                // Tool activated — just mark it active, don't show overlay yet.
+                // Tool activated, just mark it active, don't show overlay yet.
                 cropToolActive = true;
                 // Hide comparison slider so it doesn't interfere with crop.
                 $('#aie-slider-handle').hide();
                 $('#aie-compare-slider').hide();
             }, function() {
-                // Tool deactivated — hide overlay, restore comparison slider.
+                // Tool deactivated, hide overlay, restore comparison slider.
                 cropToolActive = false;
                 hideCropOverlay();
                 $('#aie-slider-handle').show();

@@ -1,5 +1,5 @@
 /**
- * Advanced Pixel Editor — Flip Module
+ * Advanced Pixel Editor, Flip Module
  *
  * Horizontal and vertical mirroring via toggle buttons. The flags are
  * sent as `advaimg_flip_h` / `advaimg_flip_v` through the shared

@@ -219,7 +219,7 @@ class Advanced_Pixel_Editor {
             ]);
         }
 
-        // Plugin page — enqueue admin CSS for all tabs
+        // Plugin page, enqueue admin CSS for all tabs
         if ($hook !== 'media_page_' . self::MENU_SLUG) {
             return;
         }
@@ -336,7 +336,7 @@ class Advanced_Pixel_Editor {
                 'crop'               => __('Crop', 'advanced-pixel-editor'),
                 'resize'             => __('Resize', 'advanced-pixel-editor'),
                 'dpi'                => __('Resolution (DPI)', 'advanced-pixel-editor'),
-                'aspect_free'        => __('Free', 'advanced-pixel-editor'),
+                'aspect_free'        => _x('Free', 'crop aspect ratio preset without constraint', 'advanced-pixel-editor'),
                 'apply_crop'         => __('Apply Crop', 'advanced-pixel-editor'),
                 'clear_crop'         => __('Clear', 'advanced-pixel-editor'),
                 'lock_aspect'        => __('Lock aspect ratio', 'advanced-pixel-editor'),
@@ -456,8 +456,8 @@ class Advanced_Pixel_Editor {
                 <p>
                     <?php
                     printf(
-                        /* translators: %s: URL to the About tab */
                         wp_kses(
+                            /* translators: %s: URL to the About tab */
                             __('Visit the <a href="%s">About tab</a> for more information about ImageMagick.', 'advanced-pixel-editor'),
                             ['a' => ['href' => []]]
                         ),
@@ -487,7 +487,7 @@ class Advanced_Pixel_Editor {
 
         if (!$pro_active):
         ?>
-            <!-- Pro Features (dimmed — Pro not installed) -->
+            <!-- Pro Features (dimmed, Pro not installed) -->
             <div class="aie-pro-admin-container" style="max-width: 900px;">
                 <div style="margin: 24px 0; padding: 20px; background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,0.04);">
                     <h2 style="margin-top: 0; padding-bottom: 8px; border-bottom: 1px solid #eee;">
@@ -545,7 +545,7 @@ class Advanced_Pixel_Editor {
         <div class="aie-about-section">
             <h2><?php esc_html_e('Advanced Pixel Editor', 'advanced-pixel-editor'); ?></h2>
             <p>
-                <?php esc_html_e('A professional image editor for WordPress powered by ImageMagick. Edit, enhance, and transform your media library images with precision controls — right inside your dashboard.', 'advanced-pixel-editor'); ?>
+                <?php esc_html_e('A professional image editor for WordPress powered by ImageMagick. Edit, enhance, and transform your media library images with precision controls, right inside your dashboard.', 'advanced-pixel-editor'); ?>
             </p>
             <table class="aie-about-info-table">
                 <tr>
@@ -628,21 +628,20 @@ class Advanced_Pixel_Editor {
             <ul class="aie-about-resources">
                 <li>
                     <a href="https://prowoos.com/plugins-reviews/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer">
-                        <?php esc_html_e('Documentation', 'advanced-pixel-editor'); ?>
+                        <?php esc_html_e('Plugin review on ProWoos', 'advanced-pixel-editor'); ?>
                     </a>
-                    — <?php esc_html_e('plugin review.', 'advanced-pixel-editor'); ?>
                 </li>
                 <li>
                     <a href="https://wordpress.org/support/plugin/advanced-pixel-editor/" target="_blank" rel="noopener noreferrer">
                         <?php esc_html_e('WordPress.org Support Forum', 'advanced-pixel-editor'); ?>
                     </a>
-                    — <?php esc_html_e('Community support for the free plugin.', 'advanced-pixel-editor'); ?>
+                    (<?php esc_html_e('community support for the free plugin', 'advanced-pixel-editor'); ?>)
                 </li>
                 <li>
                     <a href="https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/" target="_blank" rel="noopener noreferrer">
                         <?php esc_html_e('Advanced Pixel Editor Pro', 'advanced-pixel-editor'); ?>
                     </a>
-                    — <?php esc_html_e('Unlock batch processing, advanced filters, watermarking, and more.', 'advanced-pixel-editor'); ?>
+                    (<?php esc_html_e('advanced filters, text and image watermarks, zoom and pan', 'advanced-pixel-editor'); ?>)
                 </li>
             </ul>
         </div>
