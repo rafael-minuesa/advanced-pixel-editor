@@ -42,6 +42,23 @@ class Advanced_Pixel_Editor {
     const MAX_IMAGE_HEIGHT = 4096;
 
     /**
+     * Maximum total number of pixels processed in one request.
+     *
+     * For animated images this limit applies across all frames.
+     */
+    const MAX_TOTAL_IMAGE_PIXELS = 16777216;
+
+    /**
+     * Maximum number of frames/pages in a single image.
+     */
+    const MAX_IMAGE_FRAMES = 100;
+
+    /**
+     * Maximum accepted output resolution in DPI.
+     */
+    const MAX_DPI = 1200;
+
+    /**
      * Rate limiting: maximum requests per minute
      */
     const RATE_LIMIT_REQUESTS = 30;

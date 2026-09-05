@@ -27,11 +27,14 @@ function advanced_image_editor_get_mime_type_from_format($format) {
         'png' => 'image/png',
         'gif' => 'image/gif',
         'webp' => 'image/webp',
+        'avif' => 'image/avif',
+        'heic' => 'image/heic',
+        'heif' => 'image/heif',
         'tiff' => 'image/tiff',
         'bmp' => 'image/bmp'
     ];
 
-    return $mime_types[$format] ?? 'image/jpeg'; // Default to JPEG
+    return $mime_types[$format] ?? '';
 }
 
 /**
@@ -46,9 +49,12 @@ function advanced_image_editor_get_extension_from_mime_type($mime_type) {
         'image/png' => 'png',
         'image/gif' => 'gif',
         'image/webp' => 'webp',
+        'image/avif' => 'avif',
+        'image/heic' => 'heic',
+        'image/heif' => 'heif',
         'image/tiff' => 'tiff',
         'image/bmp' => 'bmp'
     ];
 
-    return $extensions[$mime_type] ?? 'jpg'; // Default to JPG
+    return $extensions[$mime_type] ?? '';
 }

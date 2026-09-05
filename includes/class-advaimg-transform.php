@@ -26,12 +26,138 @@ class ADVAIMG_Transform {
      * @return Imagick
      */
     public function process(Imagick $img, array $post_data) {
+        $resolution = $img->getImageResolution();
+        $this->calculate_output_dimensions(
+            $img->getImageWidth(),
+            $img->getImageHeight(),
+            !empty($resolution['x']) ? (float) $resolution['x'] : 72,
+            $post_data
+        );
+
         $img = $this->apply_rotate($img, $post_data);
         $img = $this->apply_flip($img, $post_data);
         $img = $this->apply_crop($img, $post_data);
         $img = $this->apply_resize($img, $post_data);
         $img = $this->apply_dpi($img, $post_data);
         return $img;
+    }
+
+    /**
+     * Calculate and validate the largest intermediate/output dimensions.
+     *
+     * This runs before ImageMagick allocates a rotated or resampled canvas,
+     * preventing a small source image from expanding beyond the processing
+     * limits through crafted resize or DPI parameters.
+     *
+     * @param int   $width        Source width.
+     * @param int   $height       Source height.
+     * @param float $resolution_x Current horizontal resolution in DPI.
+     * @param array $post_data    POST data.
+     * @return array{0:int,1:int} Final width and height.
+     * @throws InvalidArgumentException When an intermediate size is unsafe.
+     */
+    public function calculate_output_dimensions($width, $height, $resolution_x, array $post_data) {
+        $width  = (int) $width;
+        $height = (int) $height;
+        $this->assert_safe_dimensions($width, $height);
+
+        $degrees = isset($post_data['advaimg_rotate']) ? (float) $post_data['advaimg_rotate'] : 0;
+        if (!is_finite($degrees)) {
+            throw new InvalidArgumentException(__('Invalid rotation value.', 'advanced-pixel-editor'));
+        }
+        $degrees = fmod($degrees, 360);
+
+        if (abs($degrees) >= 0.01) {
+            $radians        = deg2rad($degrees);
+            $rotated_width  = (int) ceil(abs($width * cos($radians)) + abs($height * sin($radians)) - 1e-9);
+            $rotated_height = (int) ceil(abs($width * sin($radians)) + abs($height * cos($radians)) - 1e-9);
+            $this->assert_safe_dimensions($rotated_width, $rotated_height);
+            $width  = $rotated_width;
+            $height = $rotated_height;
+        }
+
+        $x = isset($post_data['advaimg_crop_x']) ? (int) $post_data['advaimg_crop_x'] : -1;
+        $y = isset($post_data['advaimg_crop_y']) ? (int) $post_data['advaimg_crop_y'] : -1;
+        $w = isset($post_data['advaimg_crop_w']) ? (int) $post_data['advaimg_crop_w'] : 0;
+        $h = isset($post_data['advaimg_crop_h']) ? (int) $post_data['advaimg_crop_h'] : 0;
+
+        if ($x >= 0 && $y >= 0 && $w > 0 && $h > 0) {
+            $x      = min($x, $width - 1);
+            $y      = min($y, $height - 1);
+            $width  = min($w, $width - $x);
+            $height = min($h, $height - $y);
+            $this->assert_safe_dimensions($width, $height);
+        }
+
+        $resize_width  = isset($post_data['advaimg_resize_w']) ? (int) $post_data['advaimg_resize_w'] : 0;
+        $resize_height = isset($post_data['advaimg_resize_h']) ? (int) $post_data['advaimg_resize_h'] : 0;
+
+        if ($resize_width > 0 && $resize_height > 0) {
+            $this->assert_safe_dimensions($resize_width, $resize_height);
+            $width  = $resize_width;
+            $height = $resize_height;
+        }
+
+        $dpi      = isset($post_data['advaimg_dpi']) ? (int) $post_data['advaimg_dpi'] : 0;
+        $resample = !empty($post_data['advaimg_resample']) && '0' !== $post_data['advaimg_resample'];
+
+        if ($dpi > Advanced_Pixel_Editor::MAX_DPI) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    /* translators: %d: Maximum allowed DPI. */
+                    __('Resolution cannot exceed %d DPI.', 'advanced-pixel-editor'),
+                    Advanced_Pixel_Editor::MAX_DPI
+                )
+            );
+        }
+
+        if ($dpi > 0 && $resample) {
+            $resolution_x = $resolution_x > 0 ? $resolution_x : 72;
+            $scale        = $dpi / $resolution_x;
+            $scaled_width = $width * $scale;
+            $scaled_height = $height * $scale;
+
+            if (!is_finite($scaled_width) || !is_finite($scaled_height)) {
+                throw new InvalidArgumentException(__('Requested output dimensions are invalid.', 'advanced-pixel-editor'));
+            }
+
+            $width  = (int) round($scaled_width);
+            $height = (int) round($scaled_height);
+            $this->assert_safe_dimensions($width, $height);
+        }
+
+        return [$width, $height];
+    }
+
+    /**
+     * Ensure a canvas remains inside the configured processing limits.
+     *
+     * @param int $width  Canvas width.
+     * @param int $height Canvas height.
+     * @return void
+     * @throws InvalidArgumentException When dimensions are outside the limits.
+     */
+    private function assert_safe_dimensions($width, $height) {
+        $pixels = $width * $height;
+
+        if (
+            $width <= 0 ||
+            $height <= 0 ||
+            $width > Advanced_Pixel_Editor::MAX_IMAGE_WIDTH ||
+            $height > Advanced_Pixel_Editor::MAX_IMAGE_HEIGHT ||
+            $pixels > Advanced_Pixel_Editor::MAX_TOTAL_IMAGE_PIXELS
+        ) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    /* translators: 1: Requested width, 2: Requested height, 3: Maximum width, 4: Maximum height. */
+                    __('Requested output dimensions (%1$dx%2$d) exceed the processing limit (%3$dx%4$d).', 'advanced-pixel-editor'),
+                    $width,
+                    $height,
+                    Advanced_Pixel_Editor::MAX_IMAGE_WIDTH,
+                    Advanced_Pixel_Editor::MAX_IMAGE_HEIGHT
+                )
+            );
+        }
     }
 
     /**
