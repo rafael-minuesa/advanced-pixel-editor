@@ -13,6 +13,8 @@ class Advanced_Pixel_Editor {
     const MAX_IMAGE_WIDTH = 4096;
     const MAX_IMAGE_HEIGHT = 4096;
     const MAX_TOTAL_IMAGE_PIXELS = 16777216;
+    const MAX_OUTPUT_IMAGE_DIMENSION = 16384;
+    const MAX_OUTPUT_IMAGE_PIXELS = 268435456;
     const MAX_DPI = 1200;
 }
 
@@ -89,16 +91,30 @@ advaimg_assert_rejected(
     'Unsafe DPI resampling was accepted'
 );
 
+advaimg_assert_same(
+    [5657, 5657],
+    $transform->calculate_output_dimensions(4000, 4000, 72, ['advaimg_rotate' => 45]),
+    'Rotating an accepted source must stay allowed'
+);
+
+advaimg_assert_same(
+    [4152, 3206],
+    $transform->calculate_output_dimensions(4000, 3000, 72, ['advaimg_rotate' => 3]),
+    'Small-angle rotation of a large photo must stay allowed'
+);
+
+advaimg_assert_same(
+    [5000, 3750],
+    $transform->calculate_output_dimensions(1200, 900, 72, ['advaimg_dpi' => 300, 'advaimg_resample' => '1']),
+    'Resampling an ordinary image to 300 DPI must stay allowed'
+);
+
 advaimg_assert_rejected(
     function () use ($transform) {
-        $transform->calculate_output_dimensions(
-            4000,
-            4000,
-            72,
-            ['advaimg_rotate' => 45]
-        );
+        $transform->calculate_output_dimensions(4096, 4096, 72, []);
+        $transform->calculate_output_dimensions(4097, 4096, 72, []);
     },
-    'Oversized rotation canvas was accepted'
+    'Oversized source was accepted'
 );
 
 advaimg_assert_same('image/avif', advanced_image_editor_get_mime_type_from_format('AVIF'), 'AVIF MIME mapping failed');

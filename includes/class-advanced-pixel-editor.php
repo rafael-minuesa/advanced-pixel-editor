@@ -49,6 +49,19 @@ class Advanced_Pixel_Editor {
     const MAX_TOTAL_IMAGE_PIXELS = 16777216;
 
     /**
+     * Maximum width or height of any canvas produced by a transform.
+     *
+     * Rotation, resize and DPI resampling may legitimately exceed the
+     * source limits; this bounds how far they can grow.
+     */
+    const MAX_OUTPUT_IMAGE_DIMENSION = 16384;
+
+    /**
+     * Maximum number of pixels in any canvas produced by a transform.
+     */
+    const MAX_OUTPUT_IMAGE_PIXELS = 268435456;
+
+    /**
      * Maximum number of frames/pages in a single image.
      */
     const MAX_IMAGE_FRAMES = 100;

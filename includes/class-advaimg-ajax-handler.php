@@ -150,7 +150,11 @@ class ADVAIMG_Ajax_Handler {
                 }
             }
 
-            $estimated_memory = max($source_pixels, $output_pixels) * 4 * 3;
+            // Imagick pixel caches live outside the PHP heap; this heuristic
+            // guards the PHP-side work (blob, clone, base64) and is sized from
+            // the source, as before. Output canvases are bounded separately by
+            // calculate_output_dimensions().
+            $estimated_memory = $source_pixels * 4 * 3;
             $memory_limit     = $this->get_memory_limit_bytes();
             $available_memory = PHP_INT_MAX === $memory_limit
                 ? PHP_INT_MAX

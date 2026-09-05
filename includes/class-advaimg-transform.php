@@ -59,7 +59,7 @@ class ADVAIMG_Transform {
     public function calculate_output_dimensions($width, $height, $resolution_x, array $post_data) {
         $width  = (int) $width;
         $height = (int) $height;
-        $this->assert_safe_dimensions($width, $height);
+        $this->assert_safe_dimensions($width, $height, false);
 
         $degrees = isset($post_data['advaimg_rotate']) ? (float) $post_data['advaimg_rotate'] : 0;
         if (!is_finite($degrees)) {
@@ -71,7 +71,7 @@ class ADVAIMG_Transform {
             $radians        = deg2rad($degrees);
             $rotated_width  = (int) ceil(abs($width * cos($radians)) + abs($height * sin($radians)) - 1e-9);
             $rotated_height = (int) ceil(abs($width * sin($radians)) + abs($height * cos($radians)) - 1e-9);
-            $this->assert_safe_dimensions($rotated_width, $rotated_height);
+            $this->assert_safe_dimensions($rotated_width, $rotated_height, true);
             $width  = $rotated_width;
             $height = $rotated_height;
         }
@@ -86,14 +86,14 @@ class ADVAIMG_Transform {
             $y      = min($y, $height - 1);
             $width  = min($w, $width - $x);
             $height = min($h, $height - $y);
-            $this->assert_safe_dimensions($width, $height);
+            $this->assert_safe_dimensions($width, $height, true);
         }
 
         $resize_width  = isset($post_data['advaimg_resize_w']) ? (int) $post_data['advaimg_resize_w'] : 0;
         $resize_height = isset($post_data['advaimg_resize_h']) ? (int) $post_data['advaimg_resize_h'] : 0;
 
         if ($resize_width > 0 && $resize_height > 0) {
-            $this->assert_safe_dimensions($resize_width, $resize_height);
+            $this->assert_safe_dimensions($resize_width, $resize_height, true);
             $width  = $resize_width;
             $height = $resize_height;
         }
@@ -123,7 +123,7 @@ class ADVAIMG_Transform {
 
             $width  = (int) round($scaled_width);
             $height = (int) round($scaled_height);
-            $this->assert_safe_dimensions($width, $height);
+            $this->assert_safe_dimensions($width, $height, true);
         }
 
         return [$width, $height];
@@ -132,20 +132,30 @@ class ADVAIMG_Transform {
     /**
      * Ensure a canvas remains inside the configured processing limits.
      *
-     * @param int $width  Canvas width.
-     * @param int $height Canvas height.
+     * Source images are held to the source limits. Canvases produced by a
+     * transform (rotation, resize, DPI resampling) are held to the larger
+     * output limits, so a rotation of an accepted source is never refused
+     * while crafted resize or DPI values still cannot allocate unbounded
+     * canvases.
+     *
+     * @param int  $width     Canvas width.
+     * @param int  $height    Canvas height.
+     * @param bool $is_output Whether the canvas is produced by a transform.
      * @return void
      * @throws InvalidArgumentException When dimensions are outside the limits.
      */
-    private function assert_safe_dimensions($width, $height) {
-        $pixels = $width * $height;
+    private function assert_safe_dimensions($width, $height, $is_output) {
+        $pixels     = $width * $height;
+        $max_width  = $is_output ? Advanced_Pixel_Editor::MAX_OUTPUT_IMAGE_DIMENSION : Advanced_Pixel_Editor::MAX_IMAGE_WIDTH;
+        $max_height = $is_output ? Advanced_Pixel_Editor::MAX_OUTPUT_IMAGE_DIMENSION : Advanced_Pixel_Editor::MAX_IMAGE_HEIGHT;
+        $max_pixels = $is_output ? Advanced_Pixel_Editor::MAX_OUTPUT_IMAGE_PIXELS : Advanced_Pixel_Editor::MAX_TOTAL_IMAGE_PIXELS;
 
         if (
             $width <= 0 ||
             $height <= 0 ||
-            $width > Advanced_Pixel_Editor::MAX_IMAGE_WIDTH ||
-            $height > Advanced_Pixel_Editor::MAX_IMAGE_HEIGHT ||
-            $pixels > Advanced_Pixel_Editor::MAX_TOTAL_IMAGE_PIXELS
+            $width > $max_width ||
+            $height > $max_height ||
+            $pixels > $max_pixels
         ) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -153,8 +163,8 @@ class ADVAIMG_Transform {
                     __('Requested output dimensions (%1$dx%2$d) exceed the processing limit (%3$dx%4$d).', 'advanced-pixel-editor'),
                     $width,
                     $height,
-                    Advanced_Pixel_Editor::MAX_IMAGE_WIDTH,
-                    Advanced_Pixel_Editor::MAX_IMAGE_HEIGHT
+                    $max_width,
+                    $max_height
                 )
             );
         }
