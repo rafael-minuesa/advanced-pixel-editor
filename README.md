@@ -87,7 +87,7 @@ Looking to process multiple images at once, add watermarks, or use advanced filt
 
 ### Filter Controls
 
-- **Contrast**: Adjusts the difference between light and dark areas (-100 to 100)
+- **Contrast**: Adjusts the difference between light and dark areas (-1 to 1)
 - **Sharpness Amount**: Controls the intensity of sharpening (0-5)
 - **Sharpness Radius**: Determines how far the sharpening effect spreads (0-10 pixels)
 - **Sharpness Threshold**: Sets the minimum contrast level for sharpening (0-1)
@@ -141,20 +141,29 @@ Contributions are welcome! Please see our [contributing guidelines](https://gith
 ### Requirements for Development
 - WordPress 5.6+
 - PHP 7.4+
-- Composer for dependency management
-- Node.js for asset compilation
+- ImageMagick PHP extension (Imagick)
+- Node.js 20+ for JavaScript checks
 
-### Building Assets
+The repository ships browser-ready assets and has no package-install step.
+
+### Running Checks
+
 ```bash
-# Install dependencies
-npm install
+# PHP syntax
+find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
 
-# Compile assets for development
-npm run dev
+# JavaScript syntax and regression tests (when present)
+find assets/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+shopt -s nullglob
+js_tests=(tests/*.test.js)
+if (( ${#js_tests[@]} )); then node --test "${js_tests[@]}"; fi
 
-# Compile assets for production
-npm run build
+# Shell syntax and the WordPress.org distribution archive
+for f in build-wp-org-zip.sh dev-tools/*.sh; do bash -n "$f"; done
+./build-wp-org-zip.sh
 ```
+
+GitHub Actions runs these checks across supported PHP versions for every pull request.
 
 ## 📊 Changelog
 
