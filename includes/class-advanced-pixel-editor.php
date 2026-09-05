@@ -189,7 +189,8 @@ class Advanced_Pixel_Editor {
             $post = get_post();
             if ($post && wp_attachment_is_image($post->ID)) {
                 $url = admin_url('upload.php?page=' . self::MENU_SLUG . '&attachment_id=' . $post->ID);
-                $label = esc_js(__('Advanced Editor', 'advanced-pixel-editor'));
+                // Inserted as HTML by jQuery, so escape for HTML first, then for the JS string.
+                $label = esc_js(esc_html__('Advanced Editor', 'advanced-pixel-editor'));
                 wp_add_inline_script('jquery', sprintf(
                     'jQuery(function($){var b=$("[id^=imgedit-open-btn-]");if(b.length){b.after(" <a href=\"%s\" class=\"button advaimg-advanced-edit\" style=\"margin-left:8px;\">%s</a>");}});',
                     esc_url($url),
@@ -214,7 +215,8 @@ class Advanced_Pixel_Editor {
             wp_localize_script('advaimg-media-library-js', 'ADVAIMG_MEDIA', [
                 'editor_url' => admin_url('upload.php?page=' . self::MENU_SLUG),
                 'i18n'       => [
-                    'advanced_editor' => __('Advanced Editor', 'advanced-pixel-editor'),
+                    // media-library.js inserts this as HTML.
+                    'advanced_editor' => esc_html__('Advanced Editor', 'advanced-pixel-editor'),
                 ],
             ]);
         }
