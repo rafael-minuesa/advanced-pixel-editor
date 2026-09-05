@@ -81,11 +81,22 @@ DESC="$DESCRIPTION" awk -v ver="$NEW_VERSION" '
     }
 ' readme.txt > readme.txt.tmp && mv readme.txt.tmp readme.txt
 
+# Regenerate the POT so the shipped template matches the strings in this
+# release. Nine releases shipped the 3.1 template because nothing did this.
+if command -v wp >/dev/null 2>&1; then
+    wp i18n make-pot . languages/advanced-pixel-editor.pot \
+        --domain=advanced-pixel-editor \
+        --exclude=tests,dev-tools,.github,svn
+else
+    echo "WARNING: wp-cli not found, languages/advanced-pixel-editor.pot was NOT regenerated." >&2
+fi
+
 echo "Version bumped to $NEW_VERSION"
 echo "Updated files:"
 echo "  - advanced-pixel-editor.php"
 echo "  - readme.txt"
 echo "  - CHANGELOG.md"
+echo "  - languages/advanced-pixel-editor.pot"
 echo ""
 echo "Next steps:"
 echo "1. Review the changes"
