@@ -6,7 +6,7 @@
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![WordPress Plugin Downloads](https://img.shields.io/badge/Downloads-Coming%20Soon-orange.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 
-A professional WordPress plugin that brings advanced image editing capabilities directly to your WordPress admin panel. **Requires the ImageMagick PHP extension** for superior image processing. Edit images from your media library with real-time preview, contrast adjustment, unsharp masking, and seamless WordPress integration.
+Crop, resize, rotate, flip, contrast and sharpen images inside the WordPress Media Library with a live before/after preview. **Requires the ImageMagick PHP extension.**
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
@@ -29,7 +29,7 @@ A professional WordPress plugin that brings advanced image editing capabilities 
 - **🔗 WordPress Integration**: Seamless media library workflow
 
 ### Advanced Features
-Looking to process multiple images at once, add watermarks, or use advanced filters? Stay tuned for future updates that will bring even more professional image editing capabilities to WordPress.
+Advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blur, noise reduction, emboss), text and image watermarks, and zoom & pan in the preview are available in [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/).
 
 ## 🎯 Perfect For
 
