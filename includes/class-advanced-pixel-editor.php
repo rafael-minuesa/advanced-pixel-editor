@@ -42,6 +42,36 @@ class Advanced_Pixel_Editor {
     const MAX_IMAGE_HEIGHT = 4096;
 
     /**
+     * Maximum total number of pixels processed in one request.
+     *
+     * For animated images this limit applies across all frames.
+     */
+    const MAX_TOTAL_IMAGE_PIXELS = 16777216;
+
+    /**
+     * Maximum width or height of any canvas produced by a transform.
+     *
+     * Rotation, resize and DPI resampling may legitimately exceed the
+     * source limits; this bounds how far they can grow.
+     */
+    const MAX_OUTPUT_IMAGE_DIMENSION = 16384;
+
+    /**
+     * Maximum number of pixels in any canvas produced by a transform.
+     */
+    const MAX_OUTPUT_IMAGE_PIXELS = 268435456;
+
+    /**
+     * Maximum number of frames/pages in a single image.
+     */
+    const MAX_IMAGE_FRAMES = 100;
+
+    /**
+     * Maximum accepted output resolution in DPI.
+     */
+    const MAX_DPI = 1200;
+
+    /**
      * Rate limiting: maximum requests per minute
      */
     const RATE_LIMIT_REQUESTS = 30;

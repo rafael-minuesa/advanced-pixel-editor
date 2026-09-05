@@ -69,6 +69,7 @@ advanced-pixel-editor/
 │       ├── editor-flip.js             # Flip controls
 │       └── media-library.js           # Media Library integration
 ├── .github/workflows/                 # Continuous integration
+├── tests/                             # Standalone regression tests
 ├── languages/                         # Translation files
 └── readme.txt                         # WordPress.org readme
 ```
