@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   php:
@@ -61,7 +61,7 @@ jobs:
             node --test "${test_files[@]}"
           fi
       - name: Check shell syntax
-        run: bash -n build-wp-org-zip.sh dev-tools/*.sh
+        run: for f in build-wp-org-zip.sh dev-tools/*.sh; do bash -n "$f"; done
 
   package:
     name: WordPress.org package
@@ -76,7 +76,7 @@ jobs:
           unzip -t ../advanced-pixel-editor.zip
           archive_files="$(unzip -Z1 ../advanced-pixel-editor.zip)"
           grep -qx 'advanced-pixel-editor/advanced-pixel-editor.php' <<< "$archive_files"
-          if grep -Eq '^advanced-pixel-editor/(\.git|\.github|tests|dev-tools)/' <<< "$archive_files"; then
+          if grep -Eq '^advanced-pixel-editor/((\.git|\.github|\.claude|\.wordpress-org|tests|dev-tools)/|\.gitignore$|README\.md$|CHANGELOG\.md$|CONTRIBUTING\.md$|CLAUDE\.md$|build-wp-org-zip\.sh$)' <<< "$archive_files"; then
             echo 'Development-only files leaked into the distribution archive.' >&2
             exit 1
           fi

@@ -37,7 +37,7 @@ Run the same dependency-free checks used by CI before opening a pull request:
 ```bash
 find . -type f -name '*.php' -not -path './vendor/*' -print0 | xargs -0 -n1 php -l
 find assets/js -type f -name '*.js' -print0 | xargs -0 -n1 node --check
-bash -n build-wp-org-zip.sh dev-tools/*.sh
+for f in build-wp-org-zip.sh dev-tools/*.sh; do bash -n "$f"; done
 
 # Run these when the branch contains standalone regressions.
 shopt -s nullglob
@@ -58,6 +58,7 @@ advanced-pixel-editor/
 ├── includes/
 │   ├── class-advanced-pixel-editor.php    # Main plugin class
 │   ├── class-advaimg-ajax-handler.php     # AJAX request handlers
+│   ├── class-advaimg-transform.php        # Crop, resize, rotate, flip and DPI
 │   └── advaimg-functions.php              # Helper functions
 ├── assets/
 │   ├── css/admin.css                  # Editor styles
@@ -68,7 +69,6 @@ advanced-pixel-editor/
 │       ├── editor-flip.js             # Flip controls
 │       └── media-library.js           # Media Library integration
 ├── .github/workflows/                 # Continuous integration
-├── tests/                             # Standalone regression tests
 ├── languages/                         # Translation files
 └── readme.txt                         # WordPress.org readme
 ```

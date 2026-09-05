@@ -159,7 +159,7 @@ js_tests=(tests/*.test.js)
 if (( ${#js_tests[@]} )); then node --test "${js_tests[@]}"; fi
 
 # Shell syntax and the WordPress.org distribution archive
-bash -n build-wp-org-zip.sh dev-tools/*.sh
+for f in build-wp-org-zip.sh dev-tools/*.sh; do bash -n "$f"; done
 ./build-wp-org-zip.sh
 ```
 
