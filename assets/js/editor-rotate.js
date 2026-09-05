@@ -36,10 +36,17 @@
      * Set the rotation angle, sync both inputs, update the shared
      * transform params, and request a preview.
      */
-    function setAngle(deg) {
+    function setAngle(deg, requestPreview, clearExistingCrop) {
         deg = normalizeAngle(parseFloat(deg) || 0);
         // Round to one decimal to keep the param clean.
         deg = Math.round(deg * 10) / 10;
+
+        if (requestPreview === undefined) requestPreview = true;
+        if (clearExistingCrop === undefined) clearExistingCrop = true;
+
+        if (clearExistingCrop && window.aieTransformApi) {
+            window.aieTransformApi.clearCrop(false);
+        }
 
         $('#aie-rotate').val(deg).attr('aria-valuenow', deg);
         $('#aie-rotate-input').val(deg);
@@ -50,7 +57,9 @@
             window.aieTransformParams.advaimg_rotate = deg;
         }
 
-        triggerPreview();
+        if (requestPreview) {
+            triggerPreview();
+        }
     }
 
     function currentAngle() {
@@ -82,6 +91,10 @@
         if (!$('#aie-rotate').length) return;
 
         bindEvents();
+
+        $(document).on('advaimg:reset', function() {
+            setAngle(0, false, false);
+        });
 
         // Register with the toolbar. The comparison slider is hidden while
         // the rotate tool is active because a rotated preview no longer

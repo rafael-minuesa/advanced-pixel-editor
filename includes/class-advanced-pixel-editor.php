@@ -255,6 +255,18 @@ class Advanced_Pixel_Editor {
             true
         );
 
+        // Enqueue pure transform geometry helpers.
+        $geometry_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/transform-geometry.js';
+        $geometry_js_version = file_exists($geometry_js_path) ? filemtime($geometry_js_path) : self::VERSION;
+
+        wp_enqueue_script(
+            'advaimg-transform-geometry-js',
+            ADVAIMG_PLUGIN_URL . 'assets/js/transform-geometry.js',
+            [],
+            $geometry_js_version,
+            true
+        );
+
         // Enqueue transform (crop & resize) JS
         $transform_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor-transform.js';
         $transform_js_version = file_exists($transform_js_path) ? filemtime($transform_js_path) : self::VERSION;
@@ -262,7 +274,7 @@ class Advanced_Pixel_Editor {
         wp_enqueue_script(
             'advaimg-editor-transform-js',
             ADVAIMG_PLUGIN_URL . 'assets/js/editor-transform.js',
-            ['jquery', 'advaimg-editor-js'],
+            ['jquery', 'advaimg-editor-js', 'advaimg-transform-geometry-js'],
             $transform_js_version,
             true
         );
