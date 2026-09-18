@@ -89,7 +89,7 @@
 
         html += '<div class="aie-resize-group">' +
             i18n('width') + ' <input type="number" id="aie-resize-w" min="1" value="0"> ' +
-            '<span class="aie-aspect-lock locked" id="aie-aspect-lock" title="' + i18n('lock_aspect') + '">&#x1f512;</span> ' +
+            '<button type="button" class="aie-aspect-lock locked" id="aie-aspect-lock" aria-pressed="true" aria-label="' + i18n('lock_aspect') + '" title="' + i18n('lock_aspect') + '">&#x1f512;</button> ' +
             i18n('height') + ' <input type="number" id="aie-resize-h" min="1" value="0">' +
             '</div>';
 
@@ -265,6 +265,7 @@
         $panel.find('#aie-aspect-lock').on('click', function() {
             aspectLocked = !aspectLocked;
             $(this).toggleClass('locked unlocked');
+            $(this).attr('aria-pressed', aspectLocked ? 'true' : 'false');
             $(this).html(aspectLocked ? '&#x1f512;' : '&#x1f513;');
         });
 
@@ -572,7 +573,7 @@
             $('#aie-resize-w').val(previewWidth);
             $('#aie-resize-h').val(previewHeight);
         }
-        $('#aie-aspect-lock').removeClass('unlocked').addClass('locked').html('&#x1f512;');
+        $('#aie-aspect-lock').removeClass('unlocked').addClass('locked').attr('aria-pressed', 'true').html('&#x1f512;');
         $('#aie-dpi').val('');
         $('#aie-resample').prop('checked', false);
     }
