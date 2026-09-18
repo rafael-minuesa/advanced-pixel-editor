@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.7.1] - 2026-09-18
+
+- Crop aspect presets (1:1, 4:3, 16:9) now reshape the crop selection as soon as you click them, and open the selection if it was not shown yet
+- The aspect ratio lock between Width and Height is a real button, reachable with Tab and toggled with Space or Enter
+- The editor sliders show a visible focus ring when reached with the keyboard
+
 ## [3.7.0] - 2026-09-06
 
 - Animated GIF and WebP images are processed frame by frame and saved with all their frames

@@ -5,7 +5,7 @@ Tags: image editor, photo editor, crop, resize, imagick
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.7.0
+Stable tag: 3.7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,11 @@ Yes, the Imagick PHP extension must be enabled. See the **Requirements & Hosting
 9. Watermark panel (Pro add-on): text watermark, 9-point position grid, opacity, rotation and tiling
 
 == Changelog ==
+
+= 3.7.1 =
+* Crop aspect presets (1:1, 4:3, 16:9) now reshape the crop selection as soon as you click them, and open the selection if it was not shown yet
+* The aspect ratio lock between Width and Height is a real button, reachable with Tab and toggled with Space or Enter
+* The editor sliders show a visible focus ring when reached with the keyboard
 
 = 3.7.0 =
 * Animated GIF and WebP images are processed frame by frame and saved with all their frames
