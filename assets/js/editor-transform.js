@@ -189,6 +189,15 @@
                 var parts = ratio.split(':');
                 aspectRatio = parseFloat(parts[0]) / parseFloat(parts[1]);
             }
+
+            // Reshape the selection right away, so the preset changes what
+            // gets cropped and not only how the handles behave afterwards.
+            if (aspectRatio && cropToolActive && previewWidth > 0) {
+                if (!cropOverlayVisible) {
+                    showCropOverlay();
+                }
+                fitSelectionToAspect();
+            }
         });
 
         // Apply crop.
@@ -324,6 +333,49 @@
 
         var $wrapper = $('.aie-preview-wrapper');
         updateCropInputs($selection, $wrapper.width(), $wrapper.height());
+    }
+
+    /**
+     * Reshape the crop selection to the chosen aspect ratio.
+     *
+     * Uses the largest rectangle of that ratio at 80% of the preview (the
+     * same inset as a fresh selection), centered on the current selection
+     * and kept inside the preview.
+     */
+    function fitSelectionToAspect() {
+        var $wrapper = $('.aie-preview-wrapper');
+        var $selection = $('#aie-crop-overlay .aie-crop-selection');
+        var ww = $wrapper.width();
+        var wh = $wrapper.height();
+        var width;
+        var height;
+        var centerX;
+        var centerY;
+        var left;
+        var top;
+
+        if (!aspectRatio || !ww || !wh) return;
+
+        width = ww * 0.8;
+        height = width / aspectRatio;
+        if (height > wh * 0.8) {
+            height = wh * 0.8;
+            width = height * aspectRatio;
+        }
+
+        centerX = (parseInt($selection.css('left'), 10) || 0) + $selection.width() / 2;
+        centerY = (parseInt($selection.css('top'), 10) || 0) + $selection.height() / 2;
+        left = Math.max(0, Math.min(ww - width, centerX - width / 2));
+        top = Math.max(0, Math.min(wh - height, centerY - height / 2));
+
+        $selection.css({
+            left: left + 'px',
+            top: top + 'px',
+            width: width + 'px',
+            height: height + 'px'
+        });
+
+        updateCropInputs($selection, ww, wh);
     }
 
     /**
