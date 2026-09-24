@@ -816,6 +816,11 @@ jQuery(function($){
     // Expose toolbar API for Pro plugin
     window.aieToolbar = toolbar;
 
+    // Let other editor modules reset every tool without the confirm dialog.
+    window.aieEditor = {
+        resetToDefaults: resetToDefaults
+    };
+
     // Cleanup on page unload to prevent memory leaks
     $(window).on('beforeunload', cleanup);
 
