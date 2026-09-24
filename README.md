@@ -1,6 +1,6 @@
 # Advanced Pixel Editor
 
-[![Version](https://img.shields.io/badge/Version-3.7.1-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
+[![Version](https://img.shields.io/badge/Version-3.8.0-blue.svg)](https://github.com/rafael-minuesa/advanced-pixel-editor/releases)
 [![WordPress Plugin Version](https://img.shields.io/badge/WordPress-5.6+-blue.svg)](https://wordpress.org/plugins/advanced-pixel-editor/)
 [![PHP Version](https://img.shields.io/badge/PHP-7.4+-purple.svg)](https://php.net/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
@@ -10,13 +10,14 @@ Crop, resize, rotate, flip, contrast and sharpen images inside the WordPress Med
 
 **🚀 Powered by ImageMagick**: This plugin requires the ImageMagick PHP extension for image processing. Imagick is extremely common and should be available on most modern hosting platforms. Enabling Imagick is a significant upgrade for image handling on WordPress sites, leading to better results from plugins and core features.
 
-> **📦 Current Version: 3.7.1** | **📅 Released: September 18, 2026** | **⚡ WordPress 5.6+ Required**
+> **📦 Current Version: 3.8.0** | **📅 Released: September 24, 2026** | **⚡ WordPress 5.6+ Required**
 
 ![Advanced Pixel Editor Banner](./.wordpress-org/banner-1544x500.png)
 
 ## ✨ Features
 
 ### Professional Image Editing
+- **🤖 AI Edit**: Describe a change in words and the AI provider connected in WordPress 7.0+ (OpenAI or Google) edits the image; refine, adjust and save it like any other edit
 - **🎨 Real-time Preview**: See filter changes instantly as you adjust sliders
 - **🔧 Contrast Adjustment**: Professional contrast control with fine-tuned precision
 - **⚡ Unsharp Masking**: Advanced sharpening with full control over amount, radius, and threshold
@@ -27,6 +28,10 @@ Crop, resize, rotate, flip, contrast and sharpen images inside the WordPress Med
 - **🚀 Performance**: Optimized processing with memory management and dimension limits
 - **📱 Responsive Design**: Works perfectly on all screen sizes
 - **🔗 WordPress Integration**: Seamless media library workflow
+
+### AI Edit example
+
+![AI Edit before and after: "Replace the sky with a warm sunset"](./.wordpress-org/screenshot-10.png)
 
 ### Advanced Features
 Advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blur, noise reduction, emboss), text and image watermarks, and zoom & pan in the preview are available in [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/).
@@ -166,6 +171,11 @@ for f in build-wp-org-zip.sh dev-tools/*.sh; do bash -n "$f"; done
 GitHub Actions runs these checks across supported PHP versions for every pull request.
 
 ## 📊 Changelog
+
+### [3.8.0] - 2026-09-24
+- AI Edit: describe a change in words and the AI provider connected under Settings > Connectors edits the image (WordPress 7.0 or newer, OpenAI or Google provider plugin). A second prompt refines the result; the other tools and both save modes work on it. Unsaved results are kept for 24 hours; the prompts, provider and model are stored with the saved image
+- New hooks for add-ons: `advaimg_source_path` filter, `advaimg_image_saved` and `advaimg_image_restored` actions
+- Readme documents the AI provider as an external service, with links to its terms and privacy policy
 
 ### [3.7.1] - 2026-09-18
 - Crop aspect presets (1:1, 4:3, 16:9) now reshape the crop selection as soon as you click them, and open the selection if it was not shown yet

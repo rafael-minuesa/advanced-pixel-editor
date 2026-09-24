@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Advanced Pixel Editor
  * Plugin URI: https://github.com/rafael-minuesa/advanced-pixel-editor/
- * Description: Crop, resize, rotate, flip, contrast and sharpen images inside the Media Library with live before/after preview. Powered by ImageMagick.
- * Version: 3.7.1
+ * Description: Edit images with an AI prompt, or crop, resize, rotate, flip, contrast and sharpen them inside the Media Library. Powered by ImageMagick.
+ * Version: 3.8.0
  * Author: Rafael Minuesa
  * Author URI: https://github.com/rafael-minuesa
  * License: GPL v2 or later
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('ADVAIMG_VERSION', '3.7.1');
+define('ADVAIMG_VERSION', '3.8.0');
 define('ADVAIMG_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ADVAIMG_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('ADVAIMG_PLUGIN_BASENAME', plugin_basename(__FILE__));

@@ -1,15 +1,15 @@
 === Advanced Pixel Editor ===
 
 Contributors: rafaelminuesa
-Tags: image editor, photo editor, crop, resize, imagick
+Tags: image editor, ai image editor, photo editor, crop, resize
 Requires at least: 5.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.7.1
+Stable tag: 3.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Crop, resize, rotate, flip, contrast and sharpen images inside the Media Library with live before/after preview. Powered by ImageMagick.
+Edit images with an AI prompt, or crop, resize, rotate, flip, contrast and sharpen them inside the Media Library. Powered by ImageMagick.
 
 == Description ==
 
@@ -17,10 +17,13 @@ Stop leaving WordPress to edit your images. Advanced Pixel Editor brings Photosh
 
 **Advanced image editing within WordPress.** Sigmoidal contrast adjustment and unsharp masking (the same core algorithms used by Photoshop and Lightroom) with precision sliders that update the preview instantly. Drag the built-in before/after comparison slider to evaluate your edits side-by-side with the original.
 
+**Edit with AI.** Describe a change in words, like "Replace the sky with a warm sunset", and the AI provider you connected to WordPress edits the image. Refine it with another prompt, adjust it with the other tools, and save it like any other edit. Requires WordPress 7.0 or newer and an OpenAI or Google key under Settings > Connectors. Free and unlimited in this plugin; your provider bills its own usage.
+
 **Works right where you already are.** Open the editor from the Media Library grid view, list view, or attachment edit screen. Your edited image can be saved as a new file or used to replace the original (with automatic backup and one-click restore).
 
 = What You Can Do =
 
+* **AI Edit**: Edit an image with a text prompt through the AI provider connected in WordPress 7.0+, then refine, adjust and save it
 * **Sigmoidal Contrast**: The same gradual, tone-preserving contrast curve used by Photoshop and Lightroom
 * **Unsharp Mask**: Professional sharpening with independent amount, radius, and threshold controls, identical to Photoshop's Filter → Sharpen → Unsharp Mask
 * **Real-time Preview**: Every slider change renders instantly via ImageMagick on the server
@@ -54,7 +57,7 @@ It delivers battle-tested algorithms that power professional workflows worldwide
 * **Unsharp masking** for precise sharpening with controllable halo suppression
 * **Lanczos resampling** (and other high-quality filters) for crisp resizing and scaling
 
-All processing runs securely server-side via the mature PHP Imagick extension, which binds directly to ImageMagick's core libraries. This gives your WordPress site professional-grade image manipulation without relying on client-side JavaScript limitations or third-party cloud dependencies.
+All processing runs securely server-side via the mature PHP Imagick extension, which binds directly to ImageMagick's core libraries. This gives your WordPress site professional-grade image manipulation without relying on client-side JavaScript limitations or third-party cloud dependencies. Only the optional AI Edit tool uses an outside service, the one you connect yourself.
 
 = Requirements & Hosting Compatibility =
 
@@ -120,9 +123,22 @@ Yes. The editor is fully responsive and touch-friendly, including the comparison
 
 [Advanced Pixel Editor Pro](https://prowoos.com/shop/web-development/plugins/advanced-pixel-editor-pro/) adds advanced filters (brightness, saturation, hue, auto levels, sepia, vignette, blur, noise reduction, emboss), text and image watermarking, and zoom & pan in the preview. It requires this free plugin to be installed.
 
+= How does AI Edit work, and what does it cost? =
+
+AI Edit uses the AI Client built into WordPress 7.0. Install the AI provider plugin for OpenAI or Google, add your API key under **Settings > Connectors**, then open the AI Edit tool in the editor, describe the change and click Generate. The plugin itself charges nothing and sets no limit; your provider bills each request to your own account. Unsaved AI results are deleted after 24 hours.
+
 = Does this plugin require special server software? =
 
 Yes, the Imagick PHP extension must be enabled. See the **Requirements & Hosting Compatibility** section for supported hosts and setup instructions.
+
+== External services ==
+
+The optional AI Edit tool sends data to an outside service only when a user clicks Generate. It then sends the image being edited and the text prompt, through the WordPress AI Client, to the AI provider the site owner connected under Settings > Connectors, and receives the edited image back. Nothing is sent otherwise, and the plugin contacts no other service.
+
+* OpenAI (via the AI Provider for OpenAI plugin): [terms and privacy policy](https://openai.com/policies/)
+* Google Gemini (via the AI Provider for Google plugin): [terms](https://ai.google.dev/gemini-api/terms), [privacy policy](https://policies.google.com/privacy)
+
+The prompt, the provider name and the model name are stored with an image saved from an AI result.
 
 == Screenshots ==
 
@@ -135,8 +151,14 @@ Yes, the Imagick PHP extension must be enabled. See the **Requirements & Hosting
 7. "Advanced Editor" button next to "Edit Image" on the attachment page (also in the Media Library grid and list views)
 8. Advanced Filters panel (Pro add-on): sepia and vignette shown, with brightness, saturation, hue, auto levels, blur, noise reduction and emboss
 9. Watermark panel (Pro add-on): text watermark, 9-point position grid, opacity, rotation and tiling
+10. AI Edit: one prompt, "Replace the sky with a warm sunset", before and after
 
 == Changelog ==
+
+= 3.8.0 =
+* AI Edit: describe a change in words and the AI provider connected under Settings > Connectors edits the image (WordPress 7.0 or newer, OpenAI or Google provider plugin). A second prompt refines the result; the other tools and both save modes work on it. Unsaved results are kept for 24 hours; the prompts, provider and model are stored with the saved image
+* New hooks for add-ons: advaimg_source_path filter, advaimg_image_saved and advaimg_image_restored actions
+* Readme documents the AI provider as an external service, with links to its terms and privacy policy
 
 = 3.7.1 =
 * Crop aspect presets (1:1, 4:3, 16:9) now reshape the crop selection as soon as you click them, and open the selection if it was not shown yet
