@@ -99,10 +99,18 @@ class Advanced_Pixel_Editor {
     private $ajax_handler;
 
     /**
+     * AI Edit instance
+     *
+     * @var ADVAIMG_AI_Edit
+     */
+    private $ai_edit;
+
+    /**
      * Constructor - Initialize hooks and filters
      */
     public function __construct() {
         $this->ajax_handler = new ADVAIMG_Ajax_Handler();
+        $this->ai_edit      = new ADVAIMG_AI_Edit();
 
         add_action('admin_menu', [$this, 'add_menu']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
@@ -305,6 +313,18 @@ class Advanced_Pixel_Editor {
             true
         );
 
+        // Enqueue AI Edit JS
+        $ai_js_path = ADVAIMG_PLUGIN_DIR . 'assets/js/editor-ai.js';
+        $ai_js_version = file_exists($ai_js_path) ? filemtime($ai_js_path) : self::VERSION;
+
+        wp_enqueue_script(
+            'advaimg-editor-ai-js',
+            ADVAIMG_PLUGIN_URL . 'assets/js/editor-ai.js',
+            ['jquery', 'advaimg-editor-js', 'advaimg-editor-transform-js'],
+            $ai_js_version,
+            true
+        );
+
         // Localize script with translations and AJAX data
         $localize_data = [
             'ajax_url' => admin_url('admin-ajax.php'),
@@ -350,7 +370,21 @@ class Advanced_Pixel_Editor {
                 'clear_resize'       => __('Clear', 'advanced-pixel-editor'),
                 'apply_dpi'          => __('Apply DPI', 'advanced-pixel-editor'),
                 'clear_dpi'          => __('Clear', 'advanced-pixel-editor'),
-            ]
+                'ai_generating'      => __('Generating... this can take a minute.', 'advanced-pixel-editor'),
+                'ai_failed'          => __('AI Edit failed', 'advanced-pixel-editor'),
+                'ai_prompt_empty'    => __('Describe the change you want first.', 'advanced-pixel-editor'),
+                'ai_confirm'         => __('Run AI Edit? Your AI provider bills each request, and your other adjustments will be reset.', 'advanced-pixel-editor'),
+                'ai_discard_confirm' => __('Discard the AI result and go back to the original image?', 'advanced-pixel-editor'),
+                'ai_open_connectors' => __('Open Settings > Connectors', 'advanced-pixel-editor'),
+                'ai_generate'        => __('Generate', 'advanced-pixel-editor'),
+                'ai_refine'          => __('Refine', 'advanced-pixel-editor'),
+            ],
+            'ai' => [
+                'available'      => ADVAIMG_AI_Edit::is_available(),
+                'connectors_url' => ADVAIMG_AI_Edit::get_connectors_url(),
+                'source_field'   => ADVAIMG_AI_Edit::SOURCE_FIELD,
+                'max_length'     => ADVAIMG_AI_Edit::PROMPT_MAX_LENGTH,
+            ],
         ];
 
         $localize_data = apply_filters('advaimg_editor_localize_data', $localize_data);
