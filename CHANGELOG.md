@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- AI Edit: describe a change in words and the AI provider connected under Settings > Connectors edits the image (WordPress 7.0 or newer, OpenAI or Google provider plugin). A second prompt refines the result; the other tools and both save modes work on it. Unsaved results are kept for 24 hours; the prompts, provider and model are stored with the saved image
+- New hooks for add-ons: `advaimg_source_path` filter, `advaimg_image_saved` and `advaimg_image_restored` actions
+
 ## [3.7.1] - 2026-09-18
 
 - Crop aspect presets (1:1, 4:3, 16:9) now reshape the crop selection as soon as you click them, and open the selection if it was not shown yet
