@@ -53,6 +53,20 @@ class ADVAIMG_Ajax_Handler {
     }
 
     /**
+     * Path of the image the editor is working on.
+     *
+     * Normally the attachment's file. Add-ons (and AI Edit) can point the
+     * preview and save pipeline at a different working file, or return a
+     * WP_Error when the requested working file is no longer valid.
+     *
+     * @param int $attachment_id Attachment ID.
+     * @return string|WP_Error
+     */
+    private function get_source_path($attachment_id) {
+        return apply_filters('advaimg_source_path', get_attached_file($attachment_id), $attachment_id);
+    }
+
+    /**
      * Validate source and planned output sizes without decoding pixel data.
      *
      * @param string $path      Source image path.
@@ -315,7 +329,11 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error(__('Invalid image attachment.', 'advanced-pixel-editor'));
         }
 
-        $path          = get_attached_file($attachment_id);
+        $path = $this->get_source_path($attachment_id);
+        if (is_wp_error($path)) {
+            wp_send_json_error($path->get_error_message());
+        }
+
         $post_data     = $this->get_processing_data($_POST);
         $source_info   = $this->validate_processing_request($path, $post_data);
 
@@ -415,7 +433,11 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error(__('Invalid image attachment.', 'advanced-pixel-editor'));
         }
 
-        $path        = get_attached_file($attachment_id);
+        $path = $this->get_source_path($attachment_id);
+        if (is_wp_error($path)) {
+            wp_send_json_error($path->get_error_message());
+        }
+
         $post_data   = $this->get_processing_data($_POST);
         $source_info = $this->validate_processing_request($path, $post_data);
 
@@ -535,6 +557,8 @@ class ADVAIMG_Ajax_Handler {
         require_once ABSPATH . 'wp-admin/includes/image.php';
         $metadata = wp_generate_attachment_metadata($new_id, $file_path);
         wp_update_attachment_metadata($new_id, $metadata);
+
+        do_action('advaimg_image_saved', $new_id, $attachment_id, 'new');
 
         // Get edit link for the new attachment
         $edit_link = get_edit_post_link($new_id, 'raw');
@@ -847,6 +871,8 @@ class ADVAIMG_Ajax_Handler {
             wp_send_json_error($result->get_error_message());
         }
 
+        do_action('advaimg_image_saved', $attachment_id, $attachment_id, 'replace');
+
         $edit_link = get_edit_post_link($attachment_id, 'raw');
 
         wp_send_json_success([
@@ -988,6 +1014,8 @@ class ADVAIMG_Ajax_Handler {
             }
         }
         delete_post_meta($attachment_id, '_wp_attachment_backup_sizes');
+
+        do_action('advaimg_image_restored', $attachment_id);
 
         // Get the restored image URL for preview refresh
         $image_url = wp_get_attachment_image_url($attachment_id, 'full');

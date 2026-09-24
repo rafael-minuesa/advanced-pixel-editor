@@ -1002,3 +1002,18 @@
         font-size: 13px;
     }
 }
+/* AI Edit */
+#aie-ai-prompt {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.aie-ai-status p {
+    margin: 8px 0 0;
+}
+
+.aie-ai-prompts {
+    margin: 8px 0 0 1.5em;
+    font-style: italic;
+}

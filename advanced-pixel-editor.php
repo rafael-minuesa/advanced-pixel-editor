@@ -30,6 +30,9 @@ require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advanced-pixel-editor.php';
 require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advaimg-ajax-handler.php';
 require_once ADVAIMG_PLUGIN_DIR . 'includes/advaimg-functions.php';
 require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advaimg-transform.php';
+require_once ADVAIMG_PLUGIN_DIR . 'includes/class-advaimg-ai-edit.php';
 
 // Initialize the plugin
 new Advanced_Pixel_Editor();
+
+register_deactivation_hook(__FILE__, ['ADVAIMG_AI_Edit', 'unschedule_cleanup']);

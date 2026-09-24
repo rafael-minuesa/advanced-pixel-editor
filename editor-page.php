@@ -66,6 +66,9 @@ if (isset($_GET['attachment_id'])) {
                     <button class="aie-toolbar-btn" data-tool="flip" title="<?php esc_attr_e('Flip', 'advanced-pixel-editor'); ?>">
                         <span class="dashicons dashicons-image-flip-horizontal"></span>
                     </button>
+                    <button class="aie-toolbar-btn" data-tool="ai" title="<?php esc_attr_e('AI Edit', 'advanced-pixel-editor'); ?>">
+                        <span class="dashicons dashicons-admin-customizer"></span>
+                    </button>
                     <?php
                     if (has_action('advaimg_editor_toolbar_icons')) {
                         do_action('advaimg_editor_toolbar_icons');
@@ -280,6 +283,29 @@ if (isset($_GET['attachment_id'])) {
                         </div>
                     </div>
 
+                    <!-- AI Edit Tool Controls -->
+                    <div class="aie-tool-controls" data-tool="ai">
+                        <?php if (ADVAIMG_AI_Edit::is_available()) : ?>
+                        <div class="aie-control-group">
+                            <label for="aie-ai-prompt"><?php esc_html_e('AI Edit', 'advanced-pixel-editor'); ?></label>
+                            <textarea id="aie-ai-prompt" rows="4" maxlength="<?php echo esc_attr(ADVAIMG_AI_Edit::PROMPT_MAX_LENGTH); ?>" placeholder="<?php esc_attr_e('Describe the change, e.g. "Replace the sky with a sunset"', 'advanced-pixel-editor'); ?>" aria-describedby="ai-help"></textarea>
+                            <div class="aie-crop-actions">
+                                <button type="button" class="button button-primary" id="aie-ai-generate"><?php esc_html_e('Generate', 'advanced-pixel-editor'); ?></button>
+                                <button type="button" class="button" id="aie-ai-discard" style="display:none;"><?php esc_html_e('Discard AI Result', 'advanced-pixel-editor'); ?></button>
+                            </div>
+                            <div id="aie-ai-status" class="aie-ai-status" role="status" aria-live="polite"></div>
+                            <div id="ai-help" class="aie-help-text">
+                                <small><?php esc_html_e('Sends the image and your prompt to the AI provider connected under Settings > Connectors. Each generation is billed by your AI provider. Run AI Edit first, then adjust, since generating resets the other tools.', 'advanced-pixel-editor'); ?></small>
+                            </div>
+                        </div>
+                        <?php else : ?>
+                        <div class="aie-control-group">
+                            <label><?php esc_html_e('AI Edit', 'advanced-pixel-editor'); ?></label>
+                            <p class="aie-help-text"><?php esc_html_e('AI Edit requires WordPress 7.0 or newer with AI features enabled.', 'advanced-pixel-editor'); ?></p>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+
                     <?php do_action('advaimg_editor_controls_after'); ?>
                 </div>
             </div>
@@ -358,6 +384,7 @@ if (isset($_GET['attachment_id'])) {
                  <li><strong><?php esc_html_e('Crop & Resize:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Crop to a selection with aspect ratio presets, resize dimensions with aspect lock, or set DPI', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Rotate:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Rotate freely by any angle, or use the 45 and 90 degree preset buttons', 'advanced-pixel-editor'); ?></li>
                  <li><strong><?php esc_html_e('Flip:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Mirror the image horizontally or vertically', 'advanced-pixel-editor'); ?></li>
+                 <li><strong><?php esc_html_e('AI Edit:', 'advanced-pixel-editor'); ?></strong> <?php esc_html_e('Describe a change in words and your connected AI provider edits the image (WordPress 7.0 or newer)', 'advanced-pixel-editor'); ?></li>
              </ul>
              <?php do_action('advaimg_editor_help_after'); ?>
          </div>
